@@ -15,6 +15,7 @@ class CreateActionResultsTable extends Migration
     {
         Schema::create('action_results', function (Blueprint $table) {
             $table->id();
+            $table->integer('incident_id');
             $table->integer('action_id');
             $table->string('result');
             $table->date('date')->nullable();

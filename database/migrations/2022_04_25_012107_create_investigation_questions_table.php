@@ -18,6 +18,7 @@ class CreateInvestigationQuestionsTable extends Migration
             $table->integer('incident_type_id');
             $table->integer('reason_category_id');
             $table->string('question');
+            $table->string('category')->default('incidents');
             $table->string('response_type')->default('select_field');
             $table->timestamps();
         });

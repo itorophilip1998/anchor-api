@@ -29,5 +29,12 @@ class DatabaseSeeder extends Seeder
         $this->call(ReasonSeeder::class);
         $this->call(ActionSeeder::class);
         $this->call(TriggerTypeSeeder::class);
+
+        /* Complaints Module Seeder */
+        $this->call(ComplaintActionSeeder::class);
+        $this->call(ComplaintCategorySeeder::class);
+        $this->call(ComplaintInvestigationQuestionSeeder::class);
+        $this->call(ComplaintInvestigationAnswerSeeder::class);
+        $this->call(ComplaintActionAnswerSeeder::class);
     }
 }

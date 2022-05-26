@@ -50,7 +50,7 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    
+  protected $with = ['detail'];
 
     public function role() {
          return $this->belongsTo(Role::class, 'role_id');

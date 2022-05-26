@@ -7,6 +7,7 @@ use Illuminate\Http\Resources\Json\JsonResource;
 use App\Services\Incident\IncidentType;
 use App\Services\Incident\ActivityService;
 use Carbon\Carbon;
+use App\Http\Resources\ActivityResource;
 
 class IncidentResource extends JsonResource
 {
@@ -47,7 +48,8 @@ class IncidentResource extends JsonResource
             'reasons' => $this->reason,
             'reason_response' => $this->reason_response,
             'investigations' => $response,
-            'actions' => $this->action->load('result')
+            'activities' => $this->activity->load('result'),
+            // 'actions' => $this->action->load('result')
         ];
     }
 

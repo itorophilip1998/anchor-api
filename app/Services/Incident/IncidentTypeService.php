@@ -15,7 +15,9 @@ class IncidentTypeService {
 	}
 
 	/**
-	 * This functio creates a new Incident type
+	 * *************************************************
+	 * This function creates a new Incident type
+	 * **************************************************
 	 * @param  array  $array [description]
 	 * @return [type]        [description]
 	 */
@@ -25,26 +27,29 @@ class IncidentTypeService {
 		if ( $incidentType ) {
 			return true;
 		}
+
 		return false;
 	} 
 
 	/**
-	 * [get_incident_category description]
+	 * ***************************************************************************
+	 * Get incident category 
+	 * ***************************************************************************
 	 * @param  [type] $id [description]
 	 * @return [type]     [description]
 	 */
 	public  function get_incident_category( $id ) {
-
 		$category = new IncidentType;
 		return Response::json($category->where('category_id', '=', $id)->get());
 	}
 
 	/**
+	 * ***************************************************************************
 	 * [getIncidentType description]
+	 * ***************************************************************************
 	 * @return [type] [description]
 	 */
 	public function getIncidentType() {
-
 		return incidentType::all();
 	}
 }

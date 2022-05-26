@@ -60,8 +60,8 @@ class IncidentRepository implements IncidentRepositoryInterface {
 
 		$incident = new incident;
 
-		$id = UniqueIdGenerator::generate(['table' => 'incidents', 'length' => 10]);
-        $new_id = "INC-".$id;
+		$id = UniqueIdGenerator::generate(['table' => 'incidents', 'length' => 6]);
+        $new_id = "Inc-".$id;
 
 		$incident->iuid = $new_id;
 		$incident->status = 1;

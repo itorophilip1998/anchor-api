@@ -9,11 +9,12 @@ use App\Models\Reason;
 use App\Models\IncidentReason;
 use App\Models\IncidentTypeCategory;
 use App\Models\IncidentAction;
+use App\Models\ActivitySelected;
+use App\Models\IncidentActivity;
 
 class Incident extends Model
 {
     use HasFactory;
-
     public function nurse() {
          return $this->hasOne(User::class, 'id', 'nurse_involved');
     }
@@ -48,5 +49,9 @@ class Incident extends Model
 
     public function action() {
         return $this->hasMany(IncidentAction::class, 'incident_id', 'id');
+    }
+
+    public function activity() {
+        return $this->hasMany(ActivitySelected::class, 'incident_id');
     }
 }
