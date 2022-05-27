@@ -17,7 +17,7 @@ class ComplaintCollection extends ResourceCollection
     public function toArray($request)
     {
         return [
-            'data' => $this->collection,
+            'data' => $this->collection->sortByDesc('id'),
             'links' => [
                 'self' => 'link-value'
             ]

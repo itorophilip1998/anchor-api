@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateComplaintInvestigationQuestionsTable extends Migration
+class CreateComplaintInvestigationQuestionRolesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,10 @@ class CreateComplaintInvestigationQuestionsTable extends Migration
      */
     public function up()
     {
-        Schema::create('complaint_investigation_questions', function (Blueprint $table) {
+        Schema::create('complaint_investigation_question_roles', function (Blueprint $table) {
             $table->id();
-            $table->string('question');
-            $table->string('category');
-            $table->string('response_type');
+            $table->integer('complaint_investigation_question_id');
+            $table->integer('role_id');
             $table->timestamps();
         });
     }
@@ -29,6 +28,6 @@ class CreateComplaintInvestigationQuestionsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('complaint_investigation_questions');
+        Schema::dropIfExists('complaint_investigation_question_roles');
     }
 }

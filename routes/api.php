@@ -137,6 +137,8 @@ Route::group(['prefix' => 'complaints', 'middleware' => 'auth:sanctum'], functio
   
     Route::get('/category-types/{id}', [ComplaintController::class, 'getComplaintType']);
     Route::get('/category-types', [ComplaintController::class, 'fetchAllCategoryType']);
-    
+
+    Route::post('/save-action-response', [ComplaintController::class, 'saveActionResponse']);
+    Route::post('/save-investigation-response', [ComplaintController::class, 'saveInvestigationResponse']);
 });
 

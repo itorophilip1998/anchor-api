@@ -125,6 +125,23 @@ class ComplaintController extends Controller
         return $this->complaint->details( $detailId ); 
     }
 
+    /**
+     * [saveActionResponse description]
+     * @param  Request $request [description]
+     * @return [type]           [description]
+     */
+    public function saveActionResponse(Request $request) {
+
+        $attributes = $request->all();
+        return $this->complaint->saveActionResponse($attributes);
+
+    }
+
+    public function saveInvestigationResponse(Request $request) {
+
+        $attributes = $request->all();
+        return $this->complaint->saveComplaintResponse($attributes);
+    }
     
 
 }

@@ -19,200 +19,87 @@ class ComplaintInvestigationQuestionSeeder extends Seeder
         
         ComplaintInvestigationQuestion::create([
             'id' => 1,
-            'question' => 'Reason for Lateness',
+            'category' => 'Internal Investigation',
+            'question' => 'Was the timesheet reviewed to determine if the employee is (or was) absent',
             'response_type' => 'select_field'
         ]);
-
                 ComplaintTypeQuestion::create([
-                    'complaint_type_id' => 8,
-                    'complaint_question_id' => 1
-                ]);
-
-                 ComplaintTypeQuestion::create([
-                    'complaint_type_id' => 10,
+                    'complaint_type_id' => 15,
                     'complaint_question_id' => 1
                 ]);
 
         ComplaintInvestigationQuestion::create([
             'id' => 2,
-            'question' => 'Was a replacement assigned?',
+            'category' => 'Internal Investigation',
+            'question' => 'Was a replacement worker assigned?',
             'response_type' => 'select_field'
         ]);
 
-                 ComplaintTypeQuestion::create([
-                    'complaint_type_id' => 8,
-                    'complaint_question_id' => 2
-                ]);
-
-                 ComplaintTypeQuestion::create([
-                    'complaint_type_id' => 10,
+               ComplaintTypeQuestion::create([
+                    'complaint_type_id' => 15,
                     'complaint_question_id' => 2
                 ]);
 
         ComplaintInvestigationQuestion::create([
             'id' => 3,
-            'question' => 'Has the worker reported to client site?',
+            'category' => 'Internal Investigation',
+            'question' => 'Was the agency notified that the home care worker was absent?',
             'response_type' => 'select_field'
         ]);
-                 ComplaintTypeQuestion::create([
-                    'complaint_type_id' => 8,
+               ComplaintTypeQuestion::create([
+                    'complaint_type_id' => 15,
                     'complaint_question_id' => 3
                 ]);
 
-                 ComplaintTypeQuestion::create([
-                    'complaint_type_id' => 10,
-                    'complaint_question_id' => 3
-                ]);
-
-         ComplaintInvestigationQuestion::create([
+        ComplaintInvestigationQuestion::create([
             'id' => 4,
-            'question' => 'Time of Clock-In',
-            'response_type' => 'time_field'
+            'category' => 'Internal Investigation',
+            'question' => 'Was there a report of client injury due to absence?',
+            'response_type' => 'select_field'
         ]);
-                 ComplaintTypeQuestion::create([
-                    'complaint_type_id' => 8,
-                    'complaint_question_id' => 4
-                ]);
 
-                 ComplaintTypeQuestion::create([
-                    'complaint_type_id' => 10,
+               ComplaintTypeQuestion::create([
+                    'complaint_type_id' => 15,
                     'complaint_question_id' => 4
                 ]);
 
         ComplaintInvestigationQuestion::create([
             'id' => 5,
-            'question' => 'List of Task Not Provided Due to Lateness',
+            'category' => 'Internal Investigation',
+            'question' => 'Was the alleged stolen item in possession of the client during the worker shift?',
             'response_type' => 'select_field'
         ]);
-                 ComplaintTypeQuestion::create([
-                    'complaint_type_id' => 8,
+
+               ComplaintTypeQuestion::create([
+                    'complaint_type_id' => 2,
                     'complaint_question_id' => 5
                 ]);
 
-                 ComplaintTypeQuestion::create([
-                    'complaint_type_id' => 10,
-                    'complaint_question_id' => 5 
-                ]);
-
-       ComplaintInvestigationQuestion::create([
+        ComplaintInvestigationQuestion::create([
             'id' => 6,
-            'question' => 'Was the client injured? ',
+            'category' => 'Internal Investigation',
+            'question' => 'Has an adequate search been conducted to ensure that that item was missing?',
             'response_type' => 'select_field'
-        ]); 
-                 ComplaintTypeQuestion::create([
-                    'complaint_type_id' => 4,
+        ]);
+
+               ComplaintTypeQuestion::create([
+                    'complaint_type_id' => 2,
                     'complaint_question_id' => 6
                 ]);
 
-                 ComplaintTypeQuestion::create([
-                    'complaint_type_id' => 5,
-                    'complaint_question_id' => 6 
-                ]);
-
-
-       ComplaintInvestigationQuestion::create([
+      ComplaintInvestigationQuestion::create([
             'id' => 7,
-            'question' => 'Did the client go to hospital or emergency room?',
+            'category' => 'Internal Investigation',
+            'question' => 'Were the client and the worker the only ones at the premise of the alleged theft?',
             'response_type' => 'select_field'
         ]);
-                ComplaintTypeQuestion::create([
-                    'complaint_type_id' => 4,
+
+               ComplaintTypeQuestion::create([
+                    'complaint_type_id' => 2,
                     'complaint_question_id' => 7
                 ]);
 
-                 ComplaintTypeQuestion::create([
-                    'complaint_type_id' => 5,
-                    'complaint_question_id' => 7 
-                ]);
 
-         ComplaintInvestigationQuestion::create([
-            'id' => 8,
-            'question' => 'Does client/their family fault the worker?',
-            'response_type' => 'select_field'
-        ]);
-                ComplaintTypeQuestion::create([
-                    'complaint_type_id' => 4,
-                    'complaint_question_id' => 8
-                ]);
-
-                 ComplaintTypeQuestion::create([
-                    'complaint_type_id' => 5,
-                    'complaint_question_id' => 8 
-                ]);
-
-        ComplaintInvestigationQuestion::create([
-            'id' => 9,
-            'question' => 'Was worker performance consistent with agency standards? ',
-            'response_type' => 'select_field'
-        ]);
-                ComplaintTypeQuestion::create([
-                    'complaint_type_id' => 4,
-                    'complaint_question_id' => 9
-                ]);
-
-                 ComplaintTypeQuestion::create([
-                    'complaint_type_id' => 5,
-                    'complaint_question_id' => 9 
-                ]);
-
-        ComplaintInvestigationQuestion::create([
-            'id' => 10,
-            'question' => 'Did the nurse complete a visit?',
-            'response_type' => 'select_field'
-        ]);
-                ComplaintTypeQuestion::create([
-                    'complaint_type_id' => 4,
-                    'complaint_question_id' => 10
-                ]);
-
-                 ComplaintTypeQuestion::create([
-                    'complaint_type_id' => 5,
-                    'complaint_question_id' => 10
-                ]);
-
-        ComplaintInvestigationQuestion::create([
-            'id' => 11,
-            'question' => 'Date of the Nurse Visit',
-            'response_type' => 'date_field'
-        ]);
-                ComplaintTypeQuestion::create([
-                    'complaint_type_id' => 4,
-                    'complaint_question_id' => 11
-                ]);
-
-                 ComplaintTypeQuestion::create([
-                    'complaint_type_id' => 5,
-                    'complaint_question_id' => 11
-                ]);
-
-
-        ComplaintInvestigationQuestion::create([
-            'id' => 12,
-            'question' => 'Was home visit required or necessary?',
-            'response_type' => 'true_false_field'
-        ]);
-
-                ComplaintTypeQuestion::create([
-                    'complaint_type_id' => 2,
-                    'complaint_question_id' => 12
-                ]);
-
-                 ComplaintTypeQuestion::create([
-                    'complaint_type_id' => 9,
-                    'complaint_question_id' => 12
-                ]);
-
-
-                 ComplaintTypeQuestion::create([
-                    'complaint_type_id' => 13,
-                    'complaint_question_id' => 12
-                ]);
-
-
-                 ComplaintTypeQuestion::create([
-                    'complaint_type_id' => 14,
-                    'complaint_question_id' => 12
-                ]);
 
     }
 }

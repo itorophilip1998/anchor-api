@@ -5,8 +5,12 @@ namespace App\Services\Complaint;
 use App\Models\Complaint;
 use App\Models\ClientComplaint;
 
+use App\Services\Complaint\ActionService;
+
 use App\Http\Resources\Complaint\ComplaintResource;
 use App\Http\Resources\Complaint\ComplaintCollection;
+use App\Models\ComplaintInvestigationResponse;
+use App\Models\ComplaintActionResponse;
 
 use sirajcse\UniqueIdGenerator\UniqueIdGenerator;
 use Carbon\Carbon;
@@ -26,7 +30,7 @@ class ComplaintService {
 	 * @return [type] [description]
 	 */
 	public function index() {
-		return new ComplaintCollection($this->complaint->all());
+		return new ComplaintCollection($this->complaint->orderBy('id', 'desc')->get());
 	}
 
 	/**
@@ -98,6 +102,42 @@ class ComplaintService {
 		 return new ComplaintResource($complaintDetails);
 	}
 
+	/**
+	 * THIS FUNCTION SAVE THE RESPONSE OF EACH ACTION
+	 * @param  array  $array [description]
+	 * @return [type]        [description]
+	 */
+	public function saveActionResponse(array $array) {
+
+		 $response = new ComplaintActionResponse;
+		 $response->complaint_id = $array['complaint_id'];
+		 $response->action_id = (new ActionService)->getActionIdByAction($array['action']);
+		 $response->action_answer_id = (new ActionService)->getActionAnswerbyAnswer($array['action_answer']);
+		 $response->action = $array['action'];
+		 $response->response = $array['action_answer'];
+		 $response->added_by = Auth::user()->id;
+		 $response->save();
+
+		 if ( $response->save()) {
+		 	return ['created' => true];
+		 }
+		 #r
+	}
+
+	public function saveComplaintResponse( array $array) {
+
+		// $response = new ComplaintInvestigationResponse;
+		// $response->investigation_id = $array['investigation'];
+		// $response->investigation_answer_id = $array['investigation_answer'];
+		// $response->response = $array['investigation_answer'];
+		// $response->investigation = $array['investigation'];
+		// $response->comment = $array['comment'];
+		// $response->save();
+
+		// if ( $response->save()) {
+		// 	return ['created' => true];
+		// }
+	}
 
 }
 
