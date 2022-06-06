@@ -22,6 +22,9 @@ class ComplaintResource extends JsonResource
         return [
             'id' => $this->id,
             'cuid' => $this->cuid,
+            'nurse'=> $this->nurse,
+            'isNurseVisit' => $this->isNurseVisit,
+            'isFileReviewed' => $this->isFileReviewed,
             'dateReported' => Carbon::parse($this->date_reported)->toFormattedDateString(),
             'dateOfOccurrence' => Carbon::parse($this->occurrence_date)->toFormattedDateString(),
             'reportTimeline' => $this->report_timeline,

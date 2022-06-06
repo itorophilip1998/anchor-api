@@ -8,9 +8,9 @@ use App\Models\ClientComplaint;
 use App\Services\Complaint\ActionService;
 
 use App\Http\Resources\Complaint\ComplaintResource;
-use App\Http\Resources\Complaint\ComplaintCollection;
-use App\Models\ComplaintInvestigationResponse;
+use App\Http\Resources\Complaint\ComplaintCollection;use App\Models\ComplaintInvestigationResponse;
 use App\Models\ComplaintActionResponse;
+use App\Models\AssignComplaintNurse;
 
 use sirajcse\UniqueIdGenerator\UniqueIdGenerator;
 use Carbon\Carbon;
@@ -133,12 +133,98 @@ class ComplaintService {
 		// $response->investigation = $array['investigation'];
 		// $response->comment = $array['comment'];
 		// $response->save();
-
+  
 		// if ( $response->save()) {
 		// 	return ['created' => true];
 		// }
 	}
 
-}
+	public function assignNurseToComplaints(array $array) {
 
+		$complaint_id = $array['complaint_id'];
+		$complaint = Complaint::find( $complaint_id );
+		if ( $array['action'] == 'Nurse Visit') {
+		  $complaint->isNurseVisit  = true;
+		}
+		if ( $array['action'] == 'File Review') {
+		  $complaint->isFileReviewed= true;
+		}
+		$complaint->save();
+
+		if ( $complaint->save()) {
+
+			if ($assign = AssignComplaintNurse::where('complaint_id', '=', $array['complaint_id'])
+			->where('user_id', '=', $array['user_id'])->exists()) {
+				return $this->updateNurseAssignment($array);
+			}
+			return $this->assignNurse($array);
+		}
+	}
+
+	/**
+	 * THIS FUNCTION ASSIGN A NURSE TO A COMPAINT
+	 * @param  [type] $complait_id [description]
+	 * @param  [type] $nurse_id    [description]
+	 * @return [type]              [description]
+	 */
+	public function assignNurse(array $array) {
+
+		$assign = new AssignComplaintNurse;
+		$assign->complaint_id = $array['complaint_id'];
+		$assign->user_id = $array['user_id'];
+
+		if ( $array['action'] == 'Nurse Visit') {
+			$assign->nurse_visit = 1;
+		}
+		if ( $array['action'] == 'File Review') {
+			$assign->file_review = 1;
+		}
+
+		$assign->save();
+
+		if ( $assign->save()) {
+			return ['created' => true ];
+		}
+
+		return ['created' => false];
+	}
+
+	/**
+	 * THIS FUNCTION NURSE ASSIGNMENT
+	 * @param  array  $array [description]
+	 * @return [type]        [description]
+	 */
+	public function  updateNurseAssignment( array $array) {
+		
+		$assign = AssignComplaintNurse::where('complaint_id', '=', $array['complaint_id'])
+		->where('user_id', '=', $array['user_id'])->first();
+
+		if ( $array['action'] == 'Nurse Visit') {
+			$assign->nurse_visit = true;
+		}
+
+		if ( $array['action'] == 'File Review') {
+			$assign->file_review = true;
+		}
+		
+		$assign->update();
+
+		if ( $assign->update() ) {
+			return ['upated' => true];
+		}
+
+		return ['updated' => false];
+	}
+
+	/**
+	 * [storeThirdPartyInvestigation description]
+	 * @param  array  $array [description]
+	 * @return [type]        [description]
+	 */
+	public function storeThirdPartyInvestigation( array $array) {
+
+		
+	} 
+
+}
  ?>

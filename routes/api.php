@@ -140,5 +140,6 @@ Route::group(['prefix' => 'complaints', 'middleware' => 'auth:sanctum'], functio
 
     Route::post('/save-action-response', [ComplaintController::class, 'saveActionResponse']);
     Route::post('/save-investigation-response', [ComplaintController::class, 'saveInvestigationResponse']);
+    Route::post('/assign-nurse-complaints', [ComplaintController::class, 'assignNurse']);
 });
 

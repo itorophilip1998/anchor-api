@@ -30,6 +30,8 @@ class CreateComplaintsTable extends Migration
             $table->integer('complaint_category_id');
             $table->integer('complaint_type_id');
             $table->text('description')->nullable();
+            $table->string('isFileReviewed')->default('false');
+            $table->string('isNurseVisit')->default('false');
             $table->integer('added_by')->default(1);
             $table->timestamps();
         });

@@ -9,6 +9,7 @@ use App\Models\ComplaintInvestigationQuestion;
 use App\Models\ComplaintTypeQuestion;
 use App\Models\ComplaintType;
 use App\Models\ClientComplaint;
+use App\Models\AssignComplaintNurse;
 use App\Models\User;
 
 class Complaint extends Model
@@ -29,6 +30,10 @@ class Complaint extends Model
 
     public function category() {
         return $this->belongsTo(ComplaintCategory::class, 'complaint_category_id', 'id');
+    }
+
+    public function nurse() {
+        return $this->hasMany(AssignComplaintNurse::class, 'complaint_id', 'id');
     }
 }
 

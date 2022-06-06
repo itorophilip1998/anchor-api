@@ -137,10 +137,22 @@ class ComplaintController extends Controller
 
     }
 
+    /**
+     * THIS IS FUNCTION SAVE INVESTIGATION FOR COMPLAINTS
+     * @param  Request $request [description]
+     * @return [type]           [description]
+     */
     public function saveInvestigationResponse(Request $request) {
 
         $attributes = $request->all();
         return $this->complaint->saveComplaintResponse($attributes);
+    }
+
+
+    public function assignNurse ( Request $request) {
+
+        $attributes = $request->all();
+        return $this->complaint->assignNurseToComplaints($attributes);
     }
     
 

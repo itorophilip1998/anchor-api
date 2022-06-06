@@ -36,5 +36,6 @@ class DatabaseSeeder extends Seeder
         $this->call(ComplaintInvestigationQuestionSeeder::class);
         $this->call(ComplaintInvestigationAnswerSeeder::class);
         $this->call(ComplaintActionAnswerSeeder::class);
+        $this->call(InvestigationTypeSeeder::class);
     }
 }
