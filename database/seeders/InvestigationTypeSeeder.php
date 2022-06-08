@@ -25,12 +25,17 @@ class InvestigationTypeSeeder extends Seeder
         ]);
 
         InvestigationType::create([
-            'name' => 'File Review & Telephone Contact'
+            'name' => 'File Review'
         ]);
 
         InvestigationType::create([
             'name' => 'Third-party Investigation'
         ]);
+
+        InvestigationType::create([
+            'name' => 'Telephone Contact'
+        ]);
+
 
     }
 }

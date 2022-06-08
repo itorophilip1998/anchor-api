@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Services\Complaint\ComplaintService;
 use App\Services\Complaint\ComplaintCategoryService;
 use App\Services\Complaint\ComplaintCategoryTypeService;
+use App\Services\Complaint\ComplaintInvestigationService;
 
 
 class ComplaintController extends Controller
@@ -148,11 +149,26 @@ class ComplaintController extends Controller
         return $this->complaint->saveComplaintResponse($attributes);
     }
 
-
+    /**
+     * [assignNurse description]
+     * @param  Request $request [description]
+     * @return [type]           [description]
+     */
     public function assignNurse ( Request $request) {
 
         $attributes = $request->all();
         return $this->complaint->assignNurseToComplaints($attributes);
+    }
+
+    /**
+     * This function get all complaints investigations 
+     * @param  Request $request [description]
+     * @return [type]           [description]
+     */
+    public function investigations(Request $request) {
+
+        $attributes = $request->all();
+        return (new ComplaintInvestigationService)->index($attributes);
     }
     
 

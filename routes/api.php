@@ -126,6 +126,8 @@ Route::group(['prefix' => 'investigations', 'middleware' => 'auth:sanctum'], fun
 /** * Complaints Routes * **/
 Route::group(['prefix' => 'complaints', 'middleware' => 'auth:sanctum'], function() {
 
+    Route::get('/investigations', [ComplaintController::class, 'investigations']);
+    
     Route::get('categories', [ComplaintController::class, 'getAllCategory']);
     Route::get('/', [ComplaintController::class, 'index']);
     
@@ -141,5 +143,7 @@ Route::group(['prefix' => 'complaints', 'middleware' => 'auth:sanctum'], functio
     Route::post('/save-action-response', [ComplaintController::class, 'saveActionResponse']);
     Route::post('/save-investigation-response', [ComplaintController::class, 'saveInvestigationResponse']);
     Route::post('/assign-nurse-complaints', [ComplaintController::class, 'assignNurse']);
+
+
 });
 
