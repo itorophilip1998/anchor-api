@@ -17,7 +17,7 @@ class CreateInvestigationsTable extends Migration
             $table->id();
             $table->string('title')->nullable();
             $table->string('module'); //Complaints or Inidents
-            $table->string('description');
+            $table->text('description');
             $table->timestamps();
         });
     }

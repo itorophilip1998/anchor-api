@@ -15,7 +15,7 @@ use App\Http\Controllers\Api\ComplaintController;
 
 use App\Services\Incident\ReasonService;
 use App\Services\Incident\ActionService;
-
+use App\Http\Controllers\Api\InvestigationController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -121,6 +121,8 @@ Route::group(['prefix' => 'investigations', 'middleware' => 'auth:sanctum'], fun
     Route::get('/activity/{id}', [ActivityController::class, 'details']);
     Route::post('/ ', [ActivityController::class, 'storeResult']);
     Route::post('/select_activity', [ActivityController::class, 'selectActivity']);
+
+    Route::get('/types', [InvestigationController::class, 'investigaitonType']);
 });
 
 /** * Complaints Routes * **/

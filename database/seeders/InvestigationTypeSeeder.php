@@ -17,25 +17,20 @@ class InvestigationTypeSeeder extends Seeder
     {
         
         InvestigationType::create([
-            'name' => 'Internal Investigation'
+            'name' => 'Nurse Report'
         ]);
 
         InvestigationType::create([
-            'name' => 'Nurse Visit'
+            'name' => 'Coordinator Report'
         ]);
 
         InvestigationType::create([
-            'name' => 'File Review'
+            'name' => 'Home Care Worker Report'
         ]);
 
         InvestigationType::create([
-            'name' => 'Third-party Investigation'
+            'name' => 'Third-party Report'
         ]);
-
-        InvestigationType::create([
-            'name' => 'Telephone Contact'
-        ]);
-
 
     }
 }
