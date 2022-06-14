@@ -12,7 +12,6 @@ class CreateComplaintEvidenceInterviewsTable extends Migration
      * @return void
      */
     public function up()
-    {
         Schema::create('complaint_evidence_interviews', function (Blueprint $table) {
             $table->id();
             $table->string('firstname');

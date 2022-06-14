@@ -37,5 +37,10 @@ class DatabaseSeeder extends Seeder
         $this->call(ComplaintInvestigationAnswerSeeder::class);
         $this->call(ComplaintActionAnswerSeeder::class);
         $this->call(InvestigationTypeSeeder::class);
+
+        // Task
+        $this->call(TaskCategorySeeder::class);
+        $this->call(TaskComponentSeeder::class);
+        $this->call(TaskTemplateSeeder::class);
     }
 }
