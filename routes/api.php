@@ -16,15 +16,17 @@ use App\Http\Controllers\Api\ComplaintController;
 use App\Services\Incident\ReasonService;
 use App\Services\Incident\ActionService;
 use App\Http\Controllers\Api\InvestigationController;
+
+use App\Http\Controllers\Api\TaskController;
+
+
 /*
 |--------------------------------------------------------------------------
 | API Routes
 |--------------------------------------------------------------------------
-|
 | Here is where you can register API routes for your application. These
 | routes are loaded by the RouteServiceProvider within a group which
 | is assigned the "api" middleware group. Enjoy building your API!
-|
 */
 
 /* * Logouts Routes **/
@@ -50,7 +52,6 @@ Route::group(['prefix' => 'clients', 'middleware' => 'auth:sanctum'], function (
    Route::post('/unassign-nurse', [ClientController::class, 'unassign_nurse']);
    Route::post('/unassign-coord', [ClientController::class, 'unassign_coord']);
    Route::post('/unassign-homecareworker', [ClientController::class, 'unassign_homecareworker']);
-
 });
 
 /** * Statues  Routes * */
@@ -121,8 +122,8 @@ Route::group(['prefix' => 'investigations', 'middleware' => 'auth:sanctum'], fun
     Route::get('/activity/{id}', [ActivityController::class, 'details']);
     Route::post('/ ', [ActivityController::class, 'storeResult']);
     Route::post('/select_activity', [ActivityController::class, 'selectActivity']);
-
     Route::get('/types', [InvestigationController::class, 'investigaitonType']);
+
 });
 
 /** * Complaints Routes * **/
@@ -145,7 +146,13 @@ Route::group(['prefix' => 'complaints', 'middleware' => 'auth:sanctum'], functio
     Route::post('/save-action-response', [ComplaintController::class, 'saveActionResponse']);
     Route::post('/save-investigation-response', [ComplaintController::class, 'saveInvestigationResponse']);
     Route::post('/assign-nurse-complaints', [ComplaintController::class, 'assignNurse']);
-
-
 });
 
+/**
+ * Task Route --
+ */
+Route::group(['prefix' => 'tasks', 'middleware' => 'auth:sanctum'], function() {
+    route::post('/templates', [TaskController::class, 'indexTaskTemplate']);    
+    route::get('/modules', [TaskController::class, 'taskModules']);
+    route::get('/categories', [TaskController::class, 'taskCategories']);
+});

@@ -15,7 +15,7 @@ class CreateComplaintIntervieqResponsesTable extends Migration
     {
         Schema::create('complaint_intervieq_responses', function (Blueprint $table) {
             $table->id();
-            $$table->integer('question_id');
+            $table->integer('question_id');
             $table->integer('answer_id');
             $table->string('question');
             $table->string('answer');

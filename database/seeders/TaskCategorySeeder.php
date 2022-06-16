@@ -16,42 +16,42 @@ class TaskCategorySeeder extends Seeder
     public function run()
     {
         
-        TaskCategorySeeder::create([
+        TaskCategory::create([
             'id' => 1,
             'title' => 'Clinical'
         ]);
 
-        TaskCategorySeeder::create([
+        TaskCategory::create([
             'id' => 2,
             'title' => 'Case Coordinator'
         ]);
 
-        TaskCategorySeeder::create([
+        TaskCategory::create([
             'id' => 3,
             'title' => 'Intake Coordinator'
         ]);
 
-        TaskCategorySeeder::create([
+        TaskCategory::create([
             'id' => 4,
             'title' => 'Billing & Collection Management'
         ]);
 
-        TaskCategorySeeder::create([
+        TaskCategory::create([
             'id' => 5,
             'title' => 'Home Care Workers'
         ]);
 
-        TaskCategorySeeder::create([
+        TaskCategory::create([
             'id' => 6,
             'title' => 'New Business Management'
         ]);
 
-        TaskCategorySeeder::create([
+        TaskCategory::create([
             'id' => 7,
             'title' => 'Corporate/Executives'
         ]);
 
-         TaskCategorySeeder::create([
+         TaskCategory::create([
             'id' => 8,
             'title' => 'Clients'
         ]);

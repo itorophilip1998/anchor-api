@@ -18,32 +18,32 @@ class TaskComponentSeeder extends Seeder
         
         TaskComponent::create([
             'id' => 1,
-            'title' => 'Job Performance' 
+            'name' => 'Job Performance' 
         ]);
 
         TaskComponent::create([
             'id' => 2,
-            'title' => 'Compliance' 
+            'name' => 'Compliance' 
         ]);
 
         TaskComponent::create([
             'id' => 3,
-            'title' => 'Self-Assessment' 
+            'name' => 'Self-Assessment' 
         ]);
 
         TaskComponent::create([
             'id' => 4,
-            'title' => 'Value-Based Engagement' 
+            'name' => 'Value-Based Engagement' 
         ]);
 
         TaskComponent::create([
             'id' => 5,
-            'title' => 'Happiness Assessment' 
+            'name' => 'Happiness Assessment' 
         ]);
 
         TaskComponent::create([
             'id' => 6,
-            'title' => 'Incentive Management' 
+            'name' => 'Incentive Management' 
         ]);
     }
 }

@@ -13,7 +13,7 @@ class CreateTaskCatetoriesTable extends Migration
      */
     public function up()
     {
-        Schema::create('task_catetories', function (Blueprint $table) {
+        Schema::create('task_categories', function (Blueprint $table) {
             $table->id();
             $table->string('title');
             $table->timestamps();

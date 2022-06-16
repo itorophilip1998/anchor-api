@@ -15,6 +15,7 @@ class CreateTaskComponentsTable extends Migration
     {
         Schema::create('task_components', function (Blueprint $table) {
             $table->id();
+            $table->string('name');
             $table->timestamps();
         });
     }
