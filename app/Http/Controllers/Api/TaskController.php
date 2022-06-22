@@ -38,4 +38,8 @@ class TaskController extends Controller
     public function taskCategories() {
         return $this->taskmodel->getTaskCategories();
     }
+
+    public function taskFieldTemplate() {
+        return $this->taskmodel->getTaskFieldTemplate();
+    }
 }

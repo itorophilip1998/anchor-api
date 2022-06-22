@@ -5,6 +5,7 @@ use App\Models\Task;
 use App\Models\TaskTemplate;
 use App\Models\TaskComponent;
 use App\Models\TaskCategory;
+use App\Models\TaskFieldTemplate;
 
 use App\Http\Resources\Task\TaskResource;
 use App\Http\Resources\Task\TaskCollection;
@@ -41,7 +42,10 @@ public function getAllTaskTemplate(array $array) {
 	}
 
 	return new TaskTemplateCollection($template->get());
-	// return new TaskTemplateCollection($this->template::get());
+}
+
+public function getTaskFieldTemplate() {
+ 	return Response::json((new TaskFieldTemplate)->get());
 }
 
 /**
