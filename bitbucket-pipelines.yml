@@ -1,5 +1,4 @@
-image: php:7.3-fpm
-
+image: php:7.4-fpm
 pipelines:
   default:
     - step:
@@ -17,7 +16,6 @@ pipelines:
           - curl -vk http://localhost:8000
         services:
           - mysql
-
 definitions:
   services:
     mysql:
