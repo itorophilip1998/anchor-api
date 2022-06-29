@@ -15,6 +15,7 @@ class CreateTaskFieldTemplatesTable extends Migration
     {
         Schema::create('task_field_templates', function (Blueprint $table) {
             $table->id();
+            // $table->integer('Uuid');
             $table->string('name');
             $table->timestamps();
         });

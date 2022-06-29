@@ -156,4 +156,7 @@ Route::group(['prefix' => 'tasks', 'middleware' => 'auth:sanctum'], function() {
     route::get('/modules', [TaskController::class, 'taskModules']);
     route::get('/categories', [TaskController::class, 'taskCategories']);
     route::get('/field-templates', [TaskController::class, 'taskFieldTemplate']);
+    route::get('/details/{id}', [TaskController::class, 'taskTemplateDetails']);
+    route::get('/template/fields/{id}', [TaskController::class, 'taskFieldGenerate']);
+    route::get('/field/details/{id}', [TaskController::class, 'taskFieldDetails']);
 });

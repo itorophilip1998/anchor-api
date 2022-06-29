@@ -26,9 +26,12 @@ class TaskController extends Controller
     public function index() {}
 
     public function indexTaskTemplate (Request $request) {
-
         $attributes = $request->all();
         return $this->taskmodel->getAllTaskTemplate($attributes);
+    }
+
+    public function taskTemplateDetails($id) {
+        return $this->taskmodel->taskTemplateDetails($id);
     }
 
     public function taskModules () {
@@ -41,5 +44,13 @@ class TaskController extends Controller
 
     public function taskFieldTemplate() {
         return $this->taskmodel->getTaskFieldTemplate();
+    }
+
+    public function taskFieldGenerate($id) {
+        return $this->taskmodel->generateTaskFieldById($id);
+    }
+
+    public function taskFieldDetails($id) {
+        return $this->taskmodel->getFieldDetails($id);
     }
 }

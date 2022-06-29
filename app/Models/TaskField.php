@@ -8,4 +8,6 @@ use Illuminate\Database\Eloquent\Model;
 class TaskField extends Model
 {
     use HasFactory;
+
+    protected $fillable = ['caption', 'task_template_id', 'element_type_id'];
 }
