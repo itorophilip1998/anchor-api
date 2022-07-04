@@ -85,6 +85,7 @@ class ActionService {
 
 	    return $this->store_result($action_id, $result->name, $incident_id);
 	}
+	
 	/**
 	 * --------------------------------------------------------------------
 	 * THIS FUNCTION RANDOM THE DEFAULT RESULTS
