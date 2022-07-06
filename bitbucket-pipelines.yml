@@ -1,13 +1,54 @@
-image: python:3.5.1
+# This is a sample build configuration for PHP.
+# Check our guides at https://confluence.atlassian.com/x/e8YWN for more examples.
+# Only use spaces to indent your .yml configuration.
+# -----
+# You can specify a custom docker image from Docker Hub as your build environment.
+image: php:7.4-fpm
+
+definitions:
+  services:
+    mysql:
+      image: mysql:5.7
+      environment:
+        MYSQL_DATABASE: 'carescore_dbase'
+        MYSQL_ROOT_PASSWORD: 'password'
+        SERVICE_NAME: 'mysql'
+
+  steps:
+    - step: &test
+        name: Test
+        caches:
+          - composer
+        script:
+          # Install dependencies
+          - apt-get update && apt-get install -y unzip libfreetype6-dev libjpeg62-turbo-dev libpng-dev zlib1g-dev
+          # Configure and install extensions
+          - docker-php-ext-configure gd --with-freetype --with-jpeg
+          - docker-php-ext-install -j$(nproc) pdo_mysql gd exif
+          # Download and install Composer
+          - curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+          - composer install
+          - ln -f -s .env.pipelines .env
+          - php artisan test
+        services:
+          - mysql
 
 pipelines:
   branches:
-    master:
+    develop:
+      - step: *test
       - step:
+          name: Deploy to staging using Laravel Forge
+          deployment: staging
           script:
-            - apt-get update # required to install zip
-            - apt-get install -y zip # required for packaging up the application
-            - pip install boto3==1.3.0 # required for codedeploy_deploy.py
-            - zip -r /tmp/artifact.zip * # package up the application for deployment
-            - python codedeploy_deploy.py # run the deployment script
+            # Deployment webbhook
+            - curl -X POST https://forge.laravel.com/***
 
+    master:
+      - step: *test
+      - step:
+          name: Deploy to production using Laravel Forge
+          deployment: production
+          script:
+            # Deployment webbhook
+            - curl -X POST https://forge.laravel.com/***
