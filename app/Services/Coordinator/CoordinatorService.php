@@ -6,6 +6,7 @@ use App\Services\Notification\NotificationService;
 use App\Models\CoordinatorHomecareworker;
 use App\Models\User;
 use Auth;
+use Response;
 
 
 class CoordinatorService {
@@ -25,7 +26,7 @@ class CoordinatorService {
 			$coordinators = $coordinators->where('firstname', 'LIKE', '%' . $params['name'] . '%');
 		}
 
-		return CoordinatorResource::collection($coordinators->get());
+		return Response::json($coordinators->get()); 
 	}
 
 
