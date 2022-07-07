@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-USE App\Interfaces\CoordinatorRepositoryInterface;
+use App\Interfaces\CoordinatorRepositoryInterface;
 use Illuminate\Http\Request;
 
 class CoordinatorController extends Controller
