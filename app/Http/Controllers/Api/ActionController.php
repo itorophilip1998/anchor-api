@@ -13,6 +13,7 @@ class ActionController extends Controller
     private $actions;
 
     public function __construct( ) {
+        // $this->actions = new Action;
     }
 
     /**

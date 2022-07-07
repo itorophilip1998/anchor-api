@@ -51,4 +51,8 @@ pipelines:
           deployment: production
           script:
             # Deployment webbhook
+<<<<<<< HEAD
             - curl -X POST https://forge.laravel.com/***
+=======
+            - curl -X POST https://forge.laravel.com/***
+>>>>>>> master

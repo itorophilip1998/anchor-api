@@ -21,7 +21,7 @@ class UserDetailsSeeder extends Seeder
 
         $a = 0; 
 
-        while( $a <= 8) {
+        while( $a <= 18) {
 
              DB::table('user_details')->insert([
                 'user_id' => $a + 1,
@@ -38,7 +38,6 @@ class UserDetailsSeeder extends Seeder
                 'language' => $faker->languageCode,
                 'nationality' => $faker->languageCode
             ]);
-
             $a++;
 
         }

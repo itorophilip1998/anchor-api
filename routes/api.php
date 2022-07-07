@@ -13,18 +13,19 @@ use App\Http\Controllers\Api\ActionController;
 use App\Http\Controllers\Api\ActivityController;
 use App\Http\Controllers\Api\ComplaintController;
 
-use App\Services\Incident\ReasonService;
 use App\Services\Incident\ActionService;
+use App\Http\Controllers\Api\InvestigationController;
+
+use App\Http\Controllers\Api\TaskController;
+
 
 /*
 |--------------------------------------------------------------------------
 | API Routes
 |--------------------------------------------------------------------------
-|
 | Here is where you can register API routes for your application. These
 | routes are loaded by the RouteServiceProvider within a group which
 | is assigned the "api" middleware group. Enjoy building your API!
-|
 */
 
 /* * Logouts Routes **/
@@ -50,7 +51,6 @@ Route::group(['prefix' => 'clients', 'middleware' => 'auth:sanctum'], function (
    Route::post('/unassign-nurse', [ClientController::class, 'unassign_nurse']);
    Route::post('/unassign-coord', [ClientController::class, 'unassign_coord']);
    Route::post('/unassign-homecareworker', [ClientController::class, 'unassign_homecareworker']);
-
 });
 
 /** * Statues  Routes * */
@@ -80,7 +80,7 @@ Route::group(['prefix' => 'user', 'middleware' => 'auth:sanctum'], function() {
 /** * Nurses Routes* */
 Route::group(['prefix' => 'nurses', 'middleware' => 'auth:sanctum'], function() {
     Route::get('', [NurseController::class, 'index']);
-    Route::get('/delete', [NurceController::class ,'destroy']);
+    Route::get('/delete', [NurseController::class ,'destroy']);
 });
 
 /** * Action Incident Action routes* */
@@ -121,11 +121,15 @@ Route::group(['prefix' => 'investigations', 'middleware' => 'auth:sanctum'], fun
     Route::get('/activity/{id}', [ActivityController::class, 'details']);
     Route::post('/ ', [ActivityController::class, 'storeResult']);
     Route::post('/select_activity', [ActivityController::class, 'selectActivity']);
+    Route::get('/types', [InvestigationController::class, 'investigaitonType']);
+
 });
 
 /** * Complaints Routes * **/
 Route::group(['prefix' => 'complaints', 'middleware' => 'auth:sanctum'], function() {
 
+    Route::get('/investigations', [ComplaintController::class, 'investigations']);
+    
     Route::get('categories', [ComplaintController::class, 'getAllCategory']);
     Route::get('/', [ComplaintController::class, 'index']);
     
@@ -143,3 +147,17 @@ Route::group(['prefix' => 'complaints', 'middleware' => 'auth:sanctum'], functio
     Route::post('/assign-nurse-complaints', [ComplaintController::class, 'assignNurse']);
 });
 
+/**
+ * ********************************************************************************
+ * Task Route --
+ * ********************************************************************************
+ */
+Route::group(['prefix' => 'tasks', 'middleware' => 'auth:sanctum'], function() {
+    Route::post('/templates', [TaskController::class, 'indexTaskTemplate']);    
+    Route::get('/modules', [TaskController::class, 'taskModules']);
+    Route::get('/categories', [TaskController::class, 'taskCategories']);
+    Route::get('/field-templates', [TaskController::class, 'taskFieldTemplate']);
+    Route::get('/details/{id}', [TaskController::class, 'taskTemplateDetails']);
+    Route::get('/template/fields/{id}', [TaskController::class, 'taskFieldGenerate']);
+    Route::get('/field/details/{id}', [TaskController::class, 'taskFieldDetails']);
+});

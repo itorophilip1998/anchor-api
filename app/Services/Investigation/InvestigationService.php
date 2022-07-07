@@ -7,6 +7,9 @@ use App\Models\InvestigationQuestionAnswer;
 use App\Services\Incident\ReasonService;
 use App\Http\Resources\InvestigationResource;
 
+use App\Models\InvestigationType;
+use Response;
+
 class InvestigationService {
 
 	private $question;
@@ -22,6 +25,14 @@ class InvestigationService {
 		  $reason_category_id = (new ReasonService)->get_reason_category($reason);
 	      return  new InvestigationResource($this->question->where('reason_category_id', '=', $reason_category_id )->with(['answer'])->get());
 		}
+	}
+
+	/**
+	 * [getInvestigationTypes description]
+	 * @return [type] [description]
+	 */
+	public function getInvestigationTypes() {
+		return Response::json(InvestigationType::all());
 	}
 
 }

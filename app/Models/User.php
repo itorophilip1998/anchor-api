@@ -6,6 +6,7 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Str;
 use Laravel\Sanctum\HasApiTokens;
 use App\Models\Role;
 use App\Models\UserStatus;
@@ -15,11 +16,24 @@ use App\Models\WorkDetail;
 use App\Models\MedicalDetail;
 use App\Models\ClientNurse;
 use App\Models\ClientCoord;
+use GoldSpecDigital\LaravelEloquentUUID\Database\Eloquent\Uuid;
+
+
 
 class User extends Authenticatable
 {
+    use Uuid;
     use HasApiTokens, HasFactory, Notifiable;
 
+
+    protected $keyType = 'string';
+
+    /**
+     * Indicates if the IDs are auto-incrementing.
+     *
+     * @var bool
+     */
+    public $incrementing = false;
     /**
      * The attributes that are mass assignable.
      *
@@ -29,6 +43,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'uuid'
     ];
 
     /**
@@ -39,6 +54,7 @@ class User extends Authenticatable
     protected $hidden = [
         'password',
         'remember_token',
+          'uuid',
     ];
 
     /**
@@ -50,7 +66,19 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-  protected $with = ['detail'];
+
+    protected $with = ['detail'];
+    
+    public static function boot()
+    {
+        parent::boot();
+
+        static::creating(function ($model) {
+            $model->{$model->getKeyName()} = (string) Str::uuid();
+        });
+    }
+    
+  
 
     public function role() {
          return $this->belongsTo(Role::class, 'role_id');

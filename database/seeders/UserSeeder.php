@@ -3,6 +3,8 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
+
+use Illuminate\Support\Str;
 use DB;
 
 class UserSeeder extends Seeder
@@ -15,6 +17,7 @@ class UserSeeder extends Seeder
     public function run()
     {
         DB::table('users')->insert([
+            'uuid' => Str::uuid(),
             'firstname' => 'Lionel',
             'lastname' => 'Francis',
             'email' => 'admin@email.com',
@@ -23,6 +26,7 @@ class UserSeeder extends Seeder
         ]);
 
         DB::table('users')->insert([
+            'uuid' => Str::uuid(),
             'firstname' => 'Roxine',
             'lastname' => 'Green',
             'email' => 'hr@email.com',
@@ -31,6 +35,7 @@ class UserSeeder extends Seeder
         ]);
 
         DB::table('users')->insert([
+            'uuid' => Str::uuid(),
             'firstname' => 'Kevin',
             'lastname' => 'Smith',
             'email' => 'ccmanager@email.com',
@@ -39,6 +44,7 @@ class UserSeeder extends Seeder
         ]);
 
         DB::table('users')->insert([
+            'uuid' => Str::uuid(),
             'firstname' => 'Damion',
             'lastname' => 'Howell',
             'email' => 'cc@email.com',
@@ -46,7 +52,27 @@ class UserSeeder extends Seeder
              'password' => bcrypt('password'),
         ]);
 
+         DB::table('users')->insert([
+            'uuid' => Str::uuid(),
+            'firstname' => 'James',
+            'lastname' => 'Gordon',
+            'email' => 'cc1@email.com',
+            'role_id' => 4,
+            'password' => bcrypt('password'),
+        ]);
+
         DB::table('users')->insert([
+            'uuid' => Str::uuid(),
+            'firstname' => 'Lance',
+            'lastname' => 'Jefferson',
+            'email' => 'cc2@email.com',
+            'role_id' => 4,
+            'password' => bcrypt('password'),
+        ]);
+
+
+        DB::table('users')->insert([
+            'uuid' => Str::uuid(),
             'firstname' => 'Sandel',
             'lastname' => 'Row',
             'email' => 'ic@email.com',
@@ -55,15 +81,35 @@ class UserSeeder extends Seeder
         ]);
 
          DB::table('users')->insert([
+            'uuid' => Str::uuid(),
             'firstname' => 'Kerry',
             'lastname' => 'Ann',
             'email' => 'nurse@email.com',
             'role_id' => 6,
             'password' => bcrypt('password'),
-        ]);
+         ]);
+
+         DB::table('users')->insert([
+            'uuid' => Str::uuid(),
+            'firstname' => 'Jane',
+            'lastname' => 'Jessica',
+            'email' => 'nurse1@email.com',
+            'role_id' => 6,
+            'password' => bcrypt('password'),
+         ]);
+
+         DB::table('users')->insert([
+            'uuid' => Str::uuid(),
+            'firstname' => 'Johnsom',
+            'lastname' => 'Jamie',
+            'email' => 'nurse2@email.com',
+            'role_id' => 6,
+            'password' => bcrypt('password'),
+         ]);
 
 
          DB::table('users')->insert([
+            'uuid' => Str::uuid(),
             'firstname' => 'James',
             'lastname' => 'Gordon',
             'email' => 'homecareworker@email.com',
@@ -71,10 +117,67 @@ class UserSeeder extends Seeder
              'password' => bcrypt('password'),
         ]);
 
+          DB::table('users')->insert([
+            'uuid' => Str::uuid(),
+            'firstname' => 'King',
+            'lastname' => 'Francis',
+            'email' => 'homecareworker1@email.com',
+            'role_id' => 7,
+            'password' => bcrypt('password'),
+          ]);
+
+
+          DB::table('users')->insert([
+            'uuid' => Str::uuid(),
+            'firstname' => 'Jimie',
+            'lastname' => 'Coal',
+            'email' => 'homecareworker3@email.com',
+            'role_id' => 7,
+            'password' => bcrypt('password'),
+          ]);
+
+
            DB::table('users')->insert([
+            'uuid' => Str::uuid(),
             'firstname' => 'Henry',
             'lastname' => 'James',
             'email' => 'client@email.com',
+            'role_id' => 8,
+             'password' => bcrypt('password'),
+        ]);
+
+        DB::table('users')->insert([
+            'uuid' => Str::uuid(),
+            'firstname' => 'Everton',
+            'lastname' => 'Green',
+            'email' => 'client1@email.com',
+            'role_id' => 8,
+             'password' => bcrypt('password'),
+        ]);
+
+         DB::table('users')->insert([
+            'uuid' => Str::uuid(),
+            'firstname' => 'Christ',
+            'lastname' => 'Brown',
+            'email' => 'client2@email.com',
+            'role_id' => 8,
+             'password' => bcrypt('password'),
+        ]);
+
+        DB::table('users')->insert([
+            'uuid' => Str::uuid(),
+            'firstname' => 'Rober',
+            'lastname' => 'Reece',
+            'email' => 'client3@email.com',
+            'role_id' => 8,
+             'password' => bcrypt('password'),
+        ]);
+
+        DB::table('users')->insert([
+            'uuid' => Str::uuid(),
+            'firstname' => 'Shiba',
+            'lastname' => 'Tatsuya',
+            'email' => 'client4@email.com',
             'role_id' => 8,
              'password' => bcrypt('password'),
         ]);
