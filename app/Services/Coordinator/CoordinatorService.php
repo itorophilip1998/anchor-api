@@ -24,9 +24,20 @@ class CoordinatorService {
 
 		if ( $params['name'] !== 'undefined') {
 			$coordinators = $coordinators->where('firstname', 'LIKE', '%' . $params['name'] . '%');
+		}	
+
+		$response = array();
+
+		foreach($coordinators->get() as $user) {
+			$response[] = array('name' => $user->firstname.' '.$user->lastname, 'id' => $user->id);
 		}
 
-		return Response::json($coordinators->get()); 
+
+		$response1 = array(
+			'data' => $response
+		);
+
+		return Response::json($response1); 
 	}
 
 
