@@ -13,7 +13,6 @@ use App\Http\Controllers\Api\ActionController;
 use App\Http\Controllers\Api\ActivityController;
 use App\Http\Controllers\Api\ComplaintController;
 
-use App\Services\Incident\ReasonService;
 use App\Services\Incident\ActionService;
 use App\Http\Controllers\Api\InvestigationController;
 
@@ -81,7 +80,7 @@ Route::group(['prefix' => 'user', 'middleware' => 'auth:sanctum'], function() {
 /** * Nurses Routes* */
 Route::group(['prefix' => 'nurses', 'middleware' => 'auth:sanctum'], function() {
     Route::get('', [NurseController::class, 'index']);
-    Route::get('/delete', [NurceController::class ,'destroy']);
+    Route::get('/delete', [NurseController::class ,'destroy']);
 });
 
 /** * Action Incident Action routes* */
@@ -149,14 +148,16 @@ Route::group(['prefix' => 'complaints', 'middleware' => 'auth:sanctum'], functio
 });
 
 /**
+ * ********************************************************************************
  * Task Route --
+ * ********************************************************************************
  */
 Route::group(['prefix' => 'tasks', 'middleware' => 'auth:sanctum'], function() {
-    route::post('/templates', [TaskController::class, 'indexTaskTemplate']);    
-    route::get('/modules', [TaskController::class, 'taskModules']);
-    route::get('/categories', [TaskController::class, 'taskCategories']);
-    route::get('/field-templates', [TaskController::class, 'taskFieldTemplate']);
-    route::get('/details/{id}', [TaskController::class, 'taskTemplateDetails']);
-    route::get('/template/fields/{id}', [TaskController::class, 'taskFieldGenerate']);
-    route::get('/field/details/{id}', [TaskController::class, 'taskFieldDetails']);
+    Route::post('/templates', [TaskController::class, 'indexTaskTemplate']);    
+    Route::get('/modules', [TaskController::class, 'taskModules']);
+    Route::get('/categories', [TaskController::class, 'taskCategories']);
+    Route::get('/field-templates', [TaskController::class, 'taskFieldTemplate']);
+    Route::get('/details/{id}', [TaskController::class, 'taskTemplateDetails']);
+    Route::get('/template/fields/{id}', [TaskController::class, 'taskFieldGenerate']);
+    Route::get('/field/details/{id}', [TaskController::class, 'taskFieldDetails']);
 });
