@@ -44,5 +44,9 @@ class DatabaseSeeder extends Seeder
         $this->call(TaskTemplateSeeder::class);
         $this->call(TaskFieldElementSeeder::class);
         $this->call(TaskFieldTemplateSeeder::class);
+        $this->call(TaskElementValueSeeder::class);
+
+        
+        
      }
 }

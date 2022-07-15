@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateTaskFieldElementValuesTable extends Migration
+class CreateReferralsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,11 @@ class CreateTaskFieldElementValuesTable extends Migration
      */
     public function up()
     {
-        Schema::create('task_field_element_values', function (Blueprint $table) {
+        Schema::create('referrals', function (Blueprint $table) {
             $table->id();
-            $table->integer('task_field_element_id');
-            $table->string('name');
+            $table->datetime('contact_date');
+            $table->integer('referral_type_id');
+            $table->integer('referral_source_id');
             $table->timestamps();
         });
     }
@@ -28,6 +29,6 @@ class CreateTaskFieldElementValuesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('task_field_element_values');
+        Schema::dropIfExists('referrals');
     }
 }

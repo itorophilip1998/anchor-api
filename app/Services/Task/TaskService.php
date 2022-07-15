@@ -2,6 +2,7 @@
 namespace App\Services\Task;
 
 use App\Models\Task;
+use App\Models\TaskField;
 use App\Models\TaskTemplate;
 use App\Models\TaskComponent;
 use App\Models\TaskCategory;
@@ -11,6 +12,7 @@ use App\Http\Resources\Task\TaskResource;
 use App\Http\Resources\Task\TaskCollection;
 use App\Http\Resources\Task\TaskTemplateResource;
 use App\Http\Resources\Task\TaskTemplateCollection;
+use App\Http\Resources\Task\TaskFieldResource;
 
 use App\Services\Task\TaskTemplates;
 
@@ -24,9 +26,8 @@ class TaskService {
 	   $this->template = $tasktemplate;
 	}
 
-	public function index() {
 
-	}
+	public function index() {}
 
 	/**
 	 * [taskTemplateDetails description]
@@ -101,7 +102,7 @@ class TaskService {
 	public function getFieldDetails($id) {
 
 		$details = TaskField::find($id);
-		return Response::json($details);
+		return new TaskFieldResource($details);
 	}
 
 }
