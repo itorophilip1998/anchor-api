@@ -18,6 +18,17 @@ class CreateReferralsTable extends Migration
             $table->datetime('contact_date');
             $table->integer('referral_type_id');
             $table->integer('referral_source_id');
+            $table->string('firstname');
+            $table->string('lastname');
+            $table->string('medicaid_number')->nullable();
+            $table->string('medicare_number')->nullable();
+            $table->string('client_phonenumber');
+            $table->string('client_address');
+            $table->date('client_dob');
+            $table->string('client_language');
+            $table->boolean('hasMedicaid');
+            $table->boolean('hasMedicare');
+            $table->boolean('hasService');
             $table->timestamps();
         });
     }

@@ -15,8 +15,7 @@ class UserRepository implements UserRepositoryInterface {
 	 */
 	public function get_user_details( $userID ) {
 
-		$user = User::find($userID);
-
+		$user = User::where('uuid', '=', $userID)->first();
 		return new UserResource($user);
 	}
 }

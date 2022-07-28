@@ -15,6 +15,7 @@ use App\Http\Resources\Task\TaskTemplateCollection;
 use App\Http\Resources\Task\TaskFieldResource;
 
 use App\Services\Task\TaskTemplates;
+use App\Services\User\UserService;
 
 use Response;
 
@@ -22,12 +23,52 @@ class TaskService {
 
    protected $template;
 
+   /**
+    * THIS IS CONSTROCTOR
+    * @param TaskTemplate $tasktemplate [description]
+    */
 	public function __construct(TaskTemplate $tasktemplate) {
 	   $this->template = $tasktemplate;
 	}
 
-
 	public function index() {}
+
+	public function scheduleTask(array $array) {
+      
+		if ( $array['modules'] == 'Clinical') { $array['modules'] = 'Nurse'; }
+
+		$users = (new UserService)->getUserByRoleName($array['modules']);
+
+		foreach( $users as $user ) {
+
+			$task                            = new Task;
+			$task->priority                  = $array['priority'];
+			$task->assigned_id               = $user->id;
+			$tadk->frequency                 = $array['frequency'];
+			$task->estimated_completion_time = $array['estimated_time'];
+			$task->save();
+
+			if (	$task->save() ) {
+				
+				 $template = $this->template->where('id', '=', $array['modules'])->first();
+
+				 $taskTaskTemplate = new TaskTaskTemplate;
+				 $taskTaskTemplate->task_id = $task->id;
+				 $taskTaskTemplate->task_template_id = $template->id;
+				 $taskTaskTemplate->save();
+			}
+		}
+
+		return [
+			'status' => true,
+		];
+	}
+
+
+	public function getUserByRole($template) {
+      return User::with('roles')->get();
+	}
+
 
 	/**
 	 * [taskTemplateDetails description]

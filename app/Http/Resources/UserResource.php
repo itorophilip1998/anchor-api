@@ -16,14 +16,14 @@ class UserResource extends JsonResource
     public function toArray($request)
     {
          return [
-            'id' => $this->id,
+            'id' => $this->uuid,
             'firstname' => $this->firstname,
             'lastname' => $this->lastname,
             'fullname' => $this->firstname.' '.$this->lastname,
             'email' => $this->email,
             'role' => $this->role, 
             'status' => $this->status,
-            'role_name' => $this->role->name,
+            // 'role_name' => $this->role->name,
             'notification_counts' => Auth::user()->unreadNotifications->count(),
             'notifications' => Auth::user()->unreadNotifications
         ];
