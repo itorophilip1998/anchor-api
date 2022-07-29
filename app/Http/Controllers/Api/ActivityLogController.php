@@ -16,17 +16,14 @@ class ActivityLogController extends Controller
 
         $response = array();
 
-        $activities = Activity::get();
-
+        $activities = Activity::orderBy('created_at', 'desc')->get();
         foreach( $activities as $activity ) {
-
             $response[] = array(
                 'id' => $activity->id,
                 'description' => $activity->description,
                 'created_at' => $activity->created_at,
                 'user' => User::with('roles')->where('uuid', '=', $activity->causer_id)->first(),
             );
-
         }
 
         return Response::json( $response );

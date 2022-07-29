@@ -15,9 +15,9 @@ class CreateCoordinatorHomecareworkersTable extends Migration
     {
         Schema::create('coordinator_homecareworkers', function (Blueprint $table) {
             $table->id();
-            $table->integer('homecarework_id');
-            $table->integer('coord_id');
-            $table->integer('added_by');
+            $table->string('homecarework_id');
+            $table->string('coord_id');
+            $table->string('added_by');
             $table->timestamps();
         });
     }

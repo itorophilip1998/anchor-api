@@ -57,6 +57,8 @@ class UserService {
 			// Send generagte default password and send email
 			$details = new UserDetail;
 			$details->user_id = $user->uuid;
+			$details->gender = $params['gender'];
+			$details->cell_phone = $params['phonenumber'];
 			$details->dob = Carbon::parse($user->dob)->format('Y-m-d');;
 			$details->save();
 
@@ -87,12 +89,28 @@ class UserService {
 	}
 
 	/**
+	 * THIS FUNCTION GET USER DETAILS BY USER ID
+	 * @param  [type] $userId [description]
+	 * @return [type]         [description]
+	 */
+	public function getUserDetailsByUserId($userId) {
+
+		$details = User::where('uuid', '=', $userId)->first();
+		return Response::json($details);
+	}
+
+
+	public function updateUser (array $params, $userId) {
+		
+	}
+
+	/**
 	 * ************************************************************
 	 * this function add user permissions
 	 * ************************************************************
 	 * @param array $array [description]
 	 */
-	public function addPermission( array $array) {
+	public function addDirectPermission( array $array) {
 
 	}	
 

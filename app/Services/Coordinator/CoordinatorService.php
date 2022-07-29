@@ -29,7 +29,7 @@ class CoordinatorService {
 		$response = array();
 
 		foreach($coordinators->get() as $user) {
-			$response[] = array('name' => $user->firstname.' '.$user->lastname, 'id' => $user->id);
+			$response[] = array('name' => $user->firstname.' '.$user->lastname, 'id' => $user->uuid);
 		}
 
 

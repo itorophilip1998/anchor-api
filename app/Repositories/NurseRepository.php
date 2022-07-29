@@ -9,7 +9,7 @@ class NurseRepository implements NurseRepositoryInterface {
 
 	public function getAllNurses(array $params) {
 
-		$nurses = User::where('role_id', '=', 6)->orderBy('id','desc');
+		$nurses = User::where('role_id', '=', 6)->orderBy('created_at','desc');
 
 
 		if ( $params['name'] !== 'undefined' ) {

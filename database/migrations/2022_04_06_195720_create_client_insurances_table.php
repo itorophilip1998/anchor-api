@@ -15,7 +15,7 @@ class CreateClientInsurancesTable extends Migration
     {
         Schema::create('client_insurances', function (Blueprint $table) {
             $table->id();
-            $table->integer('client_id');
+            $table->string('client_id');
             $table->integer('insurance_id');
             $table->timestamps();
         });

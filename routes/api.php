@@ -99,6 +99,7 @@ Route::group(['prefix' => 'user', 'middleware' => 'auth:sanctum'], function() {
     Route::get('/roles/{id}', [UserController::class, 'roleDetails']);
     Route::post('/create', [UserController::class, 'store']);
     Route::get('/all', [UserController::class, 'all']);
+    Route::get('/details/{id}', [UserController::class, 'userDetails']);
 });
 
 

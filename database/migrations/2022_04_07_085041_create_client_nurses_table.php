@@ -15,8 +15,8 @@ class CreateClientNursesTable extends Migration
     {
         Schema::create('client_nurses', function (Blueprint $table) {
             $table->id();
-            $table->integer('client_id');
-            $table->integer('nurse_id');
+            $table->string('client_id');
+            $table->string('nurse_id');
             $table->timestamps();
         });
     }

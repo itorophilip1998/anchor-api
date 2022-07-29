@@ -14,7 +14,7 @@ class CreateMedicalDetailsTable extends Migration
     public function up()
     {
         Schema::create('medical_details', function (Blueprint $table) {
-            $table->integer('user_id');
+            $table->string('user_id');
             $table->string('medical_status');
             $table->boolean('in_service_status')->nullable();
             $table->boolean('covid_vaccine_status')->nullable();

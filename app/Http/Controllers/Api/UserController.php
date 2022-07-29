@@ -105,10 +105,24 @@ class UserController extends Controller
         return $userService->getUserByRoleName($rolename);
     }
     
-
+    /**
+     * this function get all user within the application
+     * @param  Request $request [description]
+     * @return [type]           [description]
+     */
     public function all(Request $request) {
         $attributes = $request->all();
         return (new UserService)->getAllUser($attributes);
+    }
+
+    /**
+     * THIS FUNCTION GET ALL USER DETAILS
+     * @param  [type] $userId [description]
+     * @return [type]         [description]
+     */
+    public function userDetails($userId) {
+        
+        return (new UserService)->getUserDetailsByUserId($userId);
     }
 
 }
