@@ -21,7 +21,7 @@ class CreateIncidentsTable extends Migration
             $table->date('date');
             $table->enum('timeline', ['Immediately', 'Within the homecare worker shift', 'Within 24 hours']); // try using enum
             $table->time('time');
-            $table->integer('added_by');
+            $table->string('added_by');
             $table->string('client_relation');
             $table->string('hours_of_incident');
             $table->enum('incident_level', ['Very High Risk', 'High Risk', 'Medium Risk', 'Low Risk']);

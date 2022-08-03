@@ -15,16 +15,17 @@ use App\Models\IncidentActivity;
 class Incident extends Model
 {
     use HasFactory;
+    
     public function nurse() {
-         return $this->hasOne(User::class, 'id', 'nurse_involved');
+         return $this->hasOne(User::class, 'uuid', 'nurse_involved');
     }
 
     public function coord() {
-        return $this->hasOne(User::class, 'id', 'coord_involved');
+        return $this->hasOne(User::class, 'uuid', 'coord_involved');
     }
 
     public function creator() {
-        return $this->hasOne(User::class, 'id', 'added_by');
+        return $this->hasOne(User::class, 'uuid', 'added_by');
     }
 
     public function type() {
@@ -36,7 +37,7 @@ class Incident extends Model
     }
 
     public function client() {
-        return $this->hasOne(User::class, 'id', 'client_id');
+        return $this->hasOne(User::class, 'uuid', 'client_id');
     }
 
     public function reason() {
@@ -44,14 +45,18 @@ class Incident extends Model
     }
 
     public function reason_response() {
-        return $this->hasOne(IncidentReason::class, 'incident_id', 'id');
+        return $this->hasOne(IncidentReason::class, 'incident_id', 'uuid');
     }
 
     public function action() {
-        return $this->hasMany(IncidentAction::class, 'incident_id', 'id');
+        return $this->hasMany(IncidentAction::class, 'incident_id', 'uuid');
     }
 
     public function activity() {
         return $this->hasMany(ActivitySelected::class, 'incident_id');
+    }
+
+    public function hcw() {
+        return $this->hasOne(User::class, 'uuid', 'homecareworker');
     }
 }

@@ -58,7 +58,7 @@ class RoleSeeder extends Seeder
 
           $permission_management_access =  Permission::create(['guard_name' => 'sanctum', 'name' => 'permission_management_access']);
           $adminrole->givePermissionTo($permission_management_access);
-          
+
           $task_create =  Permission::create(['guard_name' => 'sanctum', 'name' => 'task_create']);
           $adminrole->givePermissionTo($task_create);
 
@@ -70,11 +70,22 @@ class RoleSeeder extends Seeder
 
           $task_show =  Permission::create(['guard_name' => 'sanctum', 'name' => 'task_show']);
           $adminrole->givePermissionTo($task_show);
+
+          $client_create =  Permission::create(['guard_name' => 'sanctum', 'name' => 'client_create']);
+          $adminrole->givePermissionTo($client_create);
+
+          $client_edit =  Permission::create(['guard_name' => 'sanctum', 'name' => 'client_edit']);
+          $adminrole->givePermissionTo($client_edit);
+
+          $client_show =  Permission::create(['guard_name' => 'sanctum', 'name' => 'client_show']);
+          $adminrole->givePermissionTo($client_show);
           
-          Permission::create(['guard_name' => 'sanctum', 'name' => 'client_create']);
-          Permission::create(['guard_name' => 'sanctum', 'name' => 'client_edit']);
-          Permission::create(['guard_name' => 'sanctum', 'name' => 'client_delete']);
-          Permission::create(['guard_name' => 'sanctum', 'name' => 'client_show']);
+          $client_delete =  Permission::create(['guard_name' => 'sanctum', 'name' => 'client_delete']);
+          $adminrole->givePermissionTo($client_delete);
+
+
+        
+
 
           Permission::create(['guard_name' => 'sanctum', 'name' => 'homecareworker_create']);
           Permission::create(['guard_name' => 'sanctum', 'name' => 'homecareworker_edit']);
@@ -96,6 +107,36 @@ class RoleSeeder extends Seeder
           Permission::create(['guard_name' => 'sanctum', 'name' => 'referral_delete']);
           Permission::create(['guard_name' => 'sanctum', 'name' => 'referral_show']);
 
+          Permission::create(['guard_name' => 'sanctum', 'name' => 'complaints_create']);
+          Permission::create(['guard_name' => 'sanctum', 'name' => 'complaints_edit']);
+          Permission::create(['guard_name' => 'sanctum', 'name' => 'complaints_delete']);
+          Permission::create(['guard_name' => 'sanctum', 'name' => 'complaints_show']);
+
+          Permission::create(['guard_name' => 'sanctum', 'name' => 'complaint_management_access']);
+
+          Permission::create(['guard_name' => 'sanctum', 'name' => 'incident_create']);
+          Permission::create(['guard_name' => 'sanctum', 'name' => 'incident_edit']);
+          Permission::create(['guard_name' => 'sanctum', 'name' => 'incident_delete']);
+          Permission::create(['guard_name' => 'sanctum', 'name' => 'incident_show']);
+
+          // Permission::create(['guard_name' => 'sanctum', 'name' => 'permission_create']);
+          // Permission::create(['guard_name' => 'sanctum', 'name' => 'permission_edit']);
+          Permission::create(['guard_name' => 'sanctum', 'name' => 'permission_delete']);
+          // Permission::create(['guard_name' => 'sanctum', 'name' => 'permission_show']);
+
+          Permission::create(['guard_name' => 'sanctum', 'name' => 'user_create']);
+          Permission::create(['guard_name' => 'sanctum', 'name' => 'user_edit']);
+          Permission::create(['guard_name' => 'sanctum', 'name' => 'user_delete']);
+          Permission::create(['guard_name' => 'sanctum', 'name' => 'user_show']);
+
+          $permission_create =  Permission::create(['guard_name' => 'sanctum', 'name' => 'permission_create']);
+          $adminrole->givePermissionTo($permission_create);
+
+          $permission_show =  Permission::create(['guard_name' => 'sanctum', 'name' => 'permission_show']);
+          $adminrole->givePermissionTo($permission_show);
+
+           $permission_edit =  Permission::create(['guard_name' => 'sanctum', 'name' => 'permission_edit']);
+          $adminrole->givePermissionTo($permission_edit);
        
         Role::create([
             'guard_name' => 'sanctum',
@@ -121,7 +162,6 @@ class RoleSeeder extends Seeder
             'name' => 'Intake Coordinator',
             'uid' => Helper::IDGenerator(new Role, 'uid', 'RLE', 5)
          ]);
-
 
          Role::create([
             'guard_name' => 'sanctum',

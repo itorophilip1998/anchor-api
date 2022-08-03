@@ -69,16 +69,17 @@ class IncidentRepository implements IncidentRepositoryInterface {
 		$incident->date = Carbon::parse( $array['incident_date'])->format('Y/m/d');
 		$incident->timeline = $array['incident_report_timeline'];
 		$incident->time = Carbon::parse($array['incident_time'])->format('00:00:00');
-		$incident->added_by = Auth::user()->id;
+		$incident->added_by = Auth::user()->uuid;
 		$incident->client_relation = $array['client_relationship'];
 		$incident->hours_of_incident = $array['hours_of_incident'];
 		$incident->incident_level = $array['priority'];
-		$incident->coord_involved = $array['coord'];
+		$incident->coord_involved = $array['coord']; 
 		$incident->nurse_involved = $array['assign_nurse'];
 		$incident->incident_type_category_id = $array['incident_type_category_id'];
 		$incident->incident_type = $array['incident_type'];
 		$incident->resolution_timeline = $array['resolution_timeline'];
 		$incident->isInsurance = $array['is_insurance'];
+		$incident->homecareworker = $array['homecareworker'];
 		$incident->save();
 
 		if ( $incident->save() ) {
