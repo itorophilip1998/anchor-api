@@ -43,6 +43,7 @@ Route::post('logout', [UserController::class, 'logout'])->middleware('auth:sanct
 Route::group(['prefix' => 'permission', 'middleware' => 'auth:sanctum'], function() {
     Route::post('/update-role/{id}', [PermissionController::class, 'updateUserPermission']);
     Route::post('/role',          [PermissionController::class, 'createRole']);
+    Route::post('/role/{id}',          [PermissionController::class, 'updateRole']);
     Route::get('/users/{id}',     [PermissionController::class, 'roleUser']);
     Route::get('/userNotIn/{id}', [PermissionController::class, 'roleUserNotIn']);
     Route::post('/change',        [PermissionController::class, 'changeRole']);

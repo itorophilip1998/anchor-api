@@ -99,14 +99,33 @@ class PermissionService {
 	 */
 	public function createRole(array $array) {
 
-	   activity()->log('Create a new user role '.$array['rolename']);
+	   activity()->log('Create a new user role '.$array['name']);
 
 	   return Role::create([
-        'name' => $array['rolename'],
-        'uid' => Helper::IDGenerator(new Role, 'uid', 'RLE', 5)
+        'name' => $array['name'],
+        'description' => $array['description'],
+        'uid' => Helper::IDGenerator(new Role, 'uid', 'USRLE', 5)
       ]);
 	}
 
+	public function updateRole(array $array, $roleId) {
+
+		$role = Role::find($roleId);
+		$role->name = $array['name'];
+		$role->description = $array['description'];
+		$role->save();
+
+		if ($role->save() ){
+			return [
+				'status' => true,
+				'message' => 'Role update',
+			];
+		}
+
+		return [
+			'status' => false,
+		];
+	}
 	/**
 	 * ***************************************************************
 	 * THIS FUNCTION GET ROLE USER 

@@ -35,6 +35,11 @@ class PermissionController extends Controller
         return $this->permission->addNewRole($attributes);
     }
 
+    public function updateRole( Request $request, $id) {
+
+        $attr = $request->all();
+        return $this->permission->updateRole($attr, $id);
+    }
     /**
      * THIS FUNCTION UPDATE THE USER PERMISSION ACCESS CONTROL
      * @param  Request $request [description]
