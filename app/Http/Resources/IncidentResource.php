@@ -11,6 +11,8 @@ use App\Http\Resources\ActivityResource;
 
 class IncidentResource extends JsonResource
 {
+
+     public static $wrap = null;
     /**
      * Transform the resource into an array.
      *
@@ -43,12 +45,13 @@ class IncidentResource extends JsonResource
             'type' => $this->type,
             'category' => $this->category,
             'created_by' => $this->creator->firstname.' '.$this->creator->lastname,
-            'created_at' => Carbon::parse($this->created_at)->diffForHumans(),
-            'client_name' => $this->client->firstname.' '.$this->client->lastname,
-            'reasons' => $this->reason,
-            'reason_response' => $this->reason_response,
-            'investigations' => $response,
-            'activities' => $this->activity->load('result'),
+            'created_at'        => Carbon::parse($this->created_at)->diffForHumans(),
+            'client_name'       => $this->client->firstname.' '.$this->client->lastname,
+            'reasons'           => $this->reason,
+            'reason_response'   => $this->reason_response,
+            'investigations'    => $response,
+            'activities'        => $this->activity->load('result'),
+            'homecareworker'    => $this->hcw
             // 'actions' => $this->action->load('result')
         ];
     }

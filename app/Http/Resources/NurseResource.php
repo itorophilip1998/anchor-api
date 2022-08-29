@@ -15,7 +15,7 @@ class NurseResource extends JsonResource
     public function toArray($request)
     {
         return[
-            'id' => $this->id,
+            'id' => $this->uuid,
             'name' => $this->firstname.' '.$this->lastname,
             'email' => $this->email,
             'role' => $this->role,

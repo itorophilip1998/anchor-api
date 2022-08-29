@@ -20,16 +20,16 @@ class ClientResource extends JsonResource
     {
         // return parent::toArray($request);
         return [
-            'id' => $this->id,
+            'id' => $this->uuid,
             'name' => $this->firstname.' '.$this->lastname,
             'email' => $this->email,
             'role' => $this->role, 
             'status' => $this->status,
             'role_name' => $this->role->name,
             'detail' => $this->detail,
-            'nurse' => $this->get_nurse_information($this->id),
-            'cc'=> $this->get_coord_information($this->id),
-            'homecareworker' => $this->get_homecareworker($this->id)
+            'nurse' => $this->get_nurse_information($this->uuid),
+            'cc'=> $this->get_coord_information($this->uuid),
+            'homecareworker' => $this->get_homecareworker($this->iuud)
         ];
     }
 

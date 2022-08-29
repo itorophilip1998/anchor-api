@@ -17,16 +17,17 @@ class CreateIncidentsTable extends Migration
             $table->id();
             $table->string('iuid');
             $table->integer('status');
-            $table->integer('client_id');
+            $table->string('client_id');
             $table->date('date');
             $table->enum('timeline', ['Immediately', 'Within the homecare worker shift', 'Within 24 hours']); // try using enum
             $table->time('time');
-            $table->integer('added_by');
+            $table->string('added_by');
             $table->string('client_relation');
             $table->string('hours_of_incident');
             $table->enum('incident_level', ['Very High Risk', 'High Risk', 'Medium Risk', 'Low Risk']);
-            $table->integer('coord_involved')->nullable();
-            $table->integer('nurse_involved')->nullable();
+            $table->string('coord_involved')->nullable();
+            $table->string('nurse_involved')->nullable();
+            $table->string('homecareworker')->nullable();
             $table->integer('incident_type');
             $table->integer('incident_type_category_id');
             $table->string('resolution_timeline');

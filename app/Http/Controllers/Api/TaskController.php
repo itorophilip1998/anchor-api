@@ -25,6 +25,12 @@ class TaskController extends Controller
      */
     public function index() {}
 
+    public function store(Request $request) {
+
+       $attributes = $request->all();
+       return $this->taskmodel->scheduleTask($attributes);
+    }
+
     public function indexTaskTemplate (Request $request) {
         $attributes = $request->all();
         return $this->taskmodel->getAllTaskTemplate($attributes);

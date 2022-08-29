@@ -15,9 +15,9 @@ class CreateClientHomecareworkersTable extends Migration
     {
         Schema::create('client_homecareworkers', function (Blueprint $table) {
             $table->id();
-            $table->integer('client_id');
-            $table->integer('homecareworker_id');
-            $table->integer('added_by');
+            $table->string('client_id');
+            $table->string('homecareworker_id');
+            $table->string('added_by');
             $table->timestamps();
         });
     }

@@ -23,7 +23,7 @@ class ClientRepository implements ClientRepositoryInterface
 
 	public function getAllClients(array $params)
 	{
-		$clients = User::where('role_id', '=', 8)->orderBy('id', 'desc');
+		$clients = User::where('role_id', '=', 8)->orderBy('created_at', 'desc');
 		if ( $params['name'] !== 'undefined') { 
 			$clients = $clients->where('firstname', 'LIKE', '%' . $params['name'] . '%');
 		 }

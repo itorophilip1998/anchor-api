@@ -15,7 +15,7 @@ class CreateWorkDetailsTable extends Migration
     {
         Schema::create('work_details', function (Blueprint $table) {
             $table->id();
-            $table->integer('user_id');
+            $table->string('user_id');
             $table->string('schedule_preference');
             $table->string('location_preference');
             $table->string('start_date');

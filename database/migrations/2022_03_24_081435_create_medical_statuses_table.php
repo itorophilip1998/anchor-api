@@ -15,7 +15,7 @@ class CreateMedicalStatusesTable extends Migration
     {
         Schema::create('medical_statuses', function (Blueprint $table) {
             $table->id();
-            $table->integer('user_id');
+            $table->string('user_id');
             $table->text('status');
             $table->boolean('in_service_status')->nullable();
             $table->boolean('covid_vaccine_status')->nullable();

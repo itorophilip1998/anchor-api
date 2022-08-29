@@ -17,7 +17,6 @@ class CreateTaskFieldElementValuesTable extends Migration
             $table->id();
             $table->integer('task_field_element_id');
             $table->string('name');
-            $table->string('value');
             $table->timestamps();
         });
     }

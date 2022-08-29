@@ -13,7 +13,7 @@ class ActivityService {
 	}
 
 	public function getAllActivtiy() {
-		return Response::json($this->activity::all());
+		// return Response::json($this->activity::orderBy('created_at', 'desc')->get());
 	}
 
 	public function getActivityByComponent() {}
@@ -37,9 +37,7 @@ class ActivityService {
 		$activity = $this->activity()->performedOn( $array['model'] )->causedBy($array['user']);
 
 		if ($array['incident_id']) {
-
 			$activity = $activity->withProperties(['incident_id' => $array['incident_id']]);
-
 		}
 
 		return $activity->log($array['message']);

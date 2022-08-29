@@ -15,7 +15,7 @@ class HomecareworkerRepository implements HomecareRepositoryInterface
 
 	public function getHomecareworkers( array $params ) 
 	{
-		$homecareworkers = User::where('role_id', '=', 7)->orderBy('id', 'desc');
+		$homecareworkers = User::where('role_id', '=', 7)->orderBy('created_at', 'desc');
 
 		if ( $params['name'] !== 'undefined' ) {
 			$homecareworkers = $homecareworkers->where('firstname', 'LIKE', '%' . $params['name'] . '%');

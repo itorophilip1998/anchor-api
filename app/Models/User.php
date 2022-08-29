@@ -17,16 +17,18 @@ use App\Models\MedicalDetail;
 use App\Models\ClientNurse;
 use App\Models\ClientCoord;
 use GoldSpecDigital\LaravelEloquentUUID\Database\Eloquent\Uuid;
+use Spatie\Permission\Traits\HasRoles;
 
 
 
 class User extends Authenticatable
 {
-    use Uuid;
+    use Uuid, HasRoles;
     use HasApiTokens, HasFactory, Notifiable;
 
-
-    protected $keyType = 'string';
+    // protected $keyType = 'string';
+      protected $primaryKey = 'uuid';
+      protected $guard_name = 'sanctum';
 
     /**
      * Indicates if the IDs are auto-incrementing.
@@ -34,6 +36,7 @@ class User extends Authenticatable
      * @var bool
      */
     public $incrementing = false;
+
     /**
      * The attributes that are mass assignable.
      *
@@ -43,6 +46,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'role_id',
         'uuid'
     ];
 
@@ -54,7 +58,6 @@ class User extends Authenticatable
     protected $hidden = [
         'password',
         'remember_token',
-          'uuid',
     ];
 
     /**
@@ -66,19 +69,16 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-
     protected $with = ['detail'];
     
-    public static function boot()
-    {
-        parent::boot();
 
+    public static function boot(){
+       
+        parent::boot();
         static::creating(function ($model) {
             $model->{$model->getKeyName()} = (string) Str::uuid();
         });
     }
-    
-  
 
     public function role() {
          return $this->belongsTo(Role::class, 'role_id');
@@ -102,15 +102,15 @@ class User extends Authenticatable
 
     // for homecare worker
     public function coordinator() {
-        return $this->hasMany(CoordinatorHomecareworker::class, 'homecarework_id', 'id');
+        return $this->hasMany(CoordinatorHomecareworker::class, 'homecarework_id', 'uuid');
     }
 
     // for client
     public function client_nurse() {
-        return $this->hasMany(ClientNurse::class, 'client_id', 'id');
+        return $this->hasMany(ClientNurse::class, 'client_id', 'uuid');
     }
 
     public function client_coord() {
-        return $this->hasMany(ClientCoord::class, 'client_id', 'id');
+        return $this->hasMany(ClientCoord::class, 'client_id', 'uuid');
     }
 }

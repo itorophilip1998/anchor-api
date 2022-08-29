@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use Illuminate\Database\Seeder;
 
 use Illuminate\Support\Str;
+use App\Models\User;
 use DB;
 
 class UserSeeder extends Seeder
@@ -16,16 +17,19 @@ class UserSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('users')->insert([
-            'uuid' => Str::uuid(),
+       $user = User::create([
             'firstname' => 'Lionel',
             'lastname' => 'Francis',
             'email' => 'admin@email.com',
             'role_id' => 1,
-             'password' => bcrypt('password'),
+            'password' => bcrypt('password'),
         ]);
 
-        DB::table('users')->insert([
+
+       $user->assignRole('Admin');
+
+
+       $user = User::create([
             'uuid' => Str::uuid(),
             'firstname' => 'Roxine',
             'lastname' => 'Green',
@@ -34,7 +38,9 @@ class UserSeeder extends Seeder
              'password' => bcrypt('password'),
         ]);
 
-        DB::table('users')->insert([
+       $user->assignRole('HR');
+
+        $user = User::create([
             'uuid' => Str::uuid(),
             'firstname' => 'Kevin',
             'lastname' => 'Smith',
@@ -43,7 +49,9 @@ class UserSeeder extends Seeder
             'password' => bcrypt('password'),
         ]);
 
-        DB::table('users')->insert([
+       $user->assignRole('Case Coordinator Manager');
+
+        $user = User::create([
             'uuid' => Str::uuid(),
             'firstname' => 'Damion',
             'lastname' => 'Howell',
@@ -52,7 +60,9 @@ class UserSeeder extends Seeder
              'password' => bcrypt('password'),
         ]);
 
-         DB::table('users')->insert([
+         $user->assignRole('Case Coordinator');
+
+         $user = User::create([
             'uuid' => Str::uuid(),
             'firstname' => 'James',
             'lastname' => 'Gordon',
@@ -61,7 +71,9 @@ class UserSeeder extends Seeder
             'password' => bcrypt('password'),
         ]);
 
-        DB::table('users')->insert([
+          $user->assignRole('Case Coordinator');
+
+        $user = User::create([
             'uuid' => Str::uuid(),
             'firstname' => 'Lance',
             'lastname' => 'Jefferson',
@@ -70,8 +82,10 @@ class UserSeeder extends Seeder
             'password' => bcrypt('password'),
         ]);
 
+         $user->assignRole('Case Coordinator');
 
-        DB::table('users')->insert([
+
+        $user = User::create([
             'uuid' => Str::uuid(),
             'firstname' => 'Sandel',
             'lastname' => 'Row',
@@ -80,7 +94,9 @@ class UserSeeder extends Seeder
              'password' => bcrypt('password'),
         ]);
 
-         DB::table('users')->insert([
+         $user->assignRole('Intake Coordinator');
+
+         $user = User::create([
             'uuid' => Str::uuid(),
             'firstname' => 'Kerry',
             'lastname' => 'Ann',
@@ -89,7 +105,9 @@ class UserSeeder extends Seeder
             'password' => bcrypt('password'),
          ]);
 
-         DB::table('users')->insert([
+         $user->assignRole('Nurse');
+
+         $user = User::create([
             'uuid' => Str::uuid(),
             'firstname' => 'Jane',
             'lastname' => 'Jessica',
@@ -98,7 +116,9 @@ class UserSeeder extends Seeder
             'password' => bcrypt('password'),
          ]);
 
-         DB::table('users')->insert([
+         $user->assignRole('Nurse');
+
+         $user = User::create([
             'uuid' => Str::uuid(),
             'firstname' => 'Johnsom',
             'lastname' => 'Jamie',
@@ -106,9 +126,10 @@ class UserSeeder extends Seeder
             'role_id' => 6,
             'password' => bcrypt('password'),
          ]);
+           $user->assignRole('Nurse');
 
 
-         DB::table('users')->insert([
+         $user = User::create([
             'uuid' => Str::uuid(),
             'firstname' => 'James',
             'lastname' => 'Gordon',
@@ -116,8 +137,9 @@ class UserSeeder extends Seeder
             'role_id' => 7,
              'password' => bcrypt('password'),
         ]);
+         $user->assignRole('Home Care Worker');
 
-          DB::table('users')->insert([
+          $user = User::create([
             'uuid' => Str::uuid(),
             'firstname' => 'King',
             'lastname' => 'Francis',
@@ -126,8 +148,10 @@ class UserSeeder extends Seeder
             'password' => bcrypt('password'),
           ]);
 
+           $user->assignRole('Home Care Worker');
 
-          DB::table('users')->insert([
+
+          $user = User::create([
             'uuid' => Str::uuid(),
             'firstname' => 'Jimie',
             'lastname' => 'Coal',
@@ -135,18 +159,21 @@ class UserSeeder extends Seeder
             'role_id' => 7,
             'password' => bcrypt('password'),
           ]);
+           $user->assignRole('Home Care Worker');
 
 
-           DB::table('users')->insert([
-            'uuid' => Str::uuid(),
-            'firstname' => 'Henry',
-            'lastname' => 'James',
-            'email' => 'client@email.com',
-            'role_id' => 8,
-             'password' => bcrypt('password'),
-        ]);
+           $user = User::create([
+                'uuid' => Str::uuid(),
+                'firstname' => 'Henry',
+                'lastname' => 'James',
+                'email' => 'client@email.com',
+                'role_id' => 8,
+                 'password' => bcrypt('password'),
+            ]);
 
-        DB::table('users')->insert([
+            $user->assignRole('Client');
+
+        $user = User::create([
             'uuid' => Str::uuid(),
             'firstname' => 'Everton',
             'lastname' => 'Green',
@@ -154,8 +181,9 @@ class UserSeeder extends Seeder
             'role_id' => 8,
              'password' => bcrypt('password'),
         ]);
+          $user->assignRole('Client');
 
-         DB::table('users')->insert([
+         $user = User::create([
             'uuid' => Str::uuid(),
             'firstname' => 'Christ',
             'lastname' => 'Brown',
@@ -163,8 +191,9 @@ class UserSeeder extends Seeder
             'role_id' => 8,
              'password' => bcrypt('password'),
         ]);
+           $user->assignRole('Client');
 
-        DB::table('users')->insert([
+        $user = User::create([
             'uuid' => Str::uuid(),
             'firstname' => 'Rober',
             'lastname' => 'Reece',
@@ -172,8 +201,9 @@ class UserSeeder extends Seeder
             'role_id' => 8,
              'password' => bcrypt('password'),
         ]);
+          $user->assignRole('Client');
 
-        DB::table('users')->insert([
+        $user = User::create([
             'uuid' => Str::uuid(),
             'firstname' => 'Shiba',
             'lastname' => 'Tatsuya',
@@ -181,6 +211,7 @@ class UserSeeder extends Seeder
             'role_id' => 8,
              'password' => bcrypt('password'),
         ]);
+          $user->assignRole('Client');
 
         
     }
