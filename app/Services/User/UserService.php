@@ -120,7 +120,8 @@ class UserService {
 	 * @return [type]       [description]
 	 */
 	public function getUserByRoleName( $name ) {
-		return $users =  User::role($name)->get();
+		//return $users =  User::role($name)->get();
+		return $users =Role::select('id','uid')->where('name', '=', $name)->first();
 	}
 }
 
