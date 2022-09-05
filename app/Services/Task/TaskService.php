@@ -33,31 +33,67 @@ class TaskService {
 
 	public function index() {}
 
-	public function scheduleTask(array $array) {
+	// public function scheduleTask(array $array) {
       
-		if ( $array['modules'] == 'Clinical') { $array['modules'] = 'Nurse'; }
+	// 	if ( $array['modules'] == 'Clinical') { $array['modules'] = 'Nurse'; }
 
-		$users = (new UserService)->getUserByRoleName($array['modules']);
+	// 	$users = (new UserService)->getUserByRoleName($array['modules']);
 
-		foreach( $users as $user ) {
+	// 	foreach( $users as $user ) {
 
-			$task                            = new Task;
-			$task->priority                  = $array['priority'];
-			$task->assigned_id               = $user->id;
-			$tadk->frequency                 = $array['frequency'];
-			$task->estimated_completion_time = $array['estimated_time'];
+	// 		$task                            = new Task;
+	// 		$task->priority                  = $array['priority'];
+	// 		$task->assigned_id               = $user->id;
+	// 		$tadk->frequency                 = $array['frequency'];
+	// 		$task->estimated_completion_time = $array['estimated_time'];
+	// 		$task->save();
+
+	// 		if (	$task->save() ) {
+				
+	// 			 $template = $this->template->where('id', '=', $array['modules'])->first();
+
+	// 			 $taskTaskTemplate = new TaskTaskTemplate;
+	// 			 $taskTaskTemplate->task_id = $task->id;
+	// 			 $taskTaskTemplate->task_template_id = $template->id;
+	// 			 $taskTaskTemplate->save();
+	// 		}
+	// 	}
+
+	// 	return [
+	// 		'status' => true,
+	// 	];
+	// }
+
+	public function scheduleTask(array $array) {
+
+		$array['modules']='Nurse';
+      
+		//if ( $array['modules'] == 'Clinical') { $array['modules'] = 'Nurse'; }
+
+		$role = (new UserService)->getUserByRoleName($array['modules']);
+
+		// foreach( $users as $user ) {
+
+			$task  = new Task;
+            $task->title=$array['title'];
+            $task->uid= $role->uid;
+			$task->user_id= $role->id;
+			$task->frequency=$array['frequency'];
+			$task->levels=$array['levels'];
+			$task->date=$array['date'];
+			$task->time=$array['time'];
 			$task->save();
 
-			if (	$task->save() ) {
+			// if ($task->save()) {
 				
-				 $template = $this->template->where('id', '=', $array['modules'])->first();
+			// 	 $template = $this->template->where('id', '=', $array['modules'])->first();
 
-				 $taskTaskTemplate = new TaskTaskTemplate;
-				 $taskTaskTemplate->task_id = $task->id;
-				 $taskTaskTemplate->task_template_id = $template->id;
-				 $taskTaskTemplate->save();
-			}
-		}
+			// 	 $taskTaskTemplate = new TaskTemplates;
+			// 	 $taskTaskTemplate->task_id = $task->id;
+			// 	 $taskTaskTemplate->task_template_id = $template->id;
+			// 	 //$taskTaskTemplate->save();
+			// }
+		//}
 
 		return [
 			'status' => true,
