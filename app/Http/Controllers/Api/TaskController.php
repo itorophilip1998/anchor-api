@@ -36,6 +36,11 @@ class TaskController extends Controller
         return $this->taskmodel->getAllTaskTemplate($attributes);
     }
 
+    public function taskslist (Request $request) {
+        $attributes = $request->all();
+        return $this->taskmodel->getTasksList($attributes);
+    }
+
     public function taskTemplateDetails($id) {
         return $this->taskmodel->taskTemplateDetails($id);
     }

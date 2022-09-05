@@ -181,16 +181,19 @@ Route::group(['prefix' => 'complaints', 'middleware' => 'auth:sanctum'], functio
  * ********************************************************************************
  */
 Route::group(['prefix' => 'tasks', 'middleware' => 'auth:sanctum'], function() {
-   
-    Route::post('/store-task', [TaskController::class, 'store']);
-    Route::post('/templates',      [TaskController::class, 'indexTaskTemplate']);    
+    // Route::post('/store-task', [TaskController::class, 'store']);
+
+    Route::post('/taskslist',      [TaskController::class, 'taskslist']);
+
+    Route::post('/templates',      [TaskController::class, 'indexTaskTemplate']);
     Route::get('/modules',         [TaskController::class, 'taskModules']);
     Route::get('/categories',      [TaskController::class, 'taskCategories']);
     Route::get('/field-templates', [TaskController::class, 'taskFieldTemplate']);
+
     Route::get('/details/{id}',    [TaskController::class, 'taskTemplateDetails']);
     Route::get('/template/fields/{id}', [TaskController::class, 'taskFieldGenerate']);
     Route::get('/fields/details/{id}',   [TaskController::class, 'taskFieldDetails']);
 });
 
-
+// Route::post('/taskslist',      [TaskController::class, 'taskslist']);
 Route::post('/store-tasks', [TaskController::class, 'store']);

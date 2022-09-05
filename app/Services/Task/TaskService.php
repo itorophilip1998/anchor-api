@@ -137,6 +137,34 @@ class TaskService {
 		return new TaskTemplateCollection($template->get());
 	}
 
+    /**
+	 * This function get all tasks template
+	 * @param  array  $params [description]
+	 * @return [type]         [description]
+	 */
+	// public function getTasksList(array $array) {
+
+	// 	$task = $this->tasks;
+
+	// 	// if ($array['modules'] !== false ) {
+	// 	// 	$template = $this->template->where('task_component_id', '=', $array['modules']);
+	// 	// }
+
+	// 	// if ($array['category'] !== false ) {
+	// 	// 	$template = $this->template->where('task_category_id', '=', $array['category']);
+	// 	// }
+
+	// 	return new TasksListCollection($task->get());
+	// }
+
+    /**
+	 * THIS FUNCTION GET ALL MODULES FOR TASK
+	 * @return [type] [description]
+	 */
+	public function getTasksList() {
+		return Response::json((new Tasks)->all());
+	}
+
 	public function getTaskFieldTemplate() {
 	 	return Response::json((new TaskFieldTemplate)->get());
 	}
