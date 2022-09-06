@@ -56,7 +56,7 @@ Route::group(['prefix' => 'abilities', 'middleware' => 'auth:sanctum'], function
 
 /*** Clients Routes ***/
 Route::group(['prefix' => 'clients', 'middleware' => 'auth:sanctum'], function () {
-  
+
    Route::get('', [ClientController::class, 'index']);
    Route::post('store',[ClientController::class, 'store']);
    Route::get('/details/{id}', [ClientController::class, 'details']);
@@ -121,13 +121,13 @@ Route::group(['prefix' => 'actions', 'middleware' => 'auth:sanctum'], function()
 
     Route::post('save-recommendations', [ActionController::class, 'storeRecommendation']);
     Route::post('/save-selected-recommendation', [ActionController::class, 'saveSelectdRecommendation']);
-    
+
 });
 
 /** * Incident Routes * **/
-Route::group(['prefix' => 'incidents', 'middleware' => 'auth:sanctum'], function() { 
+Route::group(['prefix' => 'incidents', 'middleware' => 'auth:sanctum'], function() {
     // Route::get('/incident-activity-details/{id}', [ActivityController::class, 'details']);
- 
+
     Route::get('/investigation-activities', [ActivityController::class, 'index']);
     Route::get('incident-acitivities', [ActionController::class, '_get_incident_activities']);
     Route::get('/activites', [ActionController::class, 'activity_action']);
@@ -140,11 +140,11 @@ Route::group(['prefix' => 'incidents', 'middleware' => 'auth:sanctum'], function
     Route::post('/investigation-response', [IncidentController::class, 'store_investigation_response']);
     Route::post('save-activities', [IncidentController::class, 'save_incident_activity']);
     Route::get('/incident-typecategory/{id}', [IncidentController::class, 'incident_type_category']);
-}); 
+});
 
 /** * Investigations Routes* **/
 Route::group(['prefix' => 'investigations', 'middleware' => 'auth:sanctum'], function() {
-   
+
     Route::post('/store-activity-result', [ActionController::class, 'store_activity_result']);
     Route::get('/activity/{id}', [ActivityController::class, 'details']);
     Route::post('/ ', [ActivityController::class, 'storeResult']);
@@ -157,16 +157,16 @@ Route::group(['prefix' => 'investigations', 'middleware' => 'auth:sanctum'], fun
 Route::group(['prefix' => 'complaints', 'middleware' => 'auth:sanctum'], function() {
 
     Route::get('/investigations', [ComplaintController::class, 'investigations']);
-    
+
     Route::get('categories', [ComplaintController::class, 'getAllCategory']);
     Route::get('/', [ComplaintController::class, 'index']);
-    
+
     Route::get('/{id}', [ComplaintController::class, 'show']);
     Route::post('/store-category-type/{id}', [ComplaintController::class, 'storeCategoryType']);
     Route::post('/', [ComplaintController::class, 'store']);
-   
+
     Route::post('store-category', [ComplaintController::class, 'storeCategory']);
-  
+
     Route::get('/category-types/{id}', [ComplaintController::class, 'getComplaintType']);
     Route::get('/category-types', [ComplaintController::class, 'fetchAllCategoryType']);
 
@@ -183,7 +183,7 @@ Route::group(['prefix' => 'complaints', 'middleware' => 'auth:sanctum'], functio
 Route::group(['prefix' => 'tasks', 'middleware' => 'auth:sanctum'], function() {
     // Route::post('/store-task', [TaskController::class, 'store']);
 
-    Route::post('/taskslist',      [TaskController::class, 'taskslist']);
+    Route::get('/taskslist',      [TaskController::class, 'taskslist']);
 
     Route::post('/templates',      [TaskController::class, 'indexTaskTemplate']);
     Route::get('/modules',         [TaskController::class, 'taskModules']);
