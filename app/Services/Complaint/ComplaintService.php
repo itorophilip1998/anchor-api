@@ -58,7 +58,7 @@ class ComplaintService {
 		$complaint->complaint_type_id = $array['complaintType'];
 		$complaint->complaint_time =Carbon::parse(  $array['timeOfComplaint'])->format(' H:i:s');
 		$complaint->description = $array['complaintDescription']; 
-		$complaint->added_by = Auth::user()->id;
+		$complaint->added_by = Auth::user()->uuid;
 		$complaint->save();
 
 		if ($complaint->save() ) {
