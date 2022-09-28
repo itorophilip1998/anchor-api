@@ -21,11 +21,19 @@ class Complaint extends Model
     }
 
     public function user() {
-        return $this->belongsTo(User::class, 'added_by', 'id');
+        return $this->belongsTo(User::class, 'added_by', 'uuid');
     }
 
     public function client() {
-        return $this->belongsToMany(User::class, ClientComplaint::class, 'complaint_id', 'client_id' );
+        // return $this->belongsToMany(User::class, ClientComplaint::class, 'complaint_id', 'client_id' );
+        return $this->hasOneThrough(
+            User::class,
+            ClientComplaint::class,
+            'complaint_id', 
+            'uuid', 
+            'id', 
+            'client_id' 
+        );
     }
 
     public function category() {

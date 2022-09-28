@@ -21,6 +21,7 @@ class ComplaintCategoryTypeService {
 		$type = new ComplaintType;
 		$type->name = $array['name'];
 		$type->category_id = $id;
+		$type->level = 3; // i dont know what level is, added to make it save
 		$type->save();
 
 		if ( $type->save()) {
@@ -28,6 +29,32 @@ class ComplaintCategoryTypeService {
 		}
 
 		return ['created' => false];
+	}
+
+	public function update(array $array, $id) {
+
+		$type = ComplaintType::find($id);
+
+		$type->name = $array['name'];
+		$type->category_id =$array['category_id'];
+		$type->save();
+
+		if ( $type->save()) {
+			return ['updated' => true ];
+		}
+
+		return ['updated' => false];
+	}
+
+	public function delete($id) {
+		
+		$type = ComplaintType::find($id);
+
+		if ($type->delete()) {
+			return ['deleted' => true];
+		}
+
+		return ['deleted' => false];
 	}
 
 	/**
@@ -44,7 +71,7 @@ class ComplaintCategoryTypeService {
 	 * @return [type] [description]
 	 */
 	public function getAllComplaintCategoryTypes() {
-		return Response::json($this->model->orderBy('id', 'desc')->get());
+		return Response::json($this->model/**->orderBy('id', 'desc')*/->get());
 	}
 
 }

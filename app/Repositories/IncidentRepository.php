@@ -51,6 +51,35 @@ class IncidentRepository implements IncidentRepositoryInterface {
 		return IncidentTypeResource::collection($types->get());
 	}
 
+	public function createIncidentCategory(array $array) {
+		
+		$category = new IncidentTypeCategory;
+
+		$category->name = $array['name'];
+		$category->save();
+
+		return new IncidentTypeResource($category);
+	}
+
+	public function updateIncidentCategory(array $array) {
+		
+		$category = IncidentTypeCategory::find($array['id']);
+
+		$category->name = $array['name'];
+		$category->save();
+		
+		return new IncidentTypeResource($category);
+	}
+
+	public function deleteIncidentCategory($id) {
+		
+		$category = IncidentTypeCategory::find($id);
+
+		$category->delete();
+		
+		return array('success' => true, 'message' => 'Incident Category deleted');
+	}
+
 	/**
 	 * this is the function creates a incident
 	 * @param  array  $incident [description]
@@ -98,6 +127,15 @@ class IncidentRepository implements IncidentRepositoryInterface {
 			'status' => false,
 			'message' => "Something went wrong while trying create a new incident"
 		];
+	}
+
+	public function deleteIncident($id) {
+
+		$incident = incident::find($id);
+
+		$incident->delete();
+
+		return array('success' => true, 'message' => 'Incident deleted successfully');
 	}
 }
 

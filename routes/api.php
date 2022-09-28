@@ -133,10 +133,24 @@ Route::group(['prefix' => 'incidents', 'middleware' => 'auth:sanctum'], function
     Route::get('/activites', [ActionController::class, 'activity_action']);
     Route::get('/incident-reasons/{id}', [IncidentController::class, 'get_incident_reason']);
     Route::post('/incident-reasons', [IncidentController::class, 'save_incident_reason']);
-    Route::get('/types', [IncidentController::class, 'types']);
+    Route::get('/types', [IncidentController::class, 'types']); // this is actually categories, and not types
+    Route::get('/incident-types', [IncidentController::class, 'incidentTypes']);
+
+    Route::post('/types', [IncidentController::class, 'storeIncidentType']);
+    Route::post('/types/update', [IncidentController::class, 'updateIncidentType']);
+
+    Route::post('/types/delete/{id}', [IncidentController::class, 'deleteIncidentType']);
+
+    Route::post('/store-category', [IncidentController::class, 'storeIncidentCategory']);
+    Route::post('/update-category', [IncidentController::class, 'updateIncidentCategory']);
+    Route::post('/delete-category/{id}', [IncidentController::class, 'deleteCategory']);
+
     Route::get('/{id}', [IncidentController::class, 'details']);
     Route::get('/', [IncidentController::class, 'index']);
     Route::post('/', [IncidentController::class, 'store']);
+
+    Route::post('/delete/{id}', [IncidentController::class, 'deleteIncident']);
+
     Route::post('/investigation-response', [IncidentController::class, 'store_investigation_response']);
     Route::post('save-activities', [IncidentController::class, 'save_incident_activity']);
     Route::get('/incident-typecategory/{id}', [IncidentController::class, 'incident_type_category']);
@@ -160,15 +174,31 @@ Route::group(['prefix' => 'complaints', 'middleware' => 'auth:sanctum'], functio
     
     Route::get('categories', [ComplaintController::class, 'getAllCategory']);
     Route::get('/', [ComplaintController::class, 'index']);
+
+    Route::get('/types', [ComplaintController::class, 'fetchAllCategoryType']);
     
     Route::get('/{id}', [ComplaintController::class, 'show']);
     Route::post('/store-category-type/{id}', [ComplaintController::class, 'storeCategoryType']);
     Route::post('/', [ComplaintController::class, 'store']);
+
+    Route::post('/delete/{id}', [ComplaintController::class, 'deleteComplaint']);
    
     Route::post('store-category', [ComplaintController::class, 'storeCategory']);
-  
+
+    Route::post('/update-category', [ComplaintController::class, 'updateCategory']);
+
+    Route::post('/delete-category/{id}', [ComplaintController::class, 'deleteCategory']);
+
+       
+    Route::post('types', [ComplaintController::class, 'storeType']);
+
+    Route::post('/types/update', [ComplaintController::class, 'updateType']);
+
+    Route::post('/types/delete/{id}', [ComplaintController::class, 'deleteType']);
+
+
     Route::get('/category-types/{id}', [ComplaintController::class, 'getComplaintType']);
-    Route::get('/category-types', [ComplaintController::class, 'fetchAllCategoryType']);
+    
 
     Route::post('/save-action-response', [ComplaintController::class, 'saveActionResponse']);
     Route::post('/save-investigation-response', [ComplaintController::class, 'saveInvestigationResponse']);

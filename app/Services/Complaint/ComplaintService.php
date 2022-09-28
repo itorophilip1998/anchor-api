@@ -69,6 +69,15 @@ class ComplaintService {
 		return ['created' => true ];
 	}
 
+	public function delete($id) {
+
+		$complaint = Complaint::find($id);
+
+		$complaint->delete();
+
+		return array('success' => true, 'message' => 'Complaint deleted successfully');
+	}
+
 	/**
 	 * **********************************************************************************
 	 * THIS FUNCTION ADD CLIENTS TO A COMPLIANT
@@ -96,7 +105,10 @@ class ComplaintService {
 	 * @return [type]     [description]
 	 */
 	public function details( $id ) {
-		 $complaintId = Complaint::where('id', '=', $id)->first()->id;
+
+		$complaintObj = Complaint::where('id', '=', $id)->first(); 
+
+		 $complaintId = $complaintObj->id;
 		 $complaintDetails = $this->complaint->where('id', '=', $complaintId)->first();
 
 		 return new ComplaintResource($complaintDetails);
