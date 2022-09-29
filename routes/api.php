@@ -14,7 +14,7 @@ use App\Http\Controllers\Api\ActivityController;
 use App\Http\Controllers\Api\ComplaintController;
 
 use App\Services\Incident\ActionService;
-use App\Http\Controllers\Api\InvestigationController;
+use App\Http\Controllers\Api\InvestigationController; 
 
 use App\Http\Controllers\Api\TaskController;
 use App\Http\Controllers\Api\PermissionController;
