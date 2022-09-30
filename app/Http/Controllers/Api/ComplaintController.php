@@ -49,7 +49,13 @@ class ComplaintController extends Controller
     public function store(Request $request ) {  
 
         $attributes = $request->all();
+
         return $this->complaint->store($attributes);
+    }
+
+    public function deleteComplaint($id) {
+        
+        return $this->complaint->delete($id);
     }
 
     /**
@@ -73,10 +79,56 @@ class ComplaintController extends Controller
      * @param  Request $request [description]
      * @return [type]           [description]
      */
-    public function updateCategory($id, Request $request) {
+    public function updateCategory(Request $request) {
 
         $attributes = $request->all();
-        return $this->category->update($attributes);
+
+        $id = $attributes['id'];
+
+        return $this->category->update($id, $attributes);
+    }
+
+    public function deleteCategory($id) {
+
+        return $this->category->delete($id);
+    }
+
+        /**
+     * **********************************************************
+     * THIS FUNCTION IS USE TP CREATE A COMPLAINT TYPE
+     * **********************************************************
+     * @param  Request $request [description]
+     * @return [type]           [description]
+     */
+    public function storeType( Request $request) {
+
+        $attributes= $request->all();
+
+        $categoryId = $attributes['category_id'];
+
+        return $this->type->store($attributes, $categoryId);
+    }
+
+    /**
+     * **********************************************************
+     * THIS FUNCTION IS USE TO UPDATE A COMPLAINT TYPE
+     * **********************************************************
+     * @param  [type]  $id      [description]
+     * @param  Request $request [description]
+     * @return [type]           [description]
+     */
+    public function updateType(Request $request) {
+
+        $attributes = $request->all();
+
+        $id = $attributes['id'];
+
+        return $this->type->update($attributes, $id);
+    }
+
+    public function deleteType($id) {
+
+        return $this->type->delete($id);
     }
 
     /**
@@ -111,6 +163,7 @@ class ComplaintController extends Controller
      * @return [type] [description]
      */
     public function fetchAllCategoryType() {
+
         return $this->type->getAllComplaintCategoryTypes();
     }
 

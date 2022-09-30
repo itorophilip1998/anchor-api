@@ -1,4 +1,4 @@
-<?php 
+<?php
 namespace App\Services\Task;
 
 use App\Models\Task;
@@ -34,7 +34,7 @@ class TaskService {
 	public function index() {}
 
 	// public function scheduleTask(array $array) {
-      
+
 	// 	if ( $array['modules'] == 'Clinical') { $array['modules'] = 'Nurse'; }
 
 	// 	$users = (new UserService)->getUserByRoleName($array['modules']);
@@ -49,7 +49,7 @@ class TaskService {
 	// 		$task->save();
 
 	// 		if (	$task->save() ) {
-				
+
 	// 			 $template = $this->template->where('id', '=', $array['modules'])->first();
 
 	// 			 $taskTaskTemplate = new TaskTaskTemplate;
@@ -67,7 +67,7 @@ class TaskService {
 	public function scheduleTask(array $array) {
 
 		$array['modules']='Nurse';
-      
+        // var_dump($array);
 		//if ( $array['modules'] == 'Clinical') { $array['modules'] = 'Nurse'; }
 
 		$role = (new UserService)->getUserByRoleName($array['modules']);
@@ -80,19 +80,27 @@ class TaskService {
 			$task->user_id= $role->id;
 			$task->frequency=$array['frequency'];
 			$task->levels=$array['levels'];
-			$task->date=$array['date'];
-			$task->time=$array['time'];
-			$task->save();
 
-			// if ($task->save()) {
-				
-			// 	 $template = $this->template->where('id', '=', $array['modules'])->first();
+            //formate date to mysql date
+            $time = strtotime($array['date']);
+            $newformat = date('Y-m-d',$time);
+			$task->date = $newformat;
+
+             //formate datetime to mysql time
+            $time_formated = date("H:i:s", strtotime($array['date']));
+            $task->time = $time_formated;
+			//$task->save();
+            var_dump($array);
+			if ($task->save()) {
+            //     var_dump($task);
+            // }
+			$template = $this->template->where('id', '=', $array['modules'])->first();
 
 			// 	 $taskTaskTemplate = new TaskTemplates;
 			// 	 $taskTaskTemplate->task_id = $task->id;
 			// 	 $taskTaskTemplate->task_template_id = $template->id;
 			// 	 //$taskTaskTemplate->save();
-			// }
+			}
 		//}
 
 		return [
@@ -137,6 +145,34 @@ class TaskService {
 		return new TaskTemplateCollection($template->get());
 	}
 
+    /**
+	 * This function get all tasks template
+	 * @param  array  $params [description]
+	 * @return [type]         [description]
+	 */
+	// public function getTasksList(array $array) {
+
+	// 	$task = $this->tasks;
+
+	// 	// if ($array['modules'] !== false ) {
+	// 	// 	$template = $this->template->where('task_component_id', '=', $array['modules']);
+	// 	// }
+
+	// 	// if ($array['category'] !== false ) {
+	// 	// 	$template = $this->template->where('task_category_id', '=', $array['category']);
+	// 	// }
+
+	// 	return new TasksListCollection($task->get());
+	// }
+
+    /**
+	 * THIS FUNCTION GET ALL MODULES FOR TASK
+	 * @return [type] [description]
+	 */
+	public function getTasksList() {
+		return Response::json((new Task)->all());
+	}
+
 	public function getTaskFieldTemplate() {
 	 	return Response::json((new TaskFieldTemplate)->get());
 	}
@@ -159,7 +195,7 @@ class TaskService {
 
 	/**
 	 * *********************************************************************
-	 * This generate Task Field 
+	 * This generate Task Field
 	 * *********************************************************************
 	 * @param  [type] $id [description]
 	 * @return [type]     [description]

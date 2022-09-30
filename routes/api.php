@@ -14,7 +14,7 @@ use App\Http\Controllers\Api\ActivityController;
 use App\Http\Controllers\Api\ComplaintController;
 
 use App\Services\Incident\ActionService;
-use App\Http\Controllers\Api\InvestigationController;
+use App\Http\Controllers\Api\InvestigationController; 
 
 use App\Http\Controllers\Api\TaskController;
 use App\Http\Controllers\Api\PermissionController;
@@ -56,7 +56,7 @@ Route::group(['prefix' => 'abilities', 'middleware' => 'auth:sanctum'], function
 
 /*** Clients Routes ***/
 Route::group(['prefix' => 'clients', 'middleware' => 'auth:sanctum'], function () {
-  
+
    Route::get('', [ClientController::class, 'index']);
    Route::post('store',[ClientController::class, 'store']);
    Route::get('/details/{id}', [ClientController::class, 'details']);
@@ -121,30 +121,44 @@ Route::group(['prefix' => 'actions', 'middleware' => 'auth:sanctum'], function()
 
     Route::post('save-recommendations', [ActionController::class, 'storeRecommendation']);
     Route::post('/save-selected-recommendation', [ActionController::class, 'saveSelectdRecommendation']);
-    
+
 });
 
 /** * Incident Routes * **/
-Route::group(['prefix' => 'incidents', 'middleware' => 'auth:sanctum'], function() { 
+Route::group(['prefix' => 'incidents', 'middleware' => 'auth:sanctum'], function() {
     // Route::get('/incident-activity-details/{id}', [ActivityController::class, 'details']);
- 
+
     Route::get('/investigation-activities', [ActivityController::class, 'index']);
     Route::get('incident-acitivities', [ActionController::class, '_get_incident_activities']);
     Route::get('/activites', [ActionController::class, 'activity_action']);
     Route::get('/incident-reasons/{id}', [IncidentController::class, 'get_incident_reason']);
     Route::post('/incident-reasons', [IncidentController::class, 'save_incident_reason']);
-    Route::get('/types', [IncidentController::class, 'types']);
+    Route::get('/types', [IncidentController::class, 'types']); // this is actually categories, and not types
+    Route::get('/incident-types', [IncidentController::class, 'incidentTypes']);
+
+    Route::post('/types', [IncidentController::class, 'storeIncidentType']);
+    Route::post('/types/update', [IncidentController::class, 'updateIncidentType']);
+
+    Route::post('/types/delete/{id}', [IncidentController::class, 'deleteIncidentType']);
+
+    Route::post('/store-category', [IncidentController::class, 'storeIncidentCategory']);
+    Route::post('/update-category', [IncidentController::class, 'updateIncidentCategory']);
+    Route::post('/delete-category/{id}', [IncidentController::class, 'deleteCategory']);
+
     Route::get('/{id}', [IncidentController::class, 'details']);
     Route::get('/', [IncidentController::class, 'index']);
     Route::post('/', [IncidentController::class, 'store']);
+
+    Route::post('/delete/{id}', [IncidentController::class, 'deleteIncident']);
+
     Route::post('/investigation-response', [IncidentController::class, 'store_investigation_response']);
     Route::post('save-activities', [IncidentController::class, 'save_incident_activity']);
     Route::get('/incident-typecategory/{id}', [IncidentController::class, 'incident_type_category']);
-}); 
+});
 
 /** * Investigations Routes* **/
 Route::group(['prefix' => 'investigations', 'middleware' => 'auth:sanctum'], function() {
-   
+
     Route::post('/store-activity-result', [ActionController::class, 'store_activity_result']);
     Route::get('/activity/{id}', [ActivityController::class, 'details']);
     Route::post('/ ', [ActivityController::class, 'storeResult']);
@@ -157,18 +171,34 @@ Route::group(['prefix' => 'investigations', 'middleware' => 'auth:sanctum'], fun
 Route::group(['prefix' => 'complaints', 'middleware' => 'auth:sanctum'], function() {
 
     Route::get('/investigations', [ComplaintController::class, 'investigations']);
-    
+
     Route::get('categories', [ComplaintController::class, 'getAllCategory']);
     Route::get('/', [ComplaintController::class, 'index']);
+
+    Route::get('/types', [ComplaintController::class, 'fetchAllCategoryType']);
     
     Route::get('/{id}', [ComplaintController::class, 'show']);
     Route::post('/store-category-type/{id}', [ComplaintController::class, 'storeCategoryType']);
     Route::post('/', [ComplaintController::class, 'store']);
+
+    Route::post('/delete/{id}', [ComplaintController::class, 'deleteComplaint']);
    
     Route::post('store-category', [ComplaintController::class, 'storeCategory']);
-  
+
+    Route::post('/update-category', [ComplaintController::class, 'updateCategory']);
+
+    Route::post('/delete-category/{id}', [ComplaintController::class, 'deleteCategory']);
+
+       
+    Route::post('types', [ComplaintController::class, 'storeType']);
+
+    Route::post('/types/update', [ComplaintController::class, 'updateType']);
+
+    Route::post('/types/delete/{id}', [ComplaintController::class, 'deleteType']);
+
+
     Route::get('/category-types/{id}', [ComplaintController::class, 'getComplaintType']);
-    Route::get('/category-types', [ComplaintController::class, 'fetchAllCategoryType']);
+    
 
     Route::post('/save-action-response', [ComplaintController::class, 'saveActionResponse']);
     Route::post('/save-investigation-response', [ComplaintController::class, 'saveInvestigationResponse']);
@@ -181,16 +211,19 @@ Route::group(['prefix' => 'complaints', 'middleware' => 'auth:sanctum'], functio
  * ********************************************************************************
  */
 Route::group(['prefix' => 'tasks', 'middleware' => 'auth:sanctum'], function() {
-   
-    Route::post('/store-task', [TaskController::class, 'store']);
-    Route::post('/templates',      [TaskController::class, 'indexTaskTemplate']);    
+    // Route::post('/store-task', [TaskController::class, 'store']);
+
+    Route::get('/taskslist',      [TaskController::class, 'taskslist']);
+
+    Route::post('/templates',      [TaskController::class, 'indexTaskTemplate']);
     Route::get('/modules',         [TaskController::class, 'taskModules']);
     Route::get('/categories',      [TaskController::class, 'taskCategories']);
     Route::get('/field-templates', [TaskController::class, 'taskFieldTemplate']);
+
     Route::get('/details/{id}',    [TaskController::class, 'taskTemplateDetails']);
     Route::get('/template/fields/{id}', [TaskController::class, 'taskFieldGenerate']);
     Route::get('/fields/details/{id}',   [TaskController::class, 'taskFieldDetails']);
 });
 
-
+// Route::post('/taskslist',      [TaskController::class, 'taskslist']);
 Route::post('/store-tasks', [TaskController::class, 'store']);

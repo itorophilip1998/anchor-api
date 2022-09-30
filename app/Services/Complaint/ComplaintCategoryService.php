@@ -42,7 +42,18 @@ class ComplaintCategoryService {
 		return [ 'update' => false ];
 	}
 
+	public function delete( $id) {
 
+		$category = $this->complaintcategory->find($id);
+		
+		$category->delete();
+
+		if ( $category->delete() ) {
+			return [ 'deleted' => true ];
+		}
+
+		return [ 'deleted' => false ];
+	}
 
 }
 
