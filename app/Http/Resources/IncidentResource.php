@@ -30,6 +30,7 @@ class IncidentResource extends JsonResource
         }
        
         return [
+            'id'   => $this->id,
             'iuid' => $this->iuid,
             'nurse' => $this->nurse,
             'nurse_name' => $this->nurse->firstname.' '.$this->nurse->lastname,

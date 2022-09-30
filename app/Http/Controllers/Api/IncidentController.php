@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Interfaces\IncidentRepositoryInterface;
+use App\Models\IncidentType;
 use App\Services\Incident\IncidentTypeService;
 use App\Services\Incident\ReasonService;
 use App\Services\Incident\ActivityService;
@@ -35,6 +36,7 @@ class IncidentController extends Controller
     }
     /**
      * This function get incident types
+     * NOTE: this is actually categories, and not type. Name should be changed
      * @return [type] [description]
      */
     public function types() {
@@ -45,6 +47,57 @@ class IncidentController extends Controller
        
         $attributes = $request->all();
         return $this->incident->create_incident($attributes);
+    }
+
+    public function storeIncidentType(Request $request) {
+
+        $attributes = $request->all();
+
+        $type = new IncidentTypeService;
+
+        return $type->createIncidentType($attributes);
+    }
+
+    public function deleteIncidentType($id) {
+
+        $type = IncidentType::find($id);
+
+        $type->delete();
+
+        return array('message' => 'Incident Type deleted successfully');
+    }
+
+    public function updateIncidentType(Request $request) {
+
+        $attributes = $request->all();
+
+        $type = new IncidentTypeService;
+
+        return $type->updateIncidentType($attributes);
+    }
+
+    public function storeIncidentCategory(Request $request) {
+
+        $attributes = $request->all();
+
+        return $this->incident->createIncidentCategory($attributes);
+    }
+
+    public function updateIncidentCategory(Request $request) {
+
+        $attributes = $request->all();
+
+        return $this->incident->updateIncidentCategory($attributes);
+    }
+
+    public function deleteCategory($id) {
+
+        return $this->incident->deleteIncidentCategory($id);
+    }
+
+    public function deleteIncident($id) {
+
+        return $this->incident->deleteIncident($id);
     }
 
     /**
@@ -103,6 +156,16 @@ class IncidentController extends Controller
     public function incident_type_category($id) {
         $type = new IncidentTypeService;
         return $type->get_incident_category($id) ;
+    }
+
+    /**
+     * This method fetches all the incident types in the system, with its category
+     * 
+     * @return [type] [description]
+     */
+    public function incidentTypes() {
+        $type = new IncidentTypeService;
+        return $type->getIncidentTypes();
     }
 
     /**

@@ -58,7 +58,7 @@ class ComplaintService {
 		$complaint->complaint_type_id = $array['complaintType'];
 		$complaint->complaint_time =Carbon::parse(  $array['timeOfComplaint'])->format(' H:i:s');
 		$complaint->description = $array['complaintDescription']; 
-		$complaint->added_by = Auth::user()->id;
+		$complaint->added_by = Auth::user()->uuid;
 		$complaint->save();
 
 		if ($complaint->save() ) {
@@ -67,6 +67,15 @@ class ComplaintService {
 		}
 
 		return ['created' => true ];
+	}
+
+	public function delete($id) {
+
+		$complaint = Complaint::find($id);
+
+		$complaint->delete();
+
+		return array('success' => true, 'message' => 'Complaint deleted successfully');
 	}
 
 	/**
@@ -96,7 +105,10 @@ class ComplaintService {
 	 * @return [type]     [description]
 	 */
 	public function details( $id ) {
-		 $complaintId = Complaint::where('id', '=', $id)->first()->id;
+
+		$complaintObj = Complaint::where('id', '=', $id)->first(); 
+
+		 $complaintId = $complaintObj->id;
 		 $complaintDetails = $this->complaint->where('id', '=', $complaintId)->first();
 
 		 return new ComplaintResource($complaintDetails);

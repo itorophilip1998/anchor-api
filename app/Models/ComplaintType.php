@@ -14,9 +14,15 @@ use App\Models\ComplaintActionType;
 class ComplaintType extends Model
 {
     use HasFactory;
+
+    protected $appends = ['category_name'];
+
+    public function getCategoryNameAttribute() {
+        return $this->category()->first()->name;
+    }
     
     public function category() {
-        // return $this->belongsTo('')
+        return $this->belongsTo(ComplaintCategory::class);
     }
 
     public function investigation() {
