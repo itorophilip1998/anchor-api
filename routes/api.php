@@ -14,7 +14,7 @@ use App\Http\Controllers\Api\ActivityController;
 use App\Http\Controllers\Api\ComplaintController;
 
 use App\Services\Incident\ActionService;
-use App\Http\Controllers\Api\InvestigationController; 
+use App\Http\Controllers\Api\InvestigationController;
 
 use App\Http\Controllers\Api\TaskController;
 use App\Http\Controllers\Api\PermissionController;
@@ -221,21 +221,21 @@ Route::group(['prefix' => 'complaints', 'middleware' => 'auth:sanctum'], functio
     Route::get('/', [ComplaintController::class, 'index']);
 
     Route::get('/types', [ComplaintController::class, 'fetchAllCategoryType']);
-    
+
     Route::get('/{id}', [ComplaintController::class, 'show']);
     
     Route::post('/store-category-type/{id}', [ComplaintController::class, 'storeCategoryType']);
     Route::post('/', [ComplaintController::class, 'store']);
 
     Route::post('/delete/{id}', [ComplaintController::class, 'deleteComplaint']);
-   
+
     Route::post('store-category', [ComplaintController::class, 'storeCategory']);
 
     Route::post('/update-category', [ComplaintController::class, 'updateCategory']);
 
     Route::post('/delete-category/{id}', [ComplaintController::class, 'deleteCategory']);
 
-       
+
     Route::post('types', [ComplaintController::class, 'storeType']);
 
     Route::post('/types/update', [ComplaintController::class, 'updateType']);
@@ -244,7 +244,7 @@ Route::group(['prefix' => 'complaints', 'middleware' => 'auth:sanctum'], functio
 
 
     Route::get('/category-types/{id}', [ComplaintController::class, 'getComplaintType']);
-    
+
 
     Route::post('/save-action-response', [ComplaintController::class, 'saveActionResponse']);
     Route::post('/save-investigation-response', [ComplaintController::class, 'saveInvestigationResponse']);
@@ -269,6 +269,15 @@ Route::group(['prefix' => 'tasks', 'middleware' => 'auth:sanctum'], function() {
     Route::get('/details/{id}',    [TaskController::class, 'taskTemplateDetails']);
     Route::get('/template/fields/{id}', [TaskController::class, 'taskFieldGenerate']);
     Route::get('/fields/details/{id}',   [TaskController::class, 'taskFieldDetails']);
+
+    //update task status
+    //Route::post('/save-action-response', [ComplaintController::class, 'saveActionResponse']);
+    //update re-assign
+    //Route::post('/save-action-response', [ComplaintController::class, 'saveActionResponse']);
+    //update escalate
+    //Route::post('/save-action-response', [ComplaintController::class, 'saveActionResponse']);
+    //update redo
+    //Route::post('/save-action-response', [ComplaintController::class, 'saveActionResponse']);
 });
 
 // Route::post('/taskslist',      [TaskController::class, 'taskslist']);
