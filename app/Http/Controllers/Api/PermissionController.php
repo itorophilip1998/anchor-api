@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Models\Role;
 use Illuminate\Http\Request;
 use App\Services\Permissions\PermissionService;
 
@@ -89,7 +90,12 @@ class PermissionController extends Controller
         return $this->permission->changeUserRole($attr);
     }
 
-    
+    public function fetchAllRoles() {
+        
+        $roles = Role::all();
+
+        return $roles;
+    }
 
     public function rolePermission() {}
 

@@ -138,7 +138,7 @@ class PermissionService {
 	  	
 	   $response = array();
 
-	   $role  = Role::where('uid', '=', $id)->first();
+	   $role  = Role::where('id', '=', $id)->first();
 	   $users = User::with('roles')->get();
 
 	   foreach($users as $user ) {
