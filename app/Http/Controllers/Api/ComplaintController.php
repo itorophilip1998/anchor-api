@@ -176,6 +176,9 @@ class ComplaintController extends Controller
      */
     public function show( $id ) {
         $detailId = $id;
+
+        return $detailId;
+
         return $this->complaint->details( $detailId ); 
     }
 

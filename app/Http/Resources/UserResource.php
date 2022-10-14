@@ -25,7 +25,7 @@ class UserResource extends JsonResource
             'status' => $this->status,
             // 'role_name' => $this->role->name,
             'notification_counts' => Auth::user()->unreadNotifications->count(),
-            'notifications' => Auth::user()->unreadNotifications
+            'notifications' => Auth::user()->notifications//unreadNotifications
         ];
     }
 }

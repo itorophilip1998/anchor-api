@@ -5,11 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class ReasonCategory extends Model
+class IncidentActionResult extends Model
 {
     use HasFactory;
-
-    protected $fillable = [
-        'name',
-    ];
 }

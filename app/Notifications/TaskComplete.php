@@ -47,7 +47,7 @@ class TaskComplete extends Notification
                     // ->line('The introduction to the notification.')
                     // ->action('Notification Action', url('/'))
                     // ->line('Thank you for using our application!');
-                    ->greeting($this->details['greeting'])
+                    ->greeting($this->details['title'])
                     ->line($this->details['body'])
                     ->line($this->details['thanks']);
     }
@@ -55,7 +55,7 @@ class TaskComplete extends Notification
     public function toDatabase($notifiable)
     {
         return [
-            'greeting' => $this->details['greeting'],
+            'title' => $this->details['title'],
             'data' => $this->details['body']
         ];
     }

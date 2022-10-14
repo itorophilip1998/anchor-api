@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class ReasonCategory extends Model
+class IncidentCaseType extends Model
 {
     use HasFactory;
 

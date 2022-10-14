@@ -8,15 +8,14 @@ use Auth;
 trait UserNotification
 {
 
-	public function notify($user_id, string $role ) {
+	public function notify($user_id, $title =null, string $message ) {
 		
 		$user = User::find($user_id);
-		$auth = Auth::user();
 
 		$details = [
-			'greeting' => $auth->firstname.' '.$auth->lastname,
-			'body' => 'A '.$role.' has been assigned to you',
-			'thanks' => 'Thank you for useing Total Care Score (TCS)'
+			'title' => $title,
+			'body' => $message,
+			'thanks' => 'Thank you for using Total Care Score (TCS)'
 		];
 
 		return $user->notify(new \App\Notifications\TaskComplete($details));
