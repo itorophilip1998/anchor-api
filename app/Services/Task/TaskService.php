@@ -176,7 +176,8 @@ var_dump($taskTemplateId);
 	 * @return [type] [description]
 	 */
 	public function getTasksList() {
-		return Response::json((new Task)->all());
+		//return Response::json((new Task)->all());
+        return Response::json((new Task)->orderBy('created_at', 'desc')->get());
 	}
 
 	public function getTaskFieldTemplate() {
