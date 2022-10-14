@@ -6,6 +6,7 @@ use Illuminate\Http\Resources\Json\JsonResource;
 use App\Models\ClientNurse;
 use App\Models\ClientCoord;
 use App\Models\ClientHomecareworker;
+use App\Models\Incident;
 use App\Models\User;
 
 class ClientResource extends JsonResource
@@ -29,7 +30,8 @@ class ClientResource extends JsonResource
             'detail' => $this->detail,
             'nurse' => $this->get_nurse_information($this->uuid),
             'cc'=> $this->get_coord_information($this->uuid),
-            'homecareworker' => $this->get_homecareworker($this->iuud)
+            'homecareworker' => $this->get_homecareworker($this->uuid),
+            'incidents' => $this->getIncidents($this->uuid)
         ];
     }
 
@@ -66,5 +68,11 @@ class ClientResource extends JsonResource
         }
     }
 
+    public function getIncidents($id) {
+        $incident = new Incident;
 
+        $incidents = $incident->where('client_id', $id)->get();
+
+        return IncidentResource::collection($incidents);
+    }
 }
