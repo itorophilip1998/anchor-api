@@ -128,8 +128,8 @@ class ClientRepository implements ClientRepositoryInterface
 
 		if ( $clientcoord->save()) {
 
-			$client = $this->notify($params['client_id'], 'Case Coordinator');
-			$coordinator = $this->notify( $params['coord_id'], 'Client');
+			$client = $this->notify($params['client_id'],'Case Cordinator', 'Case Coordinator assigned');
+			$coordinator = $this->notify( $params['coord_id'], 'Client', 'Client assigned');
 
 			return [
 				'notify_client' => $client,
@@ -154,13 +154,15 @@ class ClientRepository implements ClientRepositoryInterface
 		$clientnurse->save();
 
 		if( $clientnurse->save()) {
+
+			// same reason as hcw. Notificstion issues
 			
-			$client = $this->notify($params['client_id'], 'Nurse');
-			$coordinator = $this->notify( $params['nurse_id'], 'Client');
+			$client = $this->notify($params['client_id'], 'Nurse Assignment', 'A Nurse has been assigned to you');
+			$coordinator = $this->notify( $params['nurse_id'], 'Client Assignment', 'You have been assigned to a client');
 
 			return [
-				'notify_client' => $client,
-				'notify_nurse' => $coordinator,
+				// 'notify_client' => $client,
+				// 'notify_nurse' => $coordinator,
 				'status' => 'Success',
 				'message' => 'A Nurse was successfully assigned'
 			];
@@ -172,18 +174,23 @@ class ClientRepository implements ClientRepositoryInterface
 		$clientHomecare = new ClientHomecareworker;
 		$clientHomecare->client_id = $params['client_id'];
 		$clientHomecare->homecareworker_id = $params['hcw_id'];
-		$clientHomecare->added_by = Auth::user()->id;
+		$clientHomecare->added_by = auth()->user()->uuid;
 		$clientHomecare->save();
 
 		if ( $clientHomecare->save()) {
 			
-			$client = $this->notify($params['client_id'], 'Home Care Worker');
+			// the notification has issues because the user_id is string, and notification id needs int
+			// no column id in users table
+			// there is only uuid which is custom generated
+			// comment out for now till that is fixed
+
+			$client = $this->notify($params['client_id'],'Homecareworker Assignment', 'Home Care Worker assigned to you');
 			
-			$coordinator = $this->notify( $params['hcw_id'], 'Client');
+			$coordinator = $this->notify( $params['hcw_id'], 'Client Assignment', 'A Client has been assigned to you');
 
 			return [
-				'notify_client' => $client,
-				'notify_homecareworker' => $coordinator,
+				// 'notify_client' => $client,
+				// 'notify_homecareworker' => $coordinator,
 				'status' => 'Success',
 				'message' => 'A Nurse was successfully assigned'
 			];
@@ -197,15 +204,13 @@ class ClientRepository implements ClientRepositoryInterface
 	 */
 	public function unassign_nurse( array $array) {
 
-		$clientNurse = ClientNurse::where('nurse_id', '=', $array['nurse_id'])->first();
-		
-		$clientNurse->delete();
+		$clientNurse = ClientNurse::where('nurse_id', '=', $array['nurse_id'])->where('client_id',$array['client_id'] )->first();
 
 		if( $clientNurse->delete() ){
 
 			//Notifi both users
-			$client = $this->unassign_notify($array['client_id'], 'Nurse');
-			$nurse = $this->unassign_notify($array['nurse_id'], 'Client');
+			$client = $this->notify($array['client_id'],'Nurse Unassigned', 'Nurse unassigned');
+			$nurse = $this->notify($array['nurse_id'], 'Client Unassigned', 'Client unassigned');
 
 			return ['status' => $client ];
 		}
@@ -221,8 +226,8 @@ class ClientRepository implements ClientRepositoryInterface
 		$clientcoord =  ClientCoord::where('coord_id', '=', $array['coord_id'])->first();
 		if ( $clientcoord->delete() ) {
 			//Notifi both users
-			$client = $this->unassign_notify($array['client_id'], 'Case Coordinator');
-			$coord = $this->unassign_notify($array['coord_id'], 'Client');
+			$client = $this->notify($array['client_id'], 'Case Coordinator unassigned', 'Case Coordinator unassigned');
+			$coord = $this->notify($array['coord_id'], 'Client Unassigned', 'Client unassigned');
 			return [];
 		}
 	}
@@ -239,8 +244,8 @@ class ClientRepository implements ClientRepositoryInterface
 
 		if ( $clientHomecare->delete() )  {
 			//Notifi both users
-			$client = $this->unassign_notify($array['client_id'], 'Home Care Worker');
-			$coord = $this->unassign_notify($array['hcw_id'], 'Client');
+			$client = $this->notify($array['client_id'],'Homecareworker unassigned', 'Home Care Worker');
+			$coord = $this->notify($array['hcw_id'], 'Client unassigned', 'Client');
 			return [];
 		}
 

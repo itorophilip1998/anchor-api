@@ -14,7 +14,7 @@ use App\Http\Controllers\Api\ActivityController;
 use App\Http\Controllers\Api\ComplaintController;
 
 use App\Services\Incident\ActionService;
-use App\Http\Controllers\Api\InvestigationController; 
+use App\Http\Controllers\Api\InvestigationController;
 
 use App\Http\Controllers\Api\TaskController;
 use App\Http\Controllers\Api\PermissionController;
@@ -47,6 +47,7 @@ Route::group(['prefix' => 'permission', 'middleware' => 'auth:sanctum'], functio
     Route::get('/users/{id}',     [PermissionController::class, 'roleUser']);
     Route::get('/userNotIn/{id}', [PermissionController::class, 'roleUserNotIn']);
     Route::post('/change',        [PermissionController::class, 'changeRole']);
+    Route::get('/roles', [PermissionController::class, 'fetchAllRoles']);
 });
 
 
@@ -127,10 +128,50 @@ Route::group(['prefix' => 'actions', 'middleware' => 'auth:sanctum'], function()
 /** * Incident Routes * **/
 Route::group(['prefix' => 'incidents', 'middleware' => 'auth:sanctum'], function() {
     // Route::get('/incident-activity-details/{id}', [ActivityController::class, 'details']);
+ 
+    Route::post('update', [IncidentController::class, 'updateIncident']);
+    Route::post('assign', [IncidentController::class, 'assignIncident']);
+
+    Route::post('add-activity', [IncidentController::class, 'addIncidentActivity']);
+    Route::post('add-activity-result', [IncidentController::class, 'addIncidentActivityResult']);
+    Route::post('add-activity-recommendation', [IncidentController::class, 'addIncidentActivityRecommendation']);
+
+    Route::post('resolve-incident', [IncidentController::class, 'resolveIncident']);
+    Route::post('feedback', [IncidentController::class, 'storeFeedback']);
+
+    Route::get('/locations', [IncidentController::class, 'fetchIncidentLocations']);
+
+    Route::post('{id}/analysis', [IncidentController::class, 'saveIncidentAnalysis']);
+
+    Route::get('/injuries', [IncidentController::class, 'fetchIncidentInjuries']);
+
+    Route::post('/locations', [IncidentController::class, 'saveIncidentLocation']);
+
+    Route::get('/case-types', [IncidentController::class, 'fetchIncidentCaseTypes']);
+
+    Route::post('/case-types', [IncidentController::class, 'saveIncidentCaseType']);
+
+    /** INVESTIGATION PART  */
+
+    Route::get('{id}/fetch-investigation-questions', [IncidentController::class, 'fetchInvestigationQuestions']);
+    // saveInvestigationResponses
+    Route::post('/save-investigation-responses', [IncidentController::class, 'saveInvestigationResponses']);
+    /** END INVESTIGATION PART */
 
     Route::get('/investigation-activities', [ActivityController::class, 'index']);
     Route::get('incident-acitivities', [ActionController::class, '_get_incident_activities']);
     Route::get('/activites', [ActionController::class, 'activity_action']);
+
+    Route::get('/reasons-categories', [IncidentController::class, 'fetchIncidentReasonCategories']);
+
+
+    Route::get('/reasons', [IncidentController::class, 'fetchAllReasons']);
+
+    Route::post('/reasons', [IncidentController::class, 'storeIncidentReason']);
+    Route::post('/reasons/update', [IncidentController::class, 'updateIncidentReason']);
+
+    Route::post('/reasons/delete/{id}', [IncidentController::class, 'deleteIncidentReason']);
+
     Route::get('/incident-reasons/{id}', [IncidentController::class, 'get_incident_reason']);
     Route::post('/incident-reasons', [IncidentController::class, 'save_incident_reason']);
     Route::get('/types', [IncidentController::class, 'types']); // this is actually categories, and not types
@@ -144,6 +185,10 @@ Route::group(['prefix' => 'incidents', 'middleware' => 'auth:sanctum'], function
     Route::post('/store-category', [IncidentController::class, 'storeIncidentCategory']);
     Route::post('/update-category', [IncidentController::class, 'updateIncidentCategory']);
     Route::post('/delete-category/{id}', [IncidentController::class, 'deleteCategory']);
+
+    Route::post('/store-reason-category', [IncidentController::class, 'storeIncidentReasonCategory']);
+    Route::post('/update-reason-category', [IncidentController::class, 'updateIncidentReasonCategory']);
+    Route::post('/delete-reason-category/{id}', [IncidentController::class, 'deleteReasonCategory']);
 
     Route::get('/{id}', [IncidentController::class, 'details']);
     Route::get('/', [IncidentController::class, 'index']);
@@ -176,20 +221,21 @@ Route::group(['prefix' => 'complaints', 'middleware' => 'auth:sanctum'], functio
     Route::get('/', [ComplaintController::class, 'index']);
 
     Route::get('/types', [ComplaintController::class, 'fetchAllCategoryType']);
-    
+
     Route::get('/{id}', [ComplaintController::class, 'show']);
+    
     Route::post('/store-category-type/{id}', [ComplaintController::class, 'storeCategoryType']);
     Route::post('/', [ComplaintController::class, 'store']);
 
     Route::post('/delete/{id}', [ComplaintController::class, 'deleteComplaint']);
-   
+
     Route::post('store-category', [ComplaintController::class, 'storeCategory']);
 
     Route::post('/update-category', [ComplaintController::class, 'updateCategory']);
 
     Route::post('/delete-category/{id}', [ComplaintController::class, 'deleteCategory']);
 
-       
+
     Route::post('types', [ComplaintController::class, 'storeType']);
 
     Route::post('/types/update', [ComplaintController::class, 'updateType']);
@@ -198,7 +244,7 @@ Route::group(['prefix' => 'complaints', 'middleware' => 'auth:sanctum'], functio
 
 
     Route::get('/category-types/{id}', [ComplaintController::class, 'getComplaintType']);
-    
+
 
     Route::post('/save-action-response', [ComplaintController::class, 'saveActionResponse']);
     Route::post('/save-investigation-response', [ComplaintController::class, 'saveInvestigationResponse']);
@@ -223,6 +269,15 @@ Route::group(['prefix' => 'tasks', 'middleware' => 'auth:sanctum'], function() {
     Route::get('/details/{id}',    [TaskController::class, 'taskTemplateDetails']);
     Route::get('/template/fields/{id}', [TaskController::class, 'taskFieldGenerate']);
     Route::get('/fields/details/{id}',   [TaskController::class, 'taskFieldDetails']);
+
+    //update task status
+    //Route::post('/save-action-response', [ComplaintController::class, 'saveActionResponse']);
+    //update re-assign
+    //Route::post('/save-action-response', [ComplaintController::class, 'saveActionResponse']);
+    //update escalate
+    //Route::post('/save-action-response', [ComplaintController::class, 'saveActionResponse']);
+    //update redo
+    //Route::post('/save-action-response', [ComplaintController::class, 'saveActionResponse']);
 });
 
 // Route::post('/taskslist',      [TaskController::class, 'taskslist']);

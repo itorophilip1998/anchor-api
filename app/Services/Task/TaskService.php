@@ -66,42 +66,48 @@ class TaskService {
 
 	public function scheduleTask(array $array) {
 
-		$array['modules']='Nurse';
-        // var_dump($array);
-		//if ( $array['modules'] == 'Clinical') { $array['modules'] = 'Nurse'; }
+		foreach( $array['assigned_to'] as $user ) {
 
-		$role = (new UserService)->getUserByRoleName($array['modules']);
+			$task               = new Task;
+            $task->title        = $array['title'];
+            $task->assigned_to  = $user['id'];
+            $task->uid          = $user['uid'];
+			$task->user_id      = $user['id'];
+			$task->frequency    = $array['frequency'];
+			$task->levels       = $array['levels'];
+            $task->module       = $array['modules'];
+            $task->category     = $array['category'];
 
-		// foreach( $users as $user ) {
-
-			$task  = new Task;
-            $task->title=$array['title'];
-            $task->uid= $role->uid;
-			$task->user_id= $role->id;
-			$task->frequency=$array['frequency'];
-			$task->levels=$array['levels'];
+            $task->assigned_type      = 'Role';
 
             //formate date to mysql date
-            $time = strtotime($array['date']);
-            $newformat = date('Y-m-d',$time);
-			$task->date = $newformat;
+            $time       = strtotime($array['date']);
+            $newformat  = date('Y-m-d',$time);
+			$task->schedule_date = $newformat;
+             //formate datetime to mysql time //to be revised
+            $time_formated  = date("H:i:s", strtotime($array['time']));
+            $task->schedule_time     = $time_formated;
+            $task->save();
 
-             //formate datetime to mysql time
-            $time_formated = date("H:i:s", strtotime($array['date']));
-            $task->time = $time_formated;
-			//$task->save();
-            var_dump($array);
-			if ($task->save()) {
-            //     var_dump($task);
-            // }
-			$template = $this->template->where('id', '=', $array['modules'])->first();
+			//if ($task->save()) {
+                //var_dump($array['templates'][0]);
+
+                //$role = (new UserService)->taskTemplateDetails($array['templates'][0]);
+                //
+               // $template = $this->taskTemplateDetails(1);
+
+            //    var_dump("here");
+                //var_dump($template);
+                //$assesment_templates = self::taskTemplateDetails($array['templates'][0]);
+                //var_dump($assesment_templates);
+			    //$template = $this->template->where('id', '=', $array['modules'])->first();
 
 			// 	 $taskTaskTemplate = new TaskTemplates;
 			// 	 $taskTaskTemplate->task_id = $task->id;
 			// 	 $taskTaskTemplate->task_template_id = $template->id;
 			// 	 //$taskTaskTemplate->save();
-			}
-		//}
+			//}
+		}
 
 		return [
 			'status' => true,
@@ -120,7 +126,7 @@ class TaskService {
 	 * @return [type]                 [description]
 	 */
 	public function taskTemplateDetails($taskTemplateId) {
-
+var_dump($taskTemplateId);
 		$details = (new TaskTemplate)->where('id', '=', $taskTemplateId)->first();
 		return new TaskTemplateResource($details);
 	}
@@ -170,7 +176,8 @@ class TaskService {
 	 * @return [type] [description]
 	 */
 	public function getTasksList() {
-		return Response::json((new Task)->all());
+		//return Response::json((new Task)->all());
+        return Response::json((new Task)->orderBy('created_at', 'desc')->get());
 	}
 
 	public function getTaskFieldTemplate() {
@@ -183,6 +190,27 @@ class TaskService {
 	 */
 	public function getTaskModules() {
 		return Response::json((new TaskComponent)->all());
+	}
+
+    /**
+	 * **************************************************************
+	 * This function gets task by user type
+	 * **************************************************************
+	 * @param   string $typeId type id eg user or team
+     * @param   string $userId user Id for assign to
+     * @param   string $roleDI unique role id
+	 * @return  array        list role details
+	 */
+	public function getTaskByType($typeId, $userId, $roleId) {
+
+		$tasks = new Task;
+        if($typeId == 'team'){
+            $list = $tasks->where('assigned_to', '=', $roleId);
+        } else {
+            $list = $tasks->where('assigned_to', '=', $userId);
+        }
+
+		return new RoleResource($list);
 	}
 
 	/**
