@@ -35,6 +35,7 @@ class ComplaintType extends Model
     }
 
     public function action() {
+
         return $this->belongsToMany(ComplaintAction::class, 
               ComplaintActionType::class, 'complaint_type_id', 'complaint_action_id');
     }

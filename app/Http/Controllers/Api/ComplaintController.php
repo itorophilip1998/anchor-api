@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Models\InvestigationType;
 use Illuminate\Http\Request;
 use App\Services\Complaint\ComplaintService;
 use App\Services\Complaint\ComplaintCategoryService;
@@ -177,8 +178,6 @@ class ComplaintController extends Controller
     public function show( $id ) {
         $detailId = $id;
 
-        return $detailId;
-
         return $this->complaint->details( $detailId ); 
     }
 
@@ -227,5 +226,11 @@ class ComplaintController extends Controller
         return (new ComplaintInvestigationService)->index($attributes);
     }
     
+    public function investigationTypes() {
+        
+        $types = InvestigationType::all();
+
+        return $types;
+    }
 
 }
