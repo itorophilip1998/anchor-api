@@ -17,6 +17,8 @@ use Illuminate\Support\Facades\Route;
 /** * Complaints Routes * **/
 Route::group(['prefix' => 'complaints', 'middleware' => 'auth:sanctum'], function() {
 
+    Route::post('/investigations', [ComplaintController::class, 'updateInvestigationQuestion']);
+
     Route::get('/investigations', [ComplaintController::class, 'investigations']);
 
     Route::get('/investigation-types', [ComplaintController::class, 'investigationTypes']);
