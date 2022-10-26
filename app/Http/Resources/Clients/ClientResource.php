@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources\Clients;
 
+use Carbon\Carbon;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class ClientResource extends JsonResource
@@ -16,11 +17,11 @@ class ClientResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'firstname' => $this->first_name,
-            'lastname' => $this->last_name,
+            'first_name' => $this->first_name,
+            'last_name' => $this->last_name,
             'name' => $this->first_name . ' ' . $this->last_name,
             'email' => $this->email,
-            'dob' => $this->dob,
+            'dob' => Carbon::parse($this->dob)->format('d-m-Y'),
             'gender' => $this->gender,
             'sexuality' => $this->sexuality,
             'nationality' => $this->nationality,

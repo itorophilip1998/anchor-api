@@ -11,6 +11,7 @@ use App\Http\Requests\Clients\StorePhysicianInformationRequest;
 use App\Http\Requests\Clients\StoreServiceInformationRequest;
 use App\Http\Requests\Clients\UpdateClientRequest;
 use App\Repositories\Clients\ClientRepository;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class ClientController extends Controller
@@ -46,6 +47,11 @@ class ClientController extends Controller
 
         $input = $request->all();
 
+        if ($request->has('dob')) {
+            //transform the format
+           $input['dob'] = Carbon::parse($request->dob)->format('Y-m-d');
+        }
+
         return $this->clientRepository->update($id, $input);
     }
 
@@ -56,14 +62,17 @@ class ClientController extends Controller
 
     public function saveServiceInformation($id, StoreServiceInformationRequest $request ) {
 
-        $input = $request->all();
+        $input = $request->except(['created_at', 'updated_at']);
+
+        $input['commencement_date'] = Carbon::parse($request->commencement_date)->format('Y-m-d');
+        $input['authorized_start_date'] = Carbon::parse($request->authorized_start_date)->format('Y-m-d');
 
         return $this->clientRepository->saveServiceInformation($id, $input);
     }
 
     public function savePhysicianInformation($id, StorePhysicianInformationRequest $request ) {
 
-        $input = $request->all();
+        $input = $request->except(['created_at', 'updated_at']);
 
         return $this->clientRepository->savePhysicianInformation($id, $input);
     }

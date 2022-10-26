@@ -30,7 +30,7 @@ class ClientRepository extends BaseRepository
 
 		$client = Client::find($id);
 
-        return $this->sendResponse(new ClientResource($client));
+        return $this->sendResponse(new ClientResource($client), 'Client Retrieved');
 	}
 
     public function save($data) {
@@ -60,7 +60,8 @@ class ClientRepository extends BaseRepository
         $client = Client::find($id);
 
         if ($client->delete()) {
-            return $this->sendSuccess('Client deleted successfully');
+            // return all data, so i dont need to call api twice
+            return $this->getAll([]);
         }
         
         return $this->sendError('Unable to delete client');
