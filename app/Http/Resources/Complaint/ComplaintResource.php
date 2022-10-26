@@ -34,14 +34,14 @@ class ComplaintResource extends JsonResource
             'complaintTime' => $this->complaint_time,
             'desc' => $this->description,
             'isRoutineService' => $this->isRoutineServiceIssue,
-            'complaintType' => $this->type,
+            'complaintType' => $this->type->load(['investigation', 'action']),
             'status' => $this->status,
             'client' => $this->client,
             'created_at' => Carbon::parse($this->created_at)->diffForHumans(),
             'added_by' => $this->user,
             'category' => $this->category,
-            'investigations' => $this->type->load('investigation'),
-            'action' => $this->type->load('action')
+            // 'investigations' => $this->type->load('investigation'),
+            // 'action' => $this->type->load('action')
         ];
     }
 }
