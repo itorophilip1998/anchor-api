@@ -12,7 +12,7 @@ class Task extends Model
     use HasFactory,  LogsActivity;
 
     protected $fillable = ['title', 'uid', 'frequency', 'levels', 'date', 'time'];
-    protected $appends = ["role_name", "task_category_title"];
+    protected $appends  = ["role_name", "task_category_title"];
 
     public function getActivitylogOptions(): LogOptions
     {
@@ -22,26 +22,18 @@ class Task extends Model
     }
 
     public function taskCat(){
-
         return $this->belongsTo(TaskCategory::class, 'category');
-
     }
 
     public function taskAssignedTo(){
-
         return $this->belongsTo(Role::class, 'assigned_to');
-
     }
 
     public function getRoleNameAttribute(){
-
         return $this->taskAssignedTo()->first()->name;
-
     }
 
     public function getTaskCategoryTitleAttribute(){
-
         return $this->taskCat()->first()->title;
-
     }
 }
