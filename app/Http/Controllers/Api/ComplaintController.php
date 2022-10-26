@@ -3,6 +3,10 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Models\ComplaintInvestigationAnswer;
+use App\Models\ComplaintInvestigationQuestion;
+use App\Models\ComplaintInvestigationQuestionRole;
+use App\Models\InvestigationType;
 use Illuminate\Http\Request;
 use App\Services\Complaint\ComplaintService;
 use App\Services\Complaint\ComplaintCategoryService;
@@ -177,8 +181,6 @@ class ComplaintController extends Controller
     public function show( $id ) {
         $detailId = $id;
 
-        return $detailId;
-
         return $this->complaint->details( $detailId ); 
     }
 
@@ -227,5 +229,55 @@ class ComplaintController extends Controller
         return (new ComplaintInvestigationService)->index($attributes);
     }
     
+    public function investigationTypes() {
+        
+        $types = InvestigationType::all();
+
+        return $types;
+    }
+
+    public function updateInvestigationQuestion(Request $request) {
+
+        $input = $request->all();
+
+        if ($request->has('id')) {
+            // update
+            $investigationQuestion = ComplaintInvestigationQuestion::find($input['id']);
+            $investigationQuestionRole = ComplaintInvestigationQuestionRole::where('complaint_investigation_question_id', $investigationQuestion->id)->first();
+        } 
+        else {
+            // create new record
+            $investigationQuestion = new ComplaintInvestigationQuestion();
+            $investigationQuestionRole = new ComplaintInvestigationQuestionRole();
+        }
+
+        $investigationQuestion->question = $input['question'];
+        $investigationQuestion->response_type = $input['response_type'];
+        $investigationQuestion->type_id = $input['type_id'];
+        $investigationQuestion->save();
+
+        // Get the answers sent
+        foreach ($input['answer'] as $answer) {
+            
+            if ($answer['id']){
+                // Answer exists, so update
+                // $ans = ComplaintInvestigationAnswer::find($answer['id']);
+            }
+            else {
+                // Answer is new, add
+                // $ans = new ComplaintInvestigationAnswer();
+            }
+
+            // $ans->answer = $answer['answer'];
+            // $ans->save();
+        }
+
+        // save the role assigned
+        $investigationQuestionRole->complaint_investigation_question_id = $investigationQuestion->id;
+        $investigationQuestionRole->role_id = $input['investigation_role_id'];
+        $investigationQuestionRole->save();
+
+        return $input;
+    }
 
 }

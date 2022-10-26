@@ -8,4 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 class ClientCoord extends Model
 {
     use HasFactory;
+
+    protected $fillable = [
+        'coord_id', 'client_id'
+    ];
 }

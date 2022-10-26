@@ -8,4 +8,6 @@ use Illuminate\Database\Eloquent\Model;
 class ComplaintActionType extends Model
 {
     use HasFactory;
+
+    protected $table = 'complaint_action_types';
 }
