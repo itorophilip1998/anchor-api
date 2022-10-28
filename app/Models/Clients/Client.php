@@ -42,6 +42,11 @@ class Client extends Model
         'coordinator',
     ];
 
+    public function proxies()
+    {
+        return $this->hasMany(ClientProxy::class);
+    }
+
     public function physicianInformation()
     {
         return $this->hasOne(ClientPhysician::class);
