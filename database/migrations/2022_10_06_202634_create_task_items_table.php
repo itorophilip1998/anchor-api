@@ -30,14 +30,17 @@ class CreateTaskItemsTable extends Migration
             $table->string('assigned_to');
             $table->string('assigned_type');
 
+            $table->date('original_assigned_date')->nullable();
             $table->string('original_assigned_to')->nullable();
             $table->string('original_assigned_type')->nullable();
 
-            // $table->string('escalated_to')->nullable();
-            // $table->string('escalated_by')->nullable();
-            // $table->date('escalation_date')->nullable();
+            $table->string('escalated_to')->nullable();
+            $table->string('escalated_by')->nullable();
+            $table->string('escalated_comments')->nullable();
+            $table->string('escalated_reason')->nullable();
+            $table->date('escalation_date')->nullable();
 
-            // $table->date('review_date')->nullable();
+            $table->date('review_date')->nullable();
 
             $table->date('reassign_date')->nullable();
             //$table->time('time')->nullable();
@@ -46,7 +49,7 @@ class CreateTaskItemsTable extends Migration
             //$table->string('redo_reason')->nullable();
 
             $table->boolean('isReAssigned')->default(0);
-            //$table->boolean('isEscalation')->default(0);
+            $table->boolean('isEscalation')->default(0);
             //$table->boolean('isReviewed')->default(0);
             //table->boolean('isClosed')->default(0);
             $table->timestamps();
