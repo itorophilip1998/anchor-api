@@ -83,11 +83,11 @@ Route::group(['prefix' => 'user', 'middleware' => 'auth:sanctum'], function() {
 
 
 
-/** * Nurses Routes* */
-Route::group(['prefix' => 'nurses', 'middleware' => 'auth:sanctum'], function() {
-    Route::get('', [NurseController::class, 'index']);
-    Route::get('/delete', [NurseController::class ,'destroy']);
-});
+// /** * Nurses Routes* */
+// Route::group(['prefix' => 'nurses', 'middleware' => 'auth:sanctum'], function() {
+//     Route::get('', [NurseController::class, 'index']);
+//     Route::get('/delete', [NurseController::class ,'destroy']);
+// });
 
 /** * Action Incident Action routes* */
 Route::group(['prefix' => 'actions', 'middleware' => 'auth:sanctum'], function() {

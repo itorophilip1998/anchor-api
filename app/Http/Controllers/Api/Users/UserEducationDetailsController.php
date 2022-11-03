@@ -65,6 +65,8 @@ class UserEducationDetailsController extends BaseController
     {
         $input = $request->all();
 
+        
+
         $contact = $this->educationDetailRepository->update($id, $input);
 
         return $this->sendResponse(new UserEducationDetailResource($contact));

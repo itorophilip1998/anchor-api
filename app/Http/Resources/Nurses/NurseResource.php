@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Resources\HomecareWorkers;
+namespace App\Http\Resources\Nurses;
 
 use App\Http\Resources\Users\UserDetailsResource;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class HomecareWorkerResource extends JsonResource
+class NurseResource extends JsonResource
 {
     /**
      * Transform the resource into an array.

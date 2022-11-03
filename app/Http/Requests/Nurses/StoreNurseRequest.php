@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests\Users;
+namespace App\Http\Requests\Nurses;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreEducationDetailRequest extends FormRequest
+class StoreNurseRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,12 +24,7 @@ class StoreEducationDetailRequest extends FormRequest
     public function rules()
     {
         return [
-            'user_id' => 'required',
-            'education_level' => 'required',
-            'degree' => 'required',
-            'acquired_date' => 'required',
-            'institution' => 'required',
-            'acquired_date' => 'required'
+            //
         ];
     }
 }

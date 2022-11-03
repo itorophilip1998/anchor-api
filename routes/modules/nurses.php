@@ -1,18 +1,18 @@
 <?php
 
-use App\Http\Controllers\Api\HomecareWorkers\HomecareWorkerController;
+use App\Http\Controllers\Api\Nurses\NursesController;
 use Illuminate\Support\Facades\Route;
 
 /*
 |--------------------------------------------------------------------------
-| Homecareworkers API Routes
+| Nurses API Routes
 |--------------------------------------------------------------------------
 |
 |
 */
 
-Route::prefix('homecareworkers')->middleware('auth:sanctum')
-    ->controller(HomecareWorkerController::class)->group(function(){
+Route::prefix('nurses')->middleware('auth:sanctum')
+    ->controller(NursesController::class)->group(function(){
 
         Route::get('', 'index');
         Route::post('', 'store');
