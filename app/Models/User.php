@@ -17,6 +17,7 @@ use App\Models\MedicalDetail;
 use App\Models\ClientNurse;
 use App\Models\ClientCoord;
 use GoldSpecDigital\LaravelEloquentUUID\Database\Eloquent\Uuid;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\Permission\Traits\HasRoles;
 
 
@@ -25,6 +26,7 @@ class User extends Authenticatable
 {
     use Uuid, HasRoles;
     use HasApiTokens, HasFactory, Notifiable;
+    use SoftDeletes;
 
     // protected $keyType = 'string';
       protected $primaryKey = 'uuid';
@@ -43,7 +45,9 @@ class User extends Authenticatable
      * @var string[]
      */
     protected $fillable = [
-        'name',
+        'firstname',
+        'middlename',
+        'lastname',
         'email',
         'password',
         'role_id',
@@ -69,7 +73,7 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    protected $with = ['detail'];
+    protected $with = ['detail', 'emergencyContacts', 'educationDetails'];
     
 
     public static function boot(){
@@ -105,12 +109,13 @@ class User extends Authenticatable
         return $this->hasMany(CoordinatorHomecareworker::class, 'homecarework_id', 'uuid');
     }
 
-    // for client
-    public function client_nurse() {
-        return $this->hasMany(ClientNurse::class, 'client_id', 'uuid');
+    public function emergencyContacts()
+    {
+        return $this->hasMany(UserEmergencyContact::class, 'user_id');
     }
 
-    public function client_coord() {
-        return $this->hasMany(ClientCoord::class, 'client_id', 'uuid');
+    public function educationDetails()
+    {
+        return $this->hasMany(UserEducationDetail::class, 'user_id');
     }
 }

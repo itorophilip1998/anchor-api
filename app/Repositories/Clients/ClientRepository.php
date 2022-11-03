@@ -2,17 +2,20 @@
 namespace App\Repositories\Clients;
 
 use App\Http\Resources\Clients\ClientResource;
-use App\Models\User;
-use App\Models\ClientCoord;
-use App\Models\ClientNurse;
-use App\Models\ClientHomecareworker;
+use App\Models\Clients\ClientNurse;
+use App\Models\Clients\ClientHomecareworker;
 use App\Models\Clients\Client;
+use App\Models\Clients\ClientCoordinator;
+use App\Models\Clients\ClientHealth;
+use App\Models\Clients\ClientInsurance;
 use App\Models\Clients\ClientPhysician;
+use App\Models\Clients\ClientProxy;
 use App\Models\Clients\ClientServiceInformation;
 use App\Repositories\BaseRepository;
 use Carbon\Carbon;
 use App\Traits\UserNotification;
 
+// $client = $this->notify($array['client_id'],'Nurse Unassigned', 'Nurse unassigned');
 
 class ClientRepository extends BaseRepository
 {
@@ -20,7 +23,7 @@ class ClientRepository extends BaseRepository
 
 	public function getAll(array $filters)
 	{
-		$clients = Client::all();
+		$clients = Client::orderBy('created_at', 'desc')->get();
 
         return $this->sendResponse(ClientResource::collection($clients));
 		
@@ -36,10 +39,23 @@ class ClientRepository extends BaseRepository
     public function save($data) {
 
         // use this for save new and update, check if the id is passed or not. TENTATIVE
-        
+        $data['spoken_languages'] = json_encode($data['spoken_languages']);
+        $data['preferred_languages'] = json_encode($data['preferred_languages']);
+        $data['living_with'] = json_encode($data['living_with']);
+
         $client = new Client($data);
 
         $client->save();
+
+        // save related data
+        // with empty record, just the client_id will be available in the tables
+        $client->health()->save(new ClientHealth());
+        $client->insurance()->save(new ClientInsurance());
+        $client->physician()->save(new ClientPhysician());
+
+        $client->proxies()->save(new ClientProxy(array('proxy' => ClientProxy::HEALTH)));
+        $client->proxies()->save(new ClientProxy(array('proxy' => ClientProxy::GUARDIAN)));
+        $client->proxies()->save(new ClientProxy(array('proxy' => ClientProxy::EMERGENCY_CONTACT)));
 
         return $this->sendResponse(new ClientResource($client));
     }
@@ -67,17 +83,34 @@ class ClientRepository extends BaseRepository
         return $this->sendError('Unable to delete client');
     }
 
+    public function saveProxies($data) {
+
+        $clientId = '';
+
+        foreach ($data as $record) {
+            $proxyId = $record['id'];
+            $clientId = $record['client_id'];
+
+            $proxy = ClientProxy::find($proxyId);
+            $proxy->update($record);
+        }
+
+        $client = Client::find($clientId);
+
+        return $this->sendResponse(new ClientResource($client));
+    }
+
     public function saveServiceInformation($id, $data) {
 
         $client = Client::find($id);
 
-        if ($client->serviceInformation == null ) {
-            $serviceInformation = new ClientServiceInformation($data);
+        if ($client->insurance == null ) {
+            $insurance = new ClientInsurance($data);
 
-            $client->serviceInformation()->save($serviceInformation);
+            $client->insurance()->save($insurance);
         }
         else {
-            $client->serviceInformation()->update($data);
+            $client->insurance()->update($data);
         }
 
         $client->refresh();
@@ -89,13 +122,13 @@ class ClientRepository extends BaseRepository
 
         $client = Client::find($id);
 
-        if ($client->physicianInformation == null ) {
+        if ($client->physician == null ) {
             $physicianInformation = new ClientPhysician($data);
 
-            $client->physicianInformation()->save($physicianInformation);
+            $client->physician()->save($physicianInformation);
         }
         else {
-            $client->physicianInformation()->update($data);
+            $client->physician()->update($data);
         }
 
         $client->refresh();
@@ -154,7 +187,7 @@ class ClientRepository extends BaseRepository
 
         $client = Client::find($id);
 
-        $clientCoordinator= new ClientCoord($coordinatorID);
+        $clientCoordinator= new ClientCoordinator($coordinatorID);
 
         $client->clientCoordinator()->save($clientCoordinator);
 

@@ -8,6 +8,7 @@ use App\Http\Requests\Clients\AssignHomecareworkerRequest;
 use App\Http\Requests\Clients\AssignNurseRequest;
 use App\Http\Requests\Clients\StoreClientRequest;
 use App\Http\Requests\Clients\StorePhysicianInformationRequest;
+use App\Http\Requests\Clients\StoreProxiesRequest;
 use App\Http\Requests\Clients\StoreServiceInformationRequest;
 use App\Http\Requests\Clients\UpdateClientRequest;
 use App\Repositories\Clients\ClientRepository;
@@ -40,6 +41,11 @@ class ClientController extends Controller
 
         $input = $request->all();
 
+        if ($request->has('dob')) {
+            //transform the format
+           $input['dob'] = Carbon::parse($request->dob)->format('Y-m-d');
+        }
+
         return $this->clientRepository->save($input);
     }
 
@@ -64,8 +70,12 @@ class ClientController extends Controller
 
         $input = $request->except(['created_at', 'updated_at']);
 
-        $input['commencement_date'] = Carbon::parse($request->commencement_date)->format('Y-m-d');
-        $input['authorized_start_date'] = Carbon::parse($request->authorized_start_date)->format('Y-m-d');
+        $input['care_start_date'] = Carbon::parse($request->care_start_date)->format('Y-m-d');
+        $input['authorization_start_date'] = Carbon::parse($request->authorization_start_date)->format('Y-m-d');
+        $input['authorization_end_date'] = Carbon::parse($request->authorization_end_date)->format('Y-m-d');
+        $input['certification_start_date'] = Carbon::parse($request->certification_start_date)->format('Y-m-d');
+        $input['certification_end_date'] = Carbon::parse($request->certification_end_date)->format('Y-m-d');
+        $input['m11q_on_file_date'] = Carbon::parse($request->m11q_on_file_date)->format('Y-m-d');
 
         return $this->clientRepository->saveServiceInformation($id, $input);
     }
@@ -75,6 +85,13 @@ class ClientController extends Controller
         $input = $request->except(['created_at', 'updated_at']);
 
         return $this->clientRepository->savePhysicianInformation($id, $input);
+    }
+
+    public function saveProxies(StoreProxiesRequest $request) {
+
+        $input = $request->only(['proxies']);
+
+        return $this->clientRepository->saveProxies($input['proxies']);
     }
 
     public function assignNurse($id, AssignNurseRequest $request) {

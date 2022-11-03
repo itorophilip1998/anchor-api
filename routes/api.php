@@ -65,13 +65,6 @@ Route::group(['prefix' => 'statuses', 'middleware' => 'auth:sanctum'], function(
     Route::post('/edit-user/{id}', [StatusController::class, 'editUserStatus']);
 });
 
-/** *Home Care Worker Routes * */
-Route::group(['prefix' => 'homecareworkers', 'middleware' => 'auth:sanctum'], function() {
-    Route::get('', [HomecareController::class, 'index']);
-    Route::get('/{id}', [HomecareController::class, 'show']);
-    Route::post('', [HomecareController::class, 'store']);
-});
-
 /* * Coordinators Routes* */
 Route::group(['prefix' => 'coordinators', 'middleware' => 'auth:sanctum'], function() {
     Route::get('', [CoordinatorController::class, 'index']);

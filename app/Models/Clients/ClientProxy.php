@@ -13,7 +13,19 @@ class ClientProxy extends Model
     // using this to save the Parent/Guardian, Health Proxy and Contact Information
     // Proxy Data:: from the documentation. Guide on Client Data.
 
-    const PROXIES = ['health', 'guardian', 'contact'];
+    const HEALTH = 'health';
+    const GUARDIAN = 'guardian';
+    const EMERGENCY_CONTACT = 'contact';
+
+    protected $fillable = [
+        'client_id',
+        'proxy',
+        'firstname',
+        'lastname',
+        'relationship',
+        'phone',
+        'email'
+    ];
 
     public function client() 
     {

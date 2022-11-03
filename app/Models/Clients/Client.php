@@ -2,9 +2,6 @@
 
 namespace App\Models\Clients;
 
-use App\Models\ClientCoord;
-use App\Models\ClientHomecareworker;
-use App\Models\ClientNurse;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -15,28 +12,47 @@ class Client extends Model
     use HasFactory, SoftDeletes;
 
     protected $fillable = [
-        'title',
+        'prefix',
         'first_name',
+        'middle_name',
         'last_name',
+        'preferred_name',
+        'suffix',
         'dob',
         'nationality',
         'email',
         'home_phone',
         'cell_phone',
         'work_phone',
-        'address1',
-        'address2',
+        'client_id_number',
+        'elevator',
+        'ssn',
+        'primary_hospital',
+        'closest_hospital',
+        'living_situation',
+        'living_with',
+        'living_alone',
+        'floor',
+        'address',
         'city',
         'state',
+        'county',
         'residence_country',
+        'spoken_languages',
+        'preferred_languages',
+        'racial_identity',
+        'ethnicity',
+        'marital_status',
         'zip',
         'gender',
         'sexuality',
     ];
 
     protected $with = [
-        'physicianInformation',
-        'serviceInformation',
+        'physician',
+        'insurance',
+        'health',
+        'proxies',
         'nurse',
         'homecareworker',
         'coordinator',
@@ -47,14 +63,19 @@ class Client extends Model
         return $this->hasMany(ClientProxy::class);
     }
 
-    public function physicianInformation()
+    public function physician()
     {
         return $this->hasOne(ClientPhysician::class);
     }
 
-    public function serviceInformation()
+    public function insurance()
     {
-        return $this->hasOne(ClientServiceInformation::class);
+        return $this->hasOne(ClientInsurance::class);
+    }
+
+    public function health()
+    {
+        return $this->hasOne(ClientHealth::class);
     }
 
     public function clientNurse() 
@@ -93,18 +114,18 @@ class Client extends Model
 
     public function clientCoordinator() 
     {
-        return $this->hasOne(ClientCoord::class);
+        return $this->hasOne(ClientCoordinator::class);
     }
 
     public function coordinator() 
     {
         return $this->hasOneThrough(
             User::class,
-            ClientCoord::class,
+            ClientCoordinator::class,
             'client_id', 
             'uuid', 
             'id', 
-            'coord_id' 
+            'coordinator_id' 
         );
     }
 }

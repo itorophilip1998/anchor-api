@@ -26,7 +26,7 @@ class ModifyClientInsurancesTable extends Migration
             $table->string('m11q_on_file')->nullable()->after('m11q_required')->comment('Yes, No, Not Applicable');
             $table->date('m11q_on_file_date')->nullable()->after('m11q_on_file');
             $table->date('care_start_date')->after('m11q_on_file_date')->nullable();
-            $table->jsonb('authorized_service_hours')->after('care_start_date')->nullable();
+            $table->smallInteger('authorized_service_hours')->after('care_start_date')->nullable();
             $table->jsonb('authorized_service_days')->after('authorized_service_hours')->nullable();
             $table->date('certification_start_date')->after('authorized_service_days')->nullable();
             $table->date('certification_end_date')->after('certification_start_date')->nullable();
