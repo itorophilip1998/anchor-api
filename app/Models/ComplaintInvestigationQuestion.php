@@ -24,10 +24,17 @@ class ComplaintInvestigationQuestion extends Model
     }
 
     public function investigation_role() {
-        return $this->belongsToMany(Role::class, ComplaintInvestigationQuestionRole::class,
-         'complaint_investigation_question_id',
-         'role_id'
-        );
+        // return $this->belongsToMany(Role::class, ComplaintInvestigationQuestionRole::class,
+        //  'complaint_investigation_question_id',
+        //  'role_id'
+        // );
+
+        return $this->hasOneThrough(Role::class, ComplaintInvestigationQuestionRole::class,
+            'complaint_investigation_question_id',
+            'id',
+            'id',
+            'role_id'
+       );
     }
 }
 

@@ -19,7 +19,7 @@ use App\Http\Controllers\Api\InvestigationController;
 use App\Http\Controllers\Api\TaskController;
 use App\Http\Controllers\Api\PermissionController;
 use App\Http\Controllers\Api\ActivityLogController;
-
+use App\Http\Controllers\Api\clients\ClientController as ClientsClientController;
 
 /*
 |--------------------------------------------------------------------------
@@ -54,22 +54,6 @@ Route::group(['prefix' => 'permission', 'middleware' => 'auth:sanctum'], functio
 
 Route::group(['prefix' => 'abilities', 'middleware' => 'auth:sanctum'], function() {
     Route::get('', [PermissionController::class, 'index']);
-});
-
-/*** Clients Routes ***/
-Route::group(['prefix' => 'clients', 'middleware' => 'auth:sanctum'], function () {
-
-   Route::get('', [ClientController::class, 'index']);
-   Route::post('store',[ClientController::class, 'store']);
-   Route::get('/details/{id}', [ClientController::class, 'details']);
-
-   Route::post('/assign-coordinator', [ClientController::class, 'assign_coordinator']);
-   Route::post('/assign-nurse', [ClientController::class, 'assign_nurse']);
-   Route::post('/assign-homecareworker', [ClientController::class, 'assign_hcw']);
-
-   Route::post('/unassign-nurse', [ClientController::class, 'unassign_nurse']);
-   Route::post('/unassign-coord', [ClientController::class, 'unassign_coord']);
-   Route::post('/unassign-homecareworker', [ClientController::class, 'unassign_homecareworker']);
 });
 
 Route::group(['prefix' => 'activity', 'middleware' => 'auth:sanctum'], function() {
@@ -251,6 +235,7 @@ Route::group(['prefix' => 'complaints', 'middleware' => 'auth:sanctum'], functio
     Route::post('/save-investigation-response', [ComplaintController::class, 'saveInvestigationResponse']);
     Route::post('/assign-nurse-complaints', [ComplaintController::class, 'assignNurse']);
 });
+
 
 /**
  * ********************************************************************************
