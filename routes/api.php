@@ -19,7 +19,7 @@ use App\Http\Controllers\Api\InvestigationController;
 use App\Http\Controllers\Api\TaskController;
 use App\Http\Controllers\Api\PermissionController;
 use App\Http\Controllers\Api\ActivityLogController;
-
+use App\Http\Controllers\Api\clients\ClientController as ClientsClientController;
 
 /*
 |--------------------------------------------------------------------------
@@ -43,32 +43,17 @@ Route::post('logout', [UserController::class, 'logout'])->middleware('auth:sanct
 Route::group(['prefix' => 'permission', 'middleware' => 'auth:sanctum'], function() {
     Route::post('/update-role/{id}', [PermissionController::class, 'updateUserPermission']);
     Route::post('/role',          [PermissionController::class, 'createRole']);
-    Route::post('/role/{id}',          [PermissionController::class, 'updateRole']);
-    Route::get('/users/{id}',     [PermissionController::class, 'roleUser']);
-    Route::get('/userNotIn/{id}', [PermissionController::class, 'roleUserNotIn']);
-    Route::post('/change',        [PermissionController::class, 'changeRole']);
+    Route::post('/role/{id}',       [PermissionController::class, 'updateRole']);
+    Route::get('/users/{id}',       [PermissionController::class, 'roleUser']);
+    Route::post('/selected',        [PermissionController::class, 'usersByRoles']);
+    Route::get('/userNotIn/{id}',   [PermissionController::class, 'roleUserNotIn']);
+    Route::post('/change',          [PermissionController::class, 'changeRole']);
     Route::get('/roles', [PermissionController::class, 'fetchAllRoles']);
 });
 
 
 Route::group(['prefix' => 'abilities', 'middleware' => 'auth:sanctum'], function() {
     Route::get('', [PermissionController::class, 'index']);
-});
-
-/*** Clients Routes ***/
-Route::group(['prefix' => 'clients', 'middleware' => 'auth:sanctum'], function () {
-
-   Route::get('', [ClientController::class, 'index']);
-   Route::post('store',[ClientController::class, 'store']);
-   Route::get('/details/{id}', [ClientController::class, 'details']);
-
-   Route::post('/assign-coordinator', [ClientController::class, 'assign_coordinator']);
-   Route::post('/assign-nurse', [ClientController::class, 'assign_nurse']);
-   Route::post('/assign-homecareworker', [ClientController::class, 'assign_hcw']);
-
-   Route::post('/unassign-nurse', [ClientController::class, 'unassign_nurse']);
-   Route::post('/unassign-coord', [ClientController::class, 'unassign_coord']);
-   Route::post('/unassign-homecareworker', [ClientController::class, 'unassign_homecareworker']);
 });
 
 Route::group(['prefix' => 'activity', 'middleware' => 'auth:sanctum'], function() {
@@ -79,13 +64,6 @@ Route::group(['prefix' => 'activity', 'middleware' => 'auth:sanctum'], function(
 Route::group(['prefix' => 'statuses', 'middleware' => 'auth:sanctum'], function() {
     Route::get('', [StatusController::class, 'index']);
     Route::post('/edit-user/{id}', [StatusController::class, 'editUserStatus']);
-});
-
-/** *Home Care Worker Routes * */
-Route::group(['prefix' => 'homecareworkers', 'middleware' => 'auth:sanctum'], function() {
-    Route::get('', [HomecareController::class, 'index']);
-    Route::get('/{id}', [HomecareController::class, 'show']);
-    Route::post('', [HomecareController::class, 'store']);
 });
 
 /* * Coordinators Routes* */
@@ -106,11 +84,11 @@ Route::group(['prefix' => 'user', 'middleware' => 'auth:sanctum'], function() {
 
 
 
-/** * Nurses Routes* */
-Route::group(['prefix' => 'nurses', 'middleware' => 'auth:sanctum'], function() {
-    Route::get('', [NurseController::class, 'index']);
-    Route::get('/delete', [NurseController::class ,'destroy']);
-});
+// /** * Nurses Routes* */
+// Route::group(['prefix' => 'nurses', 'middleware' => 'auth:sanctum'], function() {
+//     Route::get('', [NurseController::class, 'index']);
+//     Route::get('/delete', [NurseController::class ,'destroy']);
+// });
 
 /** * Action Incident Action routes* */
 Route::group(['prefix' => 'actions', 'middleware' => 'auth:sanctum'], function() {
@@ -128,7 +106,7 @@ Route::group(['prefix' => 'actions', 'middleware' => 'auth:sanctum'], function()
 /** * Incident Routes * **/
 Route::group(['prefix' => 'incidents', 'middleware' => 'auth:sanctum'], function() {
     // Route::get('/incident-activity-details/{id}', [ActivityController::class, 'details']);
- 
+
     Route::post('update', [IncidentController::class, 'updateIncident']);
     Route::post('assign', [IncidentController::class, 'assignIncident']);
 
@@ -223,7 +201,7 @@ Route::group(['prefix' => 'complaints', 'middleware' => 'auth:sanctum'], functio
     Route::get('/types', [ComplaintController::class, 'fetchAllCategoryType']);
 
     Route::get('/{id}', [ComplaintController::class, 'show']);
-    
+
     Route::post('/store-category-type/{id}', [ComplaintController::class, 'storeCategoryType']);
     Route::post('/', [ComplaintController::class, 'store']);
 
@@ -251,6 +229,7 @@ Route::group(['prefix' => 'complaints', 'middleware' => 'auth:sanctum'], functio
     Route::post('/assign-nurse-complaints', [ComplaintController::class, 'assignNurse']);
 });
 
+
 /**
  * ********************************************************************************
  * Task Route --
@@ -258,8 +237,12 @@ Route::group(['prefix' => 'complaints', 'middleware' => 'auth:sanctum'], functio
  */
 Route::group(['prefix' => 'tasks', 'middleware' => 'auth:sanctum'], function() {
     // Route::post('/store-task', [TaskController::class, 'store']);
-
+    Route::post('/store-tasks', [TaskController::class, 'store']);
     Route::get('/taskslist',      [TaskController::class, 'taskslist']);
+    Route::get('/taskselected',   [TaskController::class, 'taskselected']);
+
+    Route::post('/escalate-task', [TaskController::class, 'storeEscalation']);
+    //Route::post('/draft-sub-tasks', [TaskController::class, 'draftSubTask']);
 
     Route::post('/templates',      [TaskController::class, 'indexTaskTemplate']);
     Route::get('/modules',         [TaskController::class, 'taskModules']);
@@ -271,6 +254,11 @@ Route::group(['prefix' => 'tasks', 'middleware' => 'auth:sanctum'], function() {
     Route::get('/fields/details/{id}',   [TaskController::class, 'taskFieldDetails']);
 
     //update task status
+    //Route::post('/submit-task', [TaskController::class, 'draftSubTask']);
+    //Route::post('/review-task', [TaskController::class, 'draftSubTask']);
+    //Route::post('/reassign-task', [TaskController::class, 'draftSubTask']);
+
+    //old
     //Route::post('/save-action-response', [ComplaintController::class, 'saveActionResponse']);
     //update re-assign
     //Route::post('/save-action-response', [ComplaintController::class, 'saveActionResponse']);
@@ -280,5 +268,8 @@ Route::group(['prefix' => 'tasks', 'middleware' => 'auth:sanctum'], function() {
     //Route::post('/save-action-response', [ComplaintController::class, 'saveActionResponse']);
 });
 
+
 // Route::post('/taskslist',      [TaskController::class, 'taskslist']);
-Route::post('/store-tasks', [TaskController::class, 'store']);
+
+
+

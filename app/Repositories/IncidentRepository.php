@@ -98,7 +98,7 @@ class IncidentRepository implements IncidentRepositoryInterface {
 		$incident->date = Carbon::parse( $array['incident_date'])->format('Y/m/d');
 		$incident->timeline = $array['incident_report_timeline'];
 		$incident->time = Carbon::parse($array['incident_time'])->format('00:00:00');
-		$incident->added_by = Auth::user()->uuid;
+		$incident->added_by = auth()->user()->uuid;
 		$incident->client_relation = $array['client_relationship'];
 		$incident->hours_of_incident = $array['hours_of_incident'];
 		$incident->incident_level = $array['priority'];

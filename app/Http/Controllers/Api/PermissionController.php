@@ -23,7 +23,7 @@ class PermissionController extends Controller
      * @return [type] [description]
      */
     public function index() {
-        return $this->permission->index();      
+        return $this->permission->index();
     }
 
     /**
@@ -58,6 +58,11 @@ class PermissionController extends Controller
         return $this->permission->createRole($attributes);
     }
 
+    public function usersByRoles(Request $request) {
+        $roleIDs = $request->role_ids;
+        return $this->permission->getRoleUsersByIds($roleIDs);
+    }
+
     /**
      * this function get user roles
      * @param  [type] $id [description]
@@ -74,7 +79,7 @@ class PermissionController extends Controller
      * @return [type]     [description]
      */
     public function roleUserNotIn($id) {
-        
+
         $roleId = $id;
         return $this->permission->getUserNotInRole($roleId);
     }
@@ -91,7 +96,7 @@ class PermissionController extends Controller
     }
 
     public function fetchAllRoles() {
-        
+
         $roles = Role::all();
 
         return $roles;
