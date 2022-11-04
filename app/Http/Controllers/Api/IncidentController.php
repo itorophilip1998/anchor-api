@@ -47,6 +47,60 @@ class IncidentController extends Controller
         return $this->incident->getIncidents($attributes);
     }
 
+    public function dashboard(Request $request) {
+
+        $monthType = $request->monthType;
+
+        $labels = array();
+
+        for ($i = $monthType - 1 ; $i >= 0; $i-- ) {
+            $month = Carbon::today()->startOfMonth()->subMonth($i);
+            $year = Carbon::today()->startOfMonth()->subMonth($i)->format('Y');
+            array_push($labels, array(
+                 $month->monthName . ' ' . $year
+            ));
+        }
+
+        $data1 = $this->random($monthType);
+        $data2 = $this->random($monthType);
+
+        $datasets = array(
+            array(
+                'label' => 'Resolved',
+                'backgroundColor' => '#7E6EC6',
+                'data' => $data1,
+                'maxBarThickness' => 10
+            ),
+            array(
+                'label' => 'Unresolved',
+                'backgroundColor' => '#9EB562',
+                'data' => $data2,
+                'maxBarThickness' => 10
+            )
+        );
+
+        $chartData = array(
+            'labels' => $labels,
+            'datasets' => $datasets
+        );
+
+        $data = array(
+            'chart_data' => $chartData
+        );
+
+        return $data;
+
+    }
+
+    public function random($n) {
+
+        for($i = 0 ; $i < $n; $i++){
+            $num[$i] = rand(0,100);
+           }
+
+        return $num;
+    }
+
     /**
      * This function get incident details 
      * @param  [type] $id [description]

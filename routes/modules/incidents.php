@@ -21,6 +21,8 @@ use Illuminate\Support\Facades\Route;
 Route::group(['prefix' => 'incidents', 'middleware' => 'auth:sanctum'], function() {
     // Route::get('/incident-activity-details/{id}', [ActivityController::class, 'details']);
  
+    Route::get('/dashboard', [IncidentController::class, 'dashboard']);
+
     Route::post('update', [IncidentController::class, 'updateIncident']);
     Route::post('assign', [IncidentController::class, 'assignIncident']);
 
