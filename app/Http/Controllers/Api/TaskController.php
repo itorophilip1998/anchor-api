@@ -50,6 +50,22 @@ class TaskController extends Controller
         return $this->taskmodel->getTasksSelected($id);
     }
 
+    public function taskitemopen ($id) {
+        return $this->taskmodel->getTaskOpenItem($id);
+    }
+
+    public function taskitemcomplete($id) {
+        return $this->taskmodel->getTaskCompletedItem($id);
+    }
+
+    public function taskitemoverdue ($id) {
+        return $this->taskmodel->getTaskOverdue($id);
+    }
+
+    public function subtaskselected ($id) {
+        return $this->taskmodel->getTasksSubSelected($id);
+    }
+
     public function taskTemplateDetails($id) {
         return $this->taskmodel->taskTemplateDetails($id);
     }

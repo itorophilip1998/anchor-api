@@ -3,6 +3,7 @@ namespace App\Services\Task;
 
 use App\Models\Task;
 use App\Models\TaskItem;
+use App\Models\TaskSubItem;
 use App\Models\TaskField;
 use App\Models\TaskTemplate;
 use App\Models\TaskComponent;
@@ -76,14 +77,9 @@ class TaskService {
 
 	public function scheduleTask(array $array) {
 
-        //var_dump($array);
-
-        // var_dump($array['client'][0]['id']);
-
 		foreach( $array['assigned_to'] as $role ) {
 
 			$task               = new Task;
-
             $task->title        = $array['title'];
             $task->assigned_to  = $role['id'];
             $task->uid          = $role['uid'];
@@ -92,7 +88,6 @@ class TaskService {
 			$task->levels       = $array['levels'];
             $task->module       = $array['modules'];
             $task->category     = $array['category'];
-
             $task->assigned_type = 'Role';
 
             //formate date to mysql date
@@ -103,33 +98,33 @@ class TaskService {
             $time_formated  = date("H:i:s", strtotime($array['time']));
             $task->schedule_time     = $time_formated;
 
-            if(count($array['client'])){
-                $task->assigned_client_id = $array['client'][0]['id'];
-            }
+            //to be re-added
+            // if(count($array['client'])){
+            //     $task->assigned_client_id = $array['client'][0]['id'];
+            // }
 
             $task->save();
 
 			if ($task->save()) {
-
                 $task_item = new TaskItem;
                 $task_item->linked_template_id = $array['templates'][0];
                 $task_item->linked_task_id = $task->id;
-
-                // $task_item->title = $array['templates']['title'];
-                $task_item->assigned_to = 1;
+                $task_item->title = $array['title'];
+                $task_item->assigned_to = $role['id'];
                 $task_item->assigned_type = 'Role';
-
-                //$role = (new UserService)->taskTemplateDetails($array['templates'][0]);
-                // $template = $this->taskTemplateDetails(1);
-                // //var_dump("here");
-                // //var_dump($template);
-                // $assesment_templates = self::taskTemplateDetails($array['templates'][0]);
-                // //var_dump($assesment_templates);
-			    // $template = $this->template->where('id', '=', $array['modules'])->first();
-                // $taskTaskTemplate = new TaskTemplates;
-                // $taskTaskTemplate->task_id = $task->id;
-                // $taskTaskTemplate->task_template_id = $template->id;
+                $task_item->status = 'Open';
                 $task_item->save();
+
+                //add sub_task
+                if ($task_item->save()) {
+                    $task_sub_item = new TaskSubItem;
+                    $task_sub_item->linked_task_item_id = $task_item->id;
+                    $task_sub_item->title = $array['title'];
+                    $task_sub_item->assigned_to = $role['id'];
+                    $task_sub_item->assigned_type = 'Role';
+                    $task_sub_item->status = 'Open';
+                    $task_sub_item->save();
+                }
 			}
 		}
 
@@ -222,26 +217,6 @@ class TaskService {
 	}
 
     /**
-	 * This function get all tasks template
-	 * @param  array  $params [description]
-	 * @return [type]         [description]
-	 */
-	// public function getTasksList(array $array) {
-
-	// 	$task = $this->tasks;
-
-	// 	// if ($array['modules'] !== false ) {
-	// 	// 	$template = $this->template->where('task_component_id', '=', $array['modules']);
-	// 	// }
-
-	// 	// if ($array['category'] !== false ) {
-	// 	// 	$template = $this->template->where('task_category_id', '=', $array['category']);
-	// 	// }
-
-	// 	return new TasksListCollection($task->get());
-	// }
-
-    /**
 	 * THIS FUNCTION GET ALL MODULES FOR TASK
 	 * @return [type] [description]
 	 */
@@ -255,12 +230,45 @@ class TaskService {
 	 * @return [type] [description]
 	 */
 	public function getTasksSelected($id) {
-		//return Response::json((new Task)->all());
-        $list = $tasks->where('id', '=', $id);
-
-        return Response::json($list);
+        return Response::json((new Task)->where('id', '=', $id)->orderBy('created_at', 'desc')->first());
 	}
 
+    /**
+	 * THIS FUNCTION GET ALL MODULES FOR TASK
+	 * @return [type] [description]
+	 */
+	public function getTaskOpenItem($id) {
+        return Response::json((new TaskItem)->where('linked_task_id', '=', $id)->where('status', '=', "Open")->orderBy('created_at', 'desc')->get());
+	}
+
+     /**
+	 * THIS FUNCTION GET ALL MODULES FOR TASK
+	 * @return [type] [description]
+	 */
+	public function getTaskCompletedItem($id) {
+        return Response::json((new TaskItem)->where('linked_task_id', '=', $id)->where('status', '=', "Complete")->orderBy('created_at', 'desc')->get());
+	}
+
+     /**
+	 * THIS FUNCTION GET ALL MODULES FOR TASK
+	 * @return [type] [description]
+	 */
+	public function getTaskOverdue($id) {
+        return Response::json((new TaskItem)->where('linked_task_id', '=', $id)->where('status', '=', "Overdue")->orderBy('created_at', 'desc')->get());
+	}
+
+     /**
+	 * THIS FUNCTION GET ALL MODULES FOR TASK
+	 * @return [type] [description]
+	 */
+	public function getTasksSubSelected($id) {
+        return Response::json((new TaskSubItem)->where('linked_task_item_id', '=', $id)->where('status', '=', "Open")->orderBy('created_at', 'desc')->get());
+	}
+
+    /**
+	 * THIS FUNCTION GET ALL MODULES FOR TASK
+	 * @return [type] [description]
+	 */
 	public function getTaskFieldTemplate() {
 	 	return Response::json((new TaskFieldTemplate)->get());
 	}
