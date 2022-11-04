@@ -21,7 +21,7 @@ class UserController extends Controller
         $this->userinterface = $userinterface;
     }
 
-    public function login(Request $request) 
+    public function login(Request $request)
     {
       $attr = $request->validate([
             'email' => 'required|string|email|',
@@ -100,11 +100,11 @@ class UserController extends Controller
      */
     public function usersRole() {
 
-        $rolename = 'Case Coordinator';
+        $rolename = 'Client';
         $userService = new UserService;
         return $userService->getUserByRoleName($rolename);
     }
-    
+
     /**
      * this function get all user within the application
      * @param  Request $request [description]
@@ -115,13 +115,16 @@ class UserController extends Controller
         return (new UserService)->getAllUser($attributes);
     }
 
+
+
+
     /**
      * THIS FUNCTION GET ALL USER DETAILS
      * @param  [type] $userId [description]
      * @return [type]         [description]
      */
     public function userDetails($userId) {
-        
+
         return (new UserService)->getUserDetailsByUserId($userId);
     }
 
