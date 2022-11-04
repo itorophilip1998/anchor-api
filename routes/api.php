@@ -66,13 +66,6 @@ Route::group(['prefix' => 'statuses', 'middleware' => 'auth:sanctum'], function(
     Route::post('/edit-user/{id}', [StatusController::class, 'editUserStatus']);
 });
 
-/** *Home Care Worker Routes * */
-Route::group(['prefix' => 'homecareworkers', 'middleware' => 'auth:sanctum'], function() {
-    Route::get('', [HomecareController::class, 'index']);
-    Route::get('/{id}', [HomecareController::class, 'show']);
-    Route::post('', [HomecareController::class, 'store']);
-});
-
 /* * Coordinators Routes* */
 Route::group(['prefix' => 'coordinators', 'middleware' => 'auth:sanctum'], function() {
     Route::get('', [CoordinatorController::class, 'index']);
@@ -91,11 +84,11 @@ Route::group(['prefix' => 'user', 'middleware' => 'auth:sanctum'], function() {
 
 
 
-/** * Nurses Routes* */
-Route::group(['prefix' => 'nurses', 'middleware' => 'auth:sanctum'], function() {
-    Route::get('', [NurseController::class, 'index']);
-    Route::get('/delete', [NurseController::class ,'destroy']);
-});
+// /** * Nurses Routes* */
+// Route::group(['prefix' => 'nurses', 'middleware' => 'auth:sanctum'], function() {
+//     Route::get('', [NurseController::class, 'index']);
+//     Route::get('/delete', [NurseController::class ,'destroy']);
+// });
 
 /** * Action Incident Action routes* */
 Route::group(['prefix' => 'actions', 'middleware' => 'auth:sanctum'], function() {
