@@ -19,6 +19,7 @@ class CreateTaskItemsTable extends Migration
             $table->string('linked_task_id');       //tasks - id
 
             $table->string('title');
+            $table->string('status');
 
             //$table->string('form_items')->nullable();
             //$table->string('form_response')->nullable();
