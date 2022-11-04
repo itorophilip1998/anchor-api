@@ -1,4 +1,4 @@
-<?php 
+<?php
 namespace App\Services\Permissions;
 
 use App\Http\Resources\Ability\AbilityResource;
@@ -128,17 +128,17 @@ class PermissionService {
 	}
 	/**
 	 * ***************************************************************
-	 * THIS FUNCTION GET ROLE USER 
+	 * THIS FUNCTION GET ROLE USER
 	 * ***************************************************************
 	 * @param  [type] $id [description]
 	 * @return [type]     [description]
 	 * ***************************************************************
 	 */
 	public function getRoleUsers($id) {
-	  	
+
 	   $response = array();
 
-	   $role  = Role::where('id', '=', $id)->first();
+	   $role  = Role::where('uid', '=', $id)->first();
 	   $users = User::with('roles')->get();
 
 	   foreach($users as $user ) {
@@ -153,6 +153,41 @@ class PermissionService {
 	   return Response::json($response);
 	}
 
+    /**
+	 * ***************************************************************
+	 * THIS FUNCTION GET ROLE USER
+	 * ***************************************************************
+	 * @param  [type] $id [description]
+	 * @return [type]     [description]
+	 * ***************************************************************
+	 */
+	// public function getUsersByRoles(array $ids) {
+
+    //     $response = array();
+
+    //     $role  = Role::whereIn('uid', $ids);
+    //     $users = User::with('roles')->get();
+
+    //     foreach($users as $user ) {
+    //          if ($role['name'] === $user['role']['name']) {
+    //                $response[] = array(
+    //                    'id' => $user->uuid,
+    //                  'name' => $user->firstname.' '.$user->lastname,
+    //                  'role' => $role['name'],
+    //              );
+    //          }
+    //     }
+    //     return Response::json($response);
+    //  }
+
+    public function getRoleUsersByIds($ids) {
+
+        // $roleIDs = Role::with('users')->whereIn('uid', $ids)->pluck('id');
+        $users = User::with('roles')->whereIn('role_id', $ids)->get();
+        return response()->json($users);
+
+     }
+
 	/**
 	 * THIS FUNCTION GET USER NOT IN ROLE
 	 * @param  [type] $roleId [description]
@@ -166,7 +201,7 @@ class PermissionService {
 		$users =  $users = User::with('roles')->get();
 
 		foreach($users as $user) {
-		  
+
 		  if ($role['name'] != $user['role']['name']) {
 			 	$response[] = array(
 			 		'id' => $user->uuid,
@@ -177,7 +212,7 @@ class PermissionService {
 		}
 
 		return Response::json($response);
-	}	
+	}
 
 	/**
 	 * THIS FUNCTION UPDATE USER ROLE
@@ -186,9 +221,9 @@ class PermissionService {
 	 */
 	public function changeUserRole(array $array) {
 
-		
+
 		$role = Role::where('uid', '=',  $array['roleId'])->first();
-		
+
 		$user = User::find($array['userId']);
 		$user->role_id = $role->id;
 		$user->save();
@@ -196,7 +231,7 @@ class PermissionService {
 	    return [
 			'status' => true,
 			'role' => $role->id,
-			'user' => $user 
+			'user' => $user
 		];
 	}
 }

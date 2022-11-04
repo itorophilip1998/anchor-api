@@ -31,6 +31,12 @@ class TaskController extends Controller
        return $this->taskmodel->scheduleTask($attributes);
     }
 
+    public function storeEscalation(Request $request) {
+
+        $attributes = $request->all();
+        return $this->taskmodel->escalateTask($attributes);
+    }
+
     public function indexTaskTemplate (Request $request) {
         $attributes = $request->all();
         return $this->taskmodel->getAllTaskTemplate($attributes);
@@ -38,6 +44,10 @@ class TaskController extends Controller
 
     public function taskslist () {
         return $this->taskmodel->getTasksList();
+    }
+
+    public function taskselected ($id) {
+        return $this->taskmodel->getTasksSelected($id);
     }
 
     public function taskTemplateDetails($id) {
