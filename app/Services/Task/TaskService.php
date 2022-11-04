@@ -2,6 +2,7 @@
 namespace App\Services\Task;
 
 use App\Models\Task;
+use App\Models\TaskItem;
 use App\Models\TaskField;
 use App\Models\TaskTemplate;
 use App\Models\TaskComponent;
@@ -64,11 +65,25 @@ class TaskService {
 	// 	];
 	// }
 
+    public function escalateTask(array $array) {
+
+        $task = new TaskItem;
+
+        return [
+			'status' => true,
+		];
+    }
+
 	public function scheduleTask(array $array) {
+
+        //var_dump($array);
+
+        // var_dump($array['client'][0]['id']);
 
 		foreach( $array['assigned_to'] as $role ) {
 
 			$task               = new Task;
+
             $task->title        = $array['title'];
             $task->assigned_to  = $role['id'];
             $task->uid          = $role['uid'];
@@ -87,70 +102,79 @@ class TaskService {
              //formate datetime to mysql time //to be revised
             $time_formated  = date("H:i:s", strtotime($array['time']));
             $task->schedule_time     = $time_formated;
+
+            if(count($array['client'])){
+                $task->assigned_client_id = $array['client'][0]['id'];
+            }
+
             $task->save();
 
-			//if ($task->save()) {
-                //var_dump($array['templates'][0]);
+			if ($task->save()) {
+
+                $task_item = new TaskItem;
+                $task_item->linked_template_id = $array['templates'][0];
+                $task_item->linked_task_id = $task->id;
+
+                // $task_item->title = $array['templates']['title'];
+                $task_item->assigned_to = 1;
+                $task_item->assigned_type = 'Role';
 
                 //$role = (new UserService)->taskTemplateDetails($array['templates'][0]);
-                //
-               // $template = $this->taskTemplateDetails(1);
-
-            //    var_dump("here");
-                //var_dump($template);
-                //$assesment_templates = self::taskTemplateDetails($array['templates'][0]);
-                //var_dump($assesment_templates);
-			    //$template = $this->template->where('id', '=', $array['modules'])->first();
-
-			// 	 $taskTaskTemplate = new TaskTemplates;
-			// 	 $taskTaskTemplate->task_id = $task->id;
-			// 	 $taskTaskTemplate->task_template_id = $template->id;
-			// 	 //$taskTaskTemplate->save();
-			//}
+                // $template = $this->taskTemplateDetails(1);
+                // //var_dump("here");
+                // //var_dump($template);
+                // $assesment_templates = self::taskTemplateDetails($array['templates'][0]);
+                // //var_dump($assesment_templates);
+			    // $template = $this->template->where('id', '=', $array['modules'])->first();
+                // $taskTaskTemplate = new TaskTemplates;
+                // $taskTaskTemplate->task_id = $task->id;
+                // $taskTaskTemplate->task_template_id = $template->id;
+                $task_item->save();
+			}
 		}
 
-        foreach( $array['assigned_user'] as $user ) {
+        // foreach( $array['assigned_user'] as $user ) {
 
-			$task               = new Task;
-            $task->title        = $array['title'];
-            $task->assigned_to  = $user['uuid'];
-            $task->uid          = $user['uuid'];
-			$task->user_id      = $user['uuid'];
-			$task->frequency    = $array['frequency'];
-			$task->levels       = $array['levels'];
-            $task->module       = $array['modules'];
-            $task->category     = $array['category'];
+		// 	$task               = new Task;
+        //     $task->title        = $array['title'];
+        //     $task->assigned_to  = $user['uuid'];
+        //     $task->uid          = $user['uuid'];
+		// 	$task->user_id      = $user['uuid'];
+		// 	$task->frequency    = $array['frequency'];
+		// 	$task->levels       = $array['levels'];
+        //     $task->module       = $array['modules'];
+        //     $task->category     = $array['category'];
 
-            $task->assigned_type = 'User';
+        //     $task->assigned_type = 'User';
 
-            //formate date to mysql date
-            $time       = strtotime($array['date']);
-            $newformat  = date('Y-m-d',$time);
-			$task->schedule_date = $newformat;
-             //formate datetime to mysql time //to be revised
-            $time_formated  = date("H:i:s", strtotime($array['time']));
-            $task->schedule_time     = $time_formated;
-            $task->save();
+        //     //formate date to mysql date
+        //     $time       = strtotime($array['date']);
+        //     $newformat  = date('Y-m-d',$time);
+		// 	$task->schedule_date = $newformat;
+        //      //formate datetime to mysql time //to be revised
+        //     $time_formated  = date("H:i:s", strtotime($array['time']));
+        //     $task->schedule_time     = $time_formated;
+        //     $task->save();
 
-			//if ($task->save()) {
-                //var_dump($array['templates'][0]);
+		// 	//if ($task->save()) {
+        //         //var_dump($array['templates'][0]);
 
-                //$role = (new UserService)->taskTemplateDetails($array['templates'][0]);
-                //
-               // $template = $this->taskTemplateDetails(1);
+        //         //$role = (new UserService)->taskTemplateDetails($array['templates'][0]);
+        //         //
+        //        // $template = $this->taskTemplateDetails(1);
 
-            //    var_dump("here");
-                //var_dump($template);
-                //$assesment_templates = self::taskTemplateDetails($array['templates'][0]);
-                //var_dump($assesment_templates);
-			    //$template = $this->template->where('id', '=', $array['modules'])->first();
+        //     //    var_dump("here");
+        //         //var_dump($template);
+        //         //$assesment_templates = self::taskTemplateDetails($array['templates'][0]);
+        //         //var_dump($assesment_templates);
+		// 	    //$template = $this->template->where('id', '=', $array['modules'])->first();
 
-			// 	 $taskTaskTemplate = new TaskTemplates;
-			// 	 $taskTaskTemplate->task_id = $task->id;
-			// 	 $taskTaskTemplate->task_template_id = $template->id;
-			// 	 //$taskTaskTemplate->save();
-			//}
-		}
+		// 	// 	 $taskTaskTemplate = new TaskTemplates;
+		// 	// 	 $taskTaskTemplate->task_id = $task->id;
+		// 	// 	 $taskTaskTemplate->task_template_id = $template->id;
+		// 	// 	 //$taskTaskTemplate->save();
+		// 	//}
+		// }
 		return [
 			'status' => true,
 		];
@@ -224,6 +248,17 @@ class TaskService {
 	public function getTasksList() {
 		//return Response::json((new Task)->all());
         return Response::json((new Task)->orderBy('created_at', 'desc')->get());
+	}
+
+    /**
+	 * THIS FUNCTION GET ALL MODULES FOR TASK
+	 * @return [type] [description]
+	 */
+	public function getTasksSelected($id) {
+		//return Response::json((new Task)->all());
+        $list = $tasks->where('id', '=', $id);
+
+        return Response::json($list);
 	}
 
 	public function getTaskFieldTemplate() {

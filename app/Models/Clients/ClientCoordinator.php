@@ -1,15 +1,15 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\Clients;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class ClientCoord extends Model
+class ClientCoordinator extends Model
 {
     use HasFactory;
 
     protected $fillable = [
-        'coord_id', 'client_id'
+        'coordinator_id', 'client_id'
     ];
 }

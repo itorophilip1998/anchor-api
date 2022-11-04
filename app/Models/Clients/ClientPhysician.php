@@ -15,7 +15,18 @@ class ClientPhysician extends Model
         'first_name',
         'last_name',
         'email',
-        'phone'
+        'phone',
+        'physician_number', // i think this is phone, not sure
+        'street',
+        'city',
+        'state',
+        'county',
+        'country',
+        'zip',
+        'company_name',
+        'assistant_number',
+        'office_number',
+        'pager_number',
     ];
 
     public function client()

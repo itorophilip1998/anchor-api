@@ -5,16 +5,10 @@ use Illuminate\Support\Facades\Route;
 
 /*
 |--------------------------------------------------------------------------
-| API Routes
+| Complaints API Routes
 |--------------------------------------------------------------------------
-|
-| Here is where you can register API routes for complaints module. These
-| routes are loaded by the RouteServiceProvider within a group which
-| is assigned the "api" middleware group. Enjoy building your API!
-|
 */
 
-/** * Complaints Routes * **/
 Route::group(['prefix' => 'complaints', 'middleware' => 'auth:sanctum'], function() {
 
     Route::post('/investigations', [ComplaintController::class, 'updateInvestigationQuestion']);

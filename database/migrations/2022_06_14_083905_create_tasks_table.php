@@ -23,11 +23,15 @@ class CreateTasksTable extends Migration
             $table->string('module');
             $table->string('category');
             $table->string('user_id');
+
+            $table->string('assigned_client_id')->nullable();
+            $table->string('assigned_group_id')->nullable();
             $table->date('schedule_date');
             $table->time('schedule_time')->nullable();
 
             $table->string('assigned_to');
             $table->string('assigned_type');
+
             $table->string('reassign_reason')->nullable();
             $table->date('reassign_date')->nullable();
             $table->string('original_assigned')->nullable();
