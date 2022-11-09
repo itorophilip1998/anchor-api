@@ -4,6 +4,7 @@ namespace App\Services\Task;
 use App\Models\Task;
 use App\Models\TaskItem;
 use App\Models\TaskSubItem;
+use App\Models\TaskDraft;
 use App\Models\TaskField;
 use App\Models\TaskTemplate;
 use App\Models\TaskComponent;
@@ -35,40 +36,48 @@ class TaskService {
 
 	public function index() {}
 
-	// public function scheduleTask(array $array) {
-
-	// 	if ( $array['modules'] == 'Clinical') { $array['modules'] = 'Nurse'; }
-
-	// 	$users = (new UserService)->getUserByRoleName($array['modules']);
-
-	// 	foreach( $users as $user ) {
-
-	// 		$task                            = new Task;
-	// 		$task->priority                  = $array['priority'];
-	// 		$task->assigned_id               = $user->id;
-	// 		$tadk->frequency                 = $array['frequency'];
-	// 		$task->estimated_completion_time = $array['estimated_time'];
-	// 		$task->save();
-
-	// 		if (	$task->save() ) {
-
-	// 			 $template = $this->template->where('id', '=', $array['modules'])->first();
-
-	// 			 $taskTaskTemplate = new TaskTaskTemplate;
-	// 			 $taskTaskTemplate->task_id = $task->id;
-	// 			 $taskTaskTemplate->task_template_id = $template->id;
-	// 			 $taskTaskTemplate->save();
-	// 		}
-	// 	}
-
-	// 	return [
-	// 		'status' => true,
-	// 	];
-	// }
-
     public function escalateTask(array $array) {
 
-        $task = new TaskItem;
+        $update_record = [];
+
+        if($array['type'] == 'subtask'){
+            //get sub item record
+            $update_record = TaskSubItem::find($array['id']);
+
+            $update_record->escalated_to = $array['reason'];
+            $data = date('Y-m-d H:i:s', strtotime($array['date']));
+
+            // $update_record->escalated_by
+            $update_record->escalation_date = $data;
+            $update_record->escalation_reason = $array['reason'];
+            $update_record->isEscalation = 1;
+            $update_record->escalation_comment = $array['comments'];
+
+            if($update_record->save()){
+                //TODO::create notification
+
+            }
+
+        } else {
+
+            $update_record = TaskItem::find($array['id']);
+            $update_record->escalated_to = $array['reason'];
+
+            $data = date('Y-m-d H:i:s', strtotime($array['date']));
+
+            // $update_record->escalated_by
+            $update_record->escalation_date = $data;
+            $update_record->escalation_reason = $array['reason'];
+            $update_record->isEscalation = 1;
+            $update_record->escalation_comment = $array['comments'];
+            $update_record = [];
+        }
+
+        // $details = TaskField::find($id);
+
+        // $update = Task::where('incident_id', '=', $this->get_incident_id($array['incident_id']))->first();
+		// $update->reason = $array['reason'];
+		// $update->save();
 
         return [
 			'status' => true,
@@ -119,9 +128,10 @@ class TaskService {
                 if ($task_item->save()) {
                     $task_sub_item = new TaskSubItem;
                     $task_sub_item->linked_task_item_id = $task_item->id;
-                    $task_sub_item->title = $array['title'];
+                    $task_sub_item->title = "Form 1";
                     $task_sub_item->assigned_to = $role['id'];
                     $task_sub_item->assigned_type = 'Role';
+                    $task_sub_item->link_type = 'Item';
                     $task_sub_item->status = 'Open';
                     $task_sub_item->save();
                 }
@@ -175,7 +185,6 @@ class TaskService {
 		];
 	}
 
-
 	public function getUserByRole($template) {
       return User::with('roles')->get();
 	}
@@ -187,10 +196,43 @@ class TaskService {
 	 * @return [type]                 [description]
 	 */
 	public function taskTemplateDetails($taskTemplateId) {
-        var_dump($taskTemplateId);
 		$details = (new TaskTemplate)->where('id', '=', $taskTemplateId)->first();
 		return new TaskTemplateResource($details);
 	}
+
+    /**
+	 * This function convert subtask form to draft
+	 * @param  array  $params [description]
+	 * @return [type]         [description]
+	 */
+	public function convertToDraft(array $array) {
+
+        //$task_sub_item = new TaskSubItem;
+
+        $update_record = TaskSubItem::find($array['id']);
+        $update_record->isDraft = 1;
+
+        //TODO::Store draft
+        //$update_record->form_response = $array;
+        $update_record->save();
+
+        //TaskSubItem::
+        //$draft = new TaskDraft;
+        //$draft->related_sub_task_id = $array['id'];
+
+        // foreach ($array['form_items'] as $key => $value){
+        //     if(!($value)){
+        //         var_dump($form_item['value']);
+        //     }
+        // }
+
+        // foreach( $array['form_items'] as $form_item ) {
+
+        //     if($form_item['value']){
+        //         var_dump($form_item['value']);
+        //     }
+        // }
+    }
 
 	/**
 	 * This function get all tasks template
@@ -257,12 +299,63 @@ class TaskService {
         return Response::json((new TaskItem)->where('linked_task_id', '=', $id)->where('status', '=', "Overdue")->orderBy('created_at', 'desc')->get());
 	}
 
+
+     /**
+	 * THIS FUNCTION GET ALL MODULES FOR TASK
+	 * @return [type] [description]
+	 */
+	public function getTasksSubAll($id) {
+        return Response::json((new TaskSubItem)->where('linked_task_item_id', '=', $id)->where('status', '=', "Open")->orderBy('created_at', 'desc')->get());
+	}
+
+    /**
+	 * [getOpenSubTasks description]
+	 * @param  [type] $name [description]
+	 * @return [type]       [description]
+	 */
+	public function getOpenSubTasks($id) {
+		//return $users =  User::role($name)->get();
+        return Response::json((new TaskSubItem)->where('linked_task_item_id', '=', $id)->where('status', '=', "Open")->orderBy('created_at', 'desc')->get());
+
+		//return $users =TaskSubItem::select('id','uid')->where('name', '=', $name)->first();
+	}
+
+    /**
+	 * [getCompletedSubTasks description]
+	 * @param  [type] $name [description]
+	 * @return [type]       [description]
+	 */
+	public function getCompletedSubTasks( $name ) {
+		//return $users =  User::role($name)->get();
+		return $users =TaskSubItem::select('id','uid')->where('name', '=', $name)->first();
+	}
+
+    /**
+	 * [getEscalatedSubTasks description]
+	 * @param  [type] $name [description]
+	 * @return [type]       [description]
+	 */
+	public function getEscalatedSubTasks( $name ) {
+		//return $users =  User::role($name)->get();
+		return $users =Role::select('id','uid')->where('name', '=', $name)->first();
+	}
+
      /**
 	 * THIS FUNCTION GET ALL MODULES FOR TASK
 	 * @return [type] [description]
 	 */
 	public function getTasksSubSelected($id) {
-        return Response::json((new TaskSubItem)->where('linked_task_item_id', '=', $id)->where('status', '=', "Open")->orderBy('created_at', 'desc')->get());
+        return Response::json((new TaskSubItem)->where('id', '=', $id)->where('status', '=', "Open")->orderBy('created_at', 'desc')->first());
+	}
+
+     /**
+	 * THIS FUNCTION GET ALL MODULES FOR TASK
+	 * @return [type] [description]
+	 */
+	public function getTasksSubRelated($id) {
+        $selected = (new TaskSubItem)->where('id', '=', $id)->first();
+        $related_sub_tasks = TaskSubItem::where('linked_task_item_id', '=', $selected->linked_task_item_id)->where('status', '=', "Open")->orderBy('created_at', 'desc')->get();
+        return Response::json($related_sub_tasks);
 	}
 
     /**

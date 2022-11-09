@@ -37,6 +37,12 @@ class TaskController extends Controller
         return $this->taskmodel->escalateTask($attributes);
     }
 
+    public function storeDraft(Request $request) {
+
+        $attributes = $request->all();
+        return $this->taskmodel->convertToDraft($attributes);
+    }
+
     public function indexTaskTemplate (Request $request) {
         $attributes = $request->all();
         return $this->taskmodel->getAllTaskTemplate($attributes);
@@ -64,6 +70,14 @@ class TaskController extends Controller
 
     public function subtaskselected ($id) {
         return $this->taskmodel->getTasksSubSelected($id);
+    }
+
+    public function subtasksopen ($id) {
+        return $this->taskmodel->getOpenSubTasks($id);
+    }
+
+    public function subtaskrelated ($id) {
+        return $this->taskmodel->getTasksSubRelated($id);
     }
 
     public function taskTemplateDetails($id) {
