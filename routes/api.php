@@ -245,8 +245,11 @@ Route::group(['prefix' => 'tasks', 'middleware' => 'auth:sanctum'], function() {
     Route::get('/taskitemscomplete/{id}',   [TaskController::class, 'taskitemcomplete']);
     Route::get('/taskitemsoverdue/{id}',   [TaskController::class, 'taskitemoverdue']);
 
-    Route::get('/subtaskitemsopen/{id}',   [TaskController::class, 'subtaskselected']);
+    Route::get('/subtaskitemselected/{id}',   [TaskController::class, 'subtaskselected']);
+    Route::get('/subtaskitemsrelated/{id}',   [TaskController::class, 'subtaskrelated']);
+    Route::post('/draft',   [TaskController::class, 'storeDraft']);
 
+    Route::get('/subtaskitemsopen/{id}',   [TaskController::class, 'subtasksopen']);
     // Route::get('/subtaskitemscomplete/{id}',   [TaskController::class, 'taskitem']);
     // Route::get('/subtaskitemsoverdue/{id}',   [TaskController::class, 'taskitem']);
 
