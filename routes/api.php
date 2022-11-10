@@ -239,7 +239,20 @@ Route::group(['prefix' => 'tasks', 'middleware' => 'auth:sanctum'], function() {
     // Route::post('/store-task', [TaskController::class, 'store']);
     Route::post('/store-tasks', [TaskController::class, 'store']);
     Route::get('/taskslist',      [TaskController::class, 'taskslist']);
-    Route::get('/taskselected',   [TaskController::class, 'taskselected']);
+    Route::get('/taskselected/{id}',   [TaskController::class, 'taskselected']);
+
+    Route::get('/taskitemsopen/{id}',   [TaskController::class, 'taskitemopen']);
+    Route::get('/taskitemscomplete/{id}',   [TaskController::class, 'taskitemcomplete']);
+    Route::get('/taskitemsoverdue/{id}',   [TaskController::class, 'taskitemoverdue']);
+
+    Route::get('/subtaskitemselected/{id}',   [TaskController::class, 'subtaskselected']);
+    Route::get('/subtaskitemsrelated/{id}',   [TaskController::class, 'subtaskrelated']);
+    Route::post('/draft',   [TaskController::class, 'storeDraft']);
+
+    Route::get('/subtaskitemsopen/{id}',   [TaskController::class, 'subtasksopen']);
+    // Route::get('/subtaskitemscomplete/{id}',   [TaskController::class, 'taskitem']);
+    // Route::get('/subtaskitemsoverdue/{id}',   [TaskController::class, 'taskitem']);
+
 
     Route::post('/escalate-task', [TaskController::class, 'storeEscalation']);
     //Route::post('/draft-sub-tasks', [TaskController::class, 'draftSubTask']);

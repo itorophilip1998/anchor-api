@@ -19,6 +19,9 @@ class CreateTaskSubItemsTable extends Migration
             $table->string('linked_task_item_id');    //tasks_items - id
 
             $table->string('title');
+            $table->string('status');
+
+            $table->string('link_type');        //Link to Task Item :OR: Link to Task
 
             $table->string('form_items')->nullable();
             $table->string('form_response')->nullable();
@@ -36,10 +39,14 @@ class CreateTaskSubItemsTable extends Migration
             $table->string('escalated_to')->nullable();
             $table->string('escalated_by')->nullable();
             $table->date('escalation_date')->nullable();
+            $table->date('escalation_due_date')->nullable();
             $table->string('escalation_reason')->nullable();
+            $table->string('escalation_comment')->nullable();
 
             $table->string('redo_reason')->nullable();
             $table->boolean('isRedo')->default(0);
+
+            $table->boolean('isDraft')->default(0);
 
             $table->boolean('isReAssigned')->default(0);
             $table->boolean('isEscalation')->default(0);
