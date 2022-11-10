@@ -16,12 +16,13 @@ use Illuminate\Support\Facades\Route;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
+Route::get('/dashboard', [IncidentController::class, 'dashboard']);
 
 /** * Incident Routes * **/
 Route::group(['prefix' => 'incidents', 'middleware' => 'auth:sanctum'], function() {
     // Route::get('/incident-activity-details/{id}', [ActivityController::class, 'details']);
  
-    Route::get('/dashboard', [IncidentController::class, 'dashboard']);
+   // Route::get('/dashboard', [IncidentController::class, 'dashboard']);
 
     Route::post('update', [IncidentController::class, 'updateIncident']);
     Route::post('assign', [IncidentController::class, 'assignIncident']);
