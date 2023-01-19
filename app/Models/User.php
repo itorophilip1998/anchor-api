@@ -29,8 +29,8 @@ class User extends Authenticatable
     use SoftDeletes;
 
     // protected $keyType = 'string';
-      protected $primaryKey = 'uuid';
-      protected $guard_name = 'sanctum';
+    protected $primaryKey = 'uuid';
+    protected $guard_name = 'sanctum';
 
     /**
      * Indicates if the IDs are auto-incrementing.
@@ -64,6 +64,24 @@ class User extends Authenticatable
         'remember_token',
     ];
 
+    //start jwt token
+
+    public function getJWTIdentifier()
+    {
+        return $this->getKey();
+    }
+
+
+    public function getJWTCustomClaims()
+    {
+        return [];
+    }
+
+    //end jwt params
+
+
+
+
     /**
      * The attributes that should be cast.
      *
@@ -74,38 +92,45 @@ class User extends Authenticatable
     ];
 
     protected $with = ['detail', 'emergencyContacts', 'educationDetails'];
-    
 
-    public static function boot(){
-       
+
+    public static function boot()
+    {
+
         parent::boot();
         static::creating(function ($model) {
             $model->{$model->getKeyName()} = (string) Str::uuid();
         });
     }
 
-    public function role() {
-         return $this->belongsTo(Role::class, 'role_id');
+    public function role()
+    {
+        return $this->belongsTo(Role::class, 'role_id');
     }
 
-    public function status() {
+    public function status()
+    {
         return $this->belongsTo(UserStatus::class, 'status_id');
     }
 
-    public function detail() {
+    public function detail()
+    {
         return $this->hasOne(UserDetail::class, 'user_id');
     }
 
-    public function medical() {
+    public function medical()
+    {
         return $this->hasOne(MedicalDetail::class, 'user_id');
     }
 
-    public function work() {
+    public function work()
+    {
         return $this->hasOne(WorkDetail::class, 'user_id');
     }
 
     // for homecare worker
-    public function coordinator() {
+    public function coordinator()
+    {
         return $this->hasMany(CoordinatorHomecareworker::class, 'homecarework_id', 'uuid');
     }
 
